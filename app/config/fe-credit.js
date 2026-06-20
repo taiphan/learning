@@ -293,5 +293,41 @@ export const FECREDIT = {
     },
   ],
 
+  /** Weighted sections aligned with docs/05-brd-quality-checklist.md */
+  scoreSections: [
+    { id: 'executive', weight: 0.15, field: 'problem', minLen: 50, also: ['outcome'] },
+    { id: 'objectives', weight: 0.15, field: 'objectives' },
+    { id: 'current', weight: 0.1, field: 'currentProcess', alsoSystems: true },
+    { id: 'tobe', weight: 0.1, field: 'toBe', noTechKeywords: true },
+    { id: 'scope', weight: 0.1, fields: ['inScope', 'outScope'] },
+    { id: 'rules', weight: 0.2, field: 'businessRules' },
+    { id: 'data', weight: 0.1, field: 'dataClass' },
+    { id: 'acceptance', weight: 0.1, minAcceptance: 5 },
+  ],
+
+  riskLevels: [
+    { id: 'low', label: { en: 'Low', vi: 'Thấp' }, color: '#70ad47' },
+    { id: 'medium', label: { en: 'Medium', vi: 'Trung bình' }, color: '#2e75b6' },
+    { id: 'high', label: { en: 'High', vi: 'Cao' }, color: '#ed7d31' },
+    { id: 'critical', label: { en: 'Critical', vi: 'Rất cao' }, color: '#c00000' },
+  ],
+
+  rolloutOptions: [
+    { id: 'pilot', label: { en: 'Pilot (one region/unit)', vi: 'Pilot (một vùng/đơn vị)' } },
+    { id: 'phased', label: { en: 'Phased rollout', vi: 'Triển khai từng giai đoạn' } },
+    { id: 'bigbang', label: { en: 'Big bang', vi: 'Triển khai đồng loạt' } },
+  ],
+
+  selfCheckItems: [
+    { id: 'problem', en: 'Starts with business problem (not system name)', vi: 'Bắt đầu bằng vấn đề nghiệp vụ' },
+    { id: 'metrics', en: 'KPIs have baseline and target', vi: 'KPI có hiện trạng và mục tiêu' },
+    { id: 'users', en: 'Users and locations defined', vi: 'Đã ghi rõ người dùng và địa điểm' },
+    { id: 'rules', en: 'Business rules complete', vi: 'Quy tắc nghiệp vụ đầy đủ' },
+    { id: 'scope', en: 'In-scope AND out-of-scope written', vi: 'Có trong phạm vi và ngoài phạm vi' },
+    { id: 'compliance', en: 'Compliance screening complete', vi: 'Đã điền sàng lọc tuân thủ' },
+    { id: 'ac', en: 'Min 5 acceptance criteria (Given/When/Then)', vi: 'Tối thiểu 5 tiêu chí nghiệm thu' },
+    { id: 'sponsor', en: 'Sponsor (Director+) identified', vi: 'Đã có Sponsor (Giám đốc+)' },
+  ],
+
   technicalKeywords: ['api', 'kafka', 'rabbitmq', 'microservice', 'aws lambda', 'database', 'redis', 'docker', 'kubernetes'],
 };

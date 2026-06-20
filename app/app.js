@@ -17,6 +17,18 @@ const i18n = {
     frameworkLink: 'See IT Ops Framework and Application Landscape.',
     bucketWarn: 'This request type should use Service Desk — not a BRD. Redirect to ITSM for access/incidents.',
     bucketHint: 'Business bucket: you define rules and data. IT executes after approval.',
+    exportAnyway: 'Export anyway',
+    warnTitle: 'Before you export',
+    warnLowScore: 'Quality score is below 80%. BA will likely return this BRD for revision.',
+    warnWrongBucket: 'This request type should use Service Desk — not a BRD export.',
+    warnNoRules: 'Business rules are empty. Score cannot pass without Section H.',
+    selfCheckTitle: '8-step self-check',
+    problemFormula: 'Formula: [Role] cannot [task] because [constraint], causing [impact].',
+    stakeholders: 'Stakeholders & users (role, dept, count, location)',
+    rollout: 'Rollout approach',
+    training: 'Training required?',
+    languages: 'Languages',
+    sponsorAck: 'I confirm Sponsor (Director+) will sign before official IT submission',
     newIntegration: 'Involves new system integration or architecture change?',
     exportTitle: 'Export BRD',
     exportDesc: 'Copy markdown or download. Includes delivery path and stakeholder routing.',
@@ -35,7 +47,7 @@ const i18n = {
       2: 'Define measurable KPIs with baseline and target.',
       3: 'Document today’s process and which FE Credit systems are involved.',
       4: 'Describe the future process and clear scope boundaries.',
-      5: 'Business rules and data classification — IT must not guess these.',
+      5: 'Stakeholders, business rules, and data classification — IT must not guess these.',
       6: 'FE Credit compliance screening — routes to IT-Security, GRC, or Legal.',
       7: 'Testable Given/When/Then criteria — become UAT scripts after FSD delivery.',
     },
@@ -53,6 +65,18 @@ const i18n = {
     bucketWarn: 'Loại yêu cầu này dùng Service Desk — không phải BRD.',
     bucketHint: 'Business bucket: nghiệp vụ định nghĩa quy tắc. IT thực hiện sau khi duyệt.',
     newIntegration: 'Có tích hợp hệ thống mới hoặc thay đổi kiến trúc?',
+    exportAnyway: 'Vẫn xuất',
+    warnTitle: 'Trước khi xuất',
+    warnLowScore: 'Điểm chất lượng dưới 80%. BA có thể trả về để sửa.',
+    warnWrongBucket: 'Loại yêu cầu này nên dùng Service Desk — không xuất BRD.',
+    warnNoRules: 'Chưa có quy tắc nghiệp vụ. Không thể đạt cổng chất lượng.',
+    selfCheckTitle: 'Tự kiểm tra 8 bước',
+    problemFormula: 'Công thức: [Vai trò] không thể [làm gì] vì [rào cản], gây [ảnh hưởng].',
+    stakeholders: 'Stakeholder & người dùng (vai trò, đơn vị, số người, địa điểm)',
+    rollout: 'Cách triển khai',
+    training: 'Cần đào tạo?',
+    languages: 'Ngôn ngữ',
+    sponsorAck: 'Tôi xác nhận Sponsor (Giám đốc+) sẽ ký trước khi gửi IT chính thức',
     exportTitle: 'Xuất BRD',
     exportDesc: 'Sao chép markdown hoặc tải về. Bao gồm quy trình giao hàng và routing.',
     copy: 'Sao chép',
@@ -70,7 +94,7 @@ const i18n = {
       2: 'KPI đo lường được với hiện trạng và mục tiêu.',
       3: 'Quy trình hiện tại và hệ thống FE Credit liên quan.',
       4: 'Quy trình tương lai và ranh giới phạm vi.',
-      5: 'Quy tắc nghiệp vụ và phân loại dữ liệu.',
+      5: 'Stakeholder, quy tắc nghiệp vụ và phân loại dữ liệu.',
       6: 'Sàng lọc tuân thủ — route IT-Security, GRC, Pháp chế.',
       7: 'Tiêu chí Cho trước / Khi / Thì — thành UAT sau khi FSD giao.',
     },
@@ -95,6 +119,8 @@ function getFormData() {
   data.dataTypes = fd.getAll('dataTypes');
   data.products = fd.getAll('products');
   data.acceptance = fd.getAll('acceptance');
+  data.languages = fd.getAll('languages');
+  data.sponsorAck = fd.get('sponsorAck') === 'yes';
   return data;
 }
 
@@ -186,29 +212,107 @@ function updateBucketWarning(data) {
   }
 }
 
+function sectionScore(data, section) {
+  const text = (v) => (v || '').trim();
+  const hasTech = (v) =>
+    FECREDIT.technicalKeywords.some((k) => (v || '').toLowerCase().includes(k));
+
+  switch (section.id) {
+    case 'executive':
+      if (!text(data.problem) || data.problem.length < (section.minLen || 0)) return 0;
+      if (!text(data.outcome)) return 1;
+      return 2;
+    case 'objectives':
+      if (!text(data.objectives)) return 0;
+      return /baseline|hiện trạng|target|mục tiêu|→|->/i.test(data.objectives) ? 2 : 1;
+    case 'current':
+      if (!text(data.currentProcess)) return 0;
+      if (!(data.systems?.length > 0)) return 1;
+      return 2;
+    case 'tobe':
+      if (!text(data.toBe)) return 0;
+      if (section.noTechKeywords && hasTech(data.toBe)) return 0;
+      return 2;
+    case 'scope':
+      if (!text(data.inScope) || !text(data.outScope)) return 0;
+      return 2;
+    case 'rules':
+      if (!text(data.businessRules)) return 0;
+      return 2;
+    case 'data':
+      if (!data.dataClass) return 0;
+      return 2;
+    case 'acceptance': {
+      const n = data.acceptance?.filter((a) => text(a)).length ?? 0;
+      if (n < (section.minAcceptance || 5)) return n >= 3 ? 1 : 0;
+      return 2;
+    }
+    default:
+      return 0;
+  }
+}
+
 function computeScore(data) {
-  let score = 0;
-  const checks = [
-    () => data.requestType,
-    () => data.title?.trim(),
-    () => data.businessUnit,
-    () => data.sponsor?.trim(),
-    () => data.problem?.trim()?.length >= 50,
-    () => data.outcome?.trim(),
-    () => data.objectives?.trim(),
-    () => data.currentProcess?.trim(),
-    () => (data.systems?.length ?? 0) > 0,
-    () => data.toBe?.trim(),
-    () => data.inScope?.trim() && data.outScope?.trim(),
-    () => data.businessRules?.trim(),
-    () => data.dataClass,
-    () => (data.acceptance?.filter((a) => a?.trim()).length ?? 0) >= 5,
-    () => FECREDIT.complianceQuestions.every((q) => data[q.id]),
-  ];
-  checks.forEach((fn) => {
-    if (fn()) score += 100 / checks.length;
+  let total = 0;
+  FECREDIT.scoreSections.forEach((sec) => {
+    const raw = sectionScore(data, sec);
+    total += (raw / 2) * sec.weight * 100;
   });
-  return Math.round(score);
+  let score = Math.round(total);
+  if (!data.businessRules?.trim()) score = Math.min(score, 70);
+  return score;
+}
+
+function computeRiskLevel(data) {
+  let level = 'low';
+  const bump = (min) => {
+    const order = ['low', 'medium', 'high', 'critical'];
+    if (order.indexOf(min) > order.indexOf(level)) level = min;
+  };
+  if (data.dataClass === 'restricted') bump('high');
+  if (data.remoteAccess === 'exception') bump('high');
+  if (data.q2 === 'yes') bump('critical');
+  if (data.q4 === 'yes') bump('high');
+  if (data.q5 === 'yes') bump('high');
+  if (['confidential', 'restricted'].includes(data.dataClass)) bump('medium');
+  if (data.q1 === 'yes' || data.q3 === 'yes' || data.q6 === 'yes') bump('medium');
+  return level;
+}
+
+function selfCheckStatus(data) {
+  const text = (v) => (v || '').trim();
+  return {
+    problem: text(data.problem).length >= 50 && !FECREDIT.technicalKeywords.some((k) => text(data.problem).toLowerCase().startsWith(k)),
+    metrics: /baseline|target|hiện trạng|mục tiêu|→|->/i.test(data.objectives || ''),
+    users: text(data.stakeholders) || (Number(data.userCount) > 0),
+    rules: !!text(data.businessRules),
+    scope: text(data.inScope) && text(data.outScope),
+    compliance: FECREDIT.complianceQuestions.every((q) => data[q.id]),
+    ac: (data.acceptance?.filter((a) => text(a)).length ?? 0) >= 5,
+    sponsor: !!text(data.sponsor),
+  };
+}
+
+function renderSelfCheck(data) {
+  const list = document.getElementById('selfCheckList');
+  if (!list) return;
+  const status = selfCheckStatus(data);
+  list.innerHTML = FECREDIT.selfCheckItems
+    .map((item) => {
+      const ok = status[item.id];
+      return `<li class="${ok ? 'ok' : 'pending'}"><span class="check-icon">${ok ? '✓' : '○'}</span>${item[lang] || item.en}</li>`;
+    })
+    .join('');
+}
+
+function renderRiskBadge(data) {
+  const el = document.getElementById('riskBadge');
+  if (!el) return;
+  const id = computeRiskLevel(data);
+  const meta = FECREDIT.riskLevels.find((r) => r.id === id);
+  el.textContent = meta ? lbl(meta) : id;
+  el.style.background = meta?.color || 'transparent';
+  el.style.display = data.requestType ? 'inline-block' : 'none';
 }
 
 function updateUI() {
@@ -223,6 +327,8 @@ function updateUI() {
   renderRoutingGroups(routes);
   updateBucketWarning(data);
   renderPipeline();
+  renderSelfCheck(data);
+  renderRiskBadge(data);
 
   const toBe = (data.toBe || '').toLowerCase();
   const coach = document.getElementById('coachWarn');
@@ -240,29 +346,41 @@ function saveDraft(data) {
   } catch (_) {}
 }
 
+function restoreFormData(form, data) {
+  Object.entries(data).forEach(([k, v]) => {
+    if (k === 'systems' || k === 'dataTypes' || k === 'products' || k === 'languages') {
+      (v || []).forEach((val) => {
+        const el = form.querySelector(`[name="${k}"][value="${val}"]`);
+        if (el) el.checked = true;
+      });
+    } else if (k === 'acceptance') {
+      (v || []).forEach((val, i) => {
+        const el = form.querySelector(`[name="acceptance"][data-idx="${i}"]`);
+        if (el) el.value = val;
+      });
+    } else if (k === 'sponsorAck') {
+      const el = form.querySelector('[name="sponsorAck"]');
+      if (el) el.checked = !!v;
+    } else {
+      const el = form.querySelector(`[name="${k}"]`);
+      if (el) {
+        if (el.type === 'checkbox') el.checked = !!v;
+        else if (el.type === 'radio') {
+          const r = form.querySelector(`[name="${k}"][value="${v}"]`);
+          if (r) r.checked = true;
+        } else el.value = v ?? '';
+      }
+    }
+  });
+}
+
 function loadDraft() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return;
     const { data, currentStep: step, lang: l } = JSON.parse(raw);
     if (l) lang = l;
-    const form = document.getElementById('brdForm');
-    Object.entries(data).forEach(([k, v]) => {
-      if (k === 'systems' || k === 'dataTypes' || k === 'products') {
-        (v || []).forEach((val) => {
-          const el = form.querySelector(`[name="${k}"][value="${val}"]`);
-          if (el) el.checked = true;
-        });
-      } else if (k === 'acceptance') {
-        (v || []).forEach((val, i) => {
-          const el = form.querySelector(`[name="acceptance"][data-idx="${i}"]`);
-          if (el) el.value = val;
-        });
-      } else {
-        const el = form.querySelector(`[name="${k}"]`);
-        if (el) el.value = v;
-      }
-    });
+    restoreFormData(document.getElementById('brdForm'), data);
     if (typeof step === 'number') currentStep = step;
   } catch (_) {}
 }
@@ -330,6 +448,10 @@ function renderForm() {
     )
     .join('');
 
+  const rolloutOptions = FECREDIT.rolloutOptions
+    .map((o) => `<option value="${o.id}">${lbl(o)}</option>`)
+    .join('');
+
   const reqTypeOptions = FECREDIT.requestTypes
     .map((r) => `<option value="${r.id}">${lbl(r)}</option>`)
     .join('');
@@ -362,7 +484,7 @@ function renderForm() {
     <div class="panel" data-step="1">
       <h2>${t('steps')[1]}</h2>
       <p class="panel-desc">${t('panelDesc')[1]}</p>
-      <div class="field required"><label>${lang === 'vi' ? 'Vấn đề nghiệp vụ' : 'Business problem'}</label><textarea name="problem" minlength="50"></textarea><p class="hint">min 50 characters</p></div>
+      <div class="field required"><label>${lang === 'vi' ? 'Vấn đề nghiệp vụ' : 'Business problem'}</label><textarea name="problem" minlength="50"></textarea><p class="hint">${t('problemFormula')}</p></div>
       <div class="field"><label>${lang === 'vi' ? 'Ai bị ảnh hưởng' : 'Who is impacted'}</label><textarea name="impacted"></textarea></div>
       <div class="field"><label>${lang === 'vi' ? 'Hậu quả nếu không làm' : 'Impact if not addressed'}</label><textarea name="impact"></textarea></div>
       <div class="field required"><label>${lang === 'vi' ? 'Kết quả mong muốn' : 'Desired outcome (one sentence)'}</label><input name="outcome" type="text" /></div>
@@ -403,6 +525,7 @@ function renderForm() {
     <div class="panel" data-step="5">
       <h2>${t('steps')[5]}</h2>
       <p class="panel-desc">${t('panelDesc')[5]}</p>
+      <div class="field required"><label>${t('stakeholders')}</label><textarea name="stakeholders" placeholder="${lang === 'vi' ? 'VD: NV POS | Kinh doanh | 1200 | Toàn quốc' : 'e.g. POS staff | Sales | 1200 | Nationwide'}"></textarea></div>
       <div class="field required"><label>${lang === 'vi' ? 'Quy tắc nghiệp vụ' : 'Business rules'}</label><textarea name="businessRules"></textarea></div>
       <div class="field required"><label>${lang === 'vi' ? 'Phân loại dữ liệu' : 'Data classification'}</label>
         <select name="dataClass"><option value="">—</option>
@@ -433,6 +556,24 @@ function renderForm() {
       <h2>${t('steps')[7]}</h2>
       <p class="panel-desc">${t('panelDesc')[7]}</p>
       ${acFields}
+      <div class="grid-2">
+        <div class="field"><label>${t('rollout')}</label><select name="rollout"><option value="">—</option>${rolloutOptions}</select></div>
+        <div class="field"><label>${t('training')}</label>
+          <select name="trainingRequired"><option value="">—</option>
+            <option value="yes">${lang === 'vi' ? 'Có' : 'Yes'}</option>
+            <option value="no">${lang === 'vi' ? 'Không' : 'No'}</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>${t('languages')}</label>
+        <div class="checkbox-grid">
+          <label><input type="checkbox" name="languages" value="vi" /> ${lang === 'vi' ? 'Tiếng Việt' : 'Vietnamese'}</label>
+          <label><input type="checkbox" name="languages" value="en" /> English</label>
+        </div>
+      </div>
+      <div class="field required">
+        <label class="checkbox-inline"><input type="checkbox" name="sponsorAck" value="yes" /> ${t('sponsorAck')}</label>
+      </div>
     </div>
 
     <div class="form-actions">
@@ -487,13 +628,44 @@ function systemLabels(ids) {
     .join(', ');
 }
 
-function exportBRD() {
+function showExportDialog(md, id) {
+  document.getElementById('exportOutput').value = md;
+  document.getElementById('exportDialog').showModal();
+  document.getElementById('copyExport').onclick = () => navigator.clipboard.writeText(md);
+  document.getElementById('downloadExport').onclick = () => {
+    const blob = new Blob([md], { type: 'text/markdown' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `${id}.md`;
+    a.click();
+  };
+}
+
+function exportBRD(force = false) {
   const d = getFormData();
   const id = `BRD-${new Date().getFullYear()}-${String(Math.floor(Math.random() * 9000) + 1000)}`;
   const score = computeScore(d);
+  const risk = computeRiskLevel(d);
   const routes = computeRouting(d);
   const bu = FECREDIT.businessUnits.find((u) => u.id === d.businessUnit);
   const reqMeta = getRequestTypeMeta(d.requestType);
+
+  if (!force) {
+    const warnings = [];
+    if (reqMeta && !reqMeta.needsBrd) warnings.push(t('warnWrongBucket'));
+    if (score < 80) warnings.push(t('warnLowScore'));
+    if (!d.businessRules?.trim()) warnings.push(t('warnNoRules'));
+    if (warnings.length) {
+      document.getElementById('warnMessage').textContent = warnings.join('\n\n');
+      const dlg = document.getElementById('warnDialog');
+      dlg.showModal();
+      document.getElementById('warnExportAnyway').onclick = () => {
+        dlg.close();
+        exportBRD(true);
+      };
+      return;
+    }
+  }
 
   const routeByCategory = { 'IT-Governance': [], 'IT-Security': [], 'GRC / Legal': [] };
   routes.forEach((r) => {
@@ -513,6 +685,7 @@ function exportBRD() {
 **Document ID:** ${id}
 **Generated:** ${new Date().toISOString().slice(0, 10)}
 **Quality preview score:** ${score}%
+**Auto risk level:** ${risk.toUpperCase()}
 **Request type:** ${reqMeta ? lbl(reqMeta) : d.requestType || '—'}
 **Bucket:** ${reqMeta?.bucket === 'it' ? 'IT Service Desk (not BRD path)' : 'Business — define & approve'}
 
@@ -589,6 +762,10 @@ ${d.outScope || ''}
 **Assumptions:**
 ${d.assumptions || ''}
 
+## G. STAKEHOLDERS & USERS
+
+${d.stakeholders || ''}
+
 ## H. BUSINESS RULES
 
 ${d.businessRules || ''}
@@ -603,6 +780,12 @@ ${d.businessRules || ''}
 
 ${FECREDIT.complianceQuestions.map((q) => `- ${q.label.en}: **${(d[q.id] || '').toUpperCase()}**`).join('\n')}
 
+## K. IMPLEMENTATION & ROLLOUT
+
+**Rollout:** ${d.rollout || '—'}
+**Training required:** ${d.trainingRequired || '—'}
+**Languages:** ${(d.languages || []).join(', ') || '—'}
+
 ## L. RISKS
 
 ${d.risks || ''}
@@ -614,6 +797,11 @@ ${(d.acceptance || [])
   .map((a, i) => `${i + 1}. ${a}`)
   .join('\n')}
 
+## O. SPONSOR ACKNOWLEDGEMENT
+
+**Sponsor (Director+):** ${d.sponsor || '—'}
+**Requester confirms Sponsor will sign before submission:** ${d.sponsorAck ? 'YES' : 'NO'}
+
 ---
 
 *Exported from FE Credit BRD Intake App.*
@@ -621,16 +809,7 @@ ${(d.acceptance || [])
 *Framework: docs/12-it-operations-stakeholder-framework.md*
 `;
 
-  document.getElementById('exportOutput').value = md;
-  document.getElementById('exportDialog').showModal();
-  document.getElementById('copyExport').onclick = () => navigator.clipboard.writeText(md);
-  document.getElementById('downloadExport').onclick = () => {
-    const blob = new Blob([md], { type: 'text/markdown' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = `${id}.md`;
-    a.click();
-  };
+  showExportDialog(md, id);
 }
 
 function applyI18n() {
@@ -644,8 +823,8 @@ function applyI18n() {
     } else if (key === 'frameworkLink') {
       el.innerHTML =
         lang === 'vi'
-          ? 'Xem <a href="../docs/12-it-operations-stakeholder-framework.md">IT Ops Framework</a> và <a href="../docs/00-fe-credit-application-landscape.md">Application Landscape</a>.'
-          : 'See <a href="../docs/12-it-operations-stakeholder-framework.md">IT Ops Framework</a> and <a href="../docs/00-fe-credit-application-landscape.md">Application Landscape</a>.';
+          ? 'Xem <a href="../docs/12-it-operations-stakeholder-framework.md">IT Ops Framework</a>, <a href="../docs/13-service-owner-delivery-control-guide.md">SO Guide</a> và <a href="../exports/FE-Credit-Business-User-BRD-Guide-Slides.pptx">slide viết BRD</a>.'
+          : 'See <a href="../docs/12-it-operations-stakeholder-framework.md">IT Ops Framework</a>, <a href="../docs/13-service-owner-delivery-control-guide.md">SO Guide</a>, and <a href="../exports/FE-Credit-Business-User-BRD-Guide-Slides.pptx">BRD writing slides</a>.';
     } else {
       el.textContent = t(key);
     }
@@ -666,31 +845,7 @@ function init() {
     lang = lang === 'en' ? 'vi' : 'en';
     const data = getFormData();
     renderForm();
-    Object.entries(data).forEach(([k, v]) => {
-      /* re-filled by loadDraft pattern - manually set */
-    });
-    const form = document.getElementById('brdForm');
-    Object.entries(data).forEach(([k, v]) => {
-      if (k === 'systems' || k === 'dataTypes' || k === 'products') {
-        (v || []).forEach((val) => {
-          const el = form.querySelector(`[name="${k}"][value="${val}"]`);
-          if (el) el.checked = true;
-        });
-      } else if (k === 'acceptance') {
-        (v || []).forEach((val, i) => {
-          const el = form.querySelector(`[name="acceptance"][data-idx="${i}"]`);
-          if (el) el.value = val;
-        });
-      } else {
-        const el = form.querySelector(`[name="${k}"]`);
-        if (el) {
-          if (el.type === 'radio') {
-            const r = form.querySelector(`[name="${k}"][value="${v}"]`);
-            if (r) r.checked = true;
-          } else el.value = v;
-        }
-      }
-    });
+    restoreFormData(document.getElementById('brdForm'), data);
     renderStepNav();
     renderGates();
     renderPipeline();

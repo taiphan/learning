@@ -908,6 +908,390 @@ def generate_business_user_brd_pptx():
     return out
 
 
+IT_OPS_SLIDES = [
+    (
+        "FE Credit IT Operations Guide",
+        "Delivery control · Support tickets · Incidents · Daily monitoring\n"
+        "For Ops Manager, Service Desk, on-call & release coordinators",
+    ),
+    (
+        "Learning Objectives",
+        "• Control delivery — enforce gates without doing business work\n"
+        "• Triage support tickets to the correct bucket (IT vs Business)\n"
+        "• Run BOD/EOD rituals and monitor systems throughout the day\n"
+        "• Handle incidents with business liaison — IT restores systems first\n"
+        "• Know when to redirect, escalate, and schedule post-mortems",
+    ),
+    (
+        "Scope Boundary — IT vs Business",
+        "IT OPERATIONS OWNS:\n"
+        "  System availability · Incidents & recovery · Deploy / CAB / CR\n"
+        "  Access / infra / env · Execute import AFTER business approval\n\n"
+        "BUSINESS OWNS (not IT):\n"
+        "  Case / loan / collection updates · Business rules & decisions\n"
+        "  Data content & maker-checker · UAT sign-off · BRD & Sponsor\n\n"
+        "Service Desk script:\n"
+        "  \"IT fixes systems and access. Business owns case updates and rules.\n"
+        "   I'll route you to the right channel.\"",
+    ),
+    (
+        "Golden Rules for Ops",
+        "1. IT executes; business defines — no build without accepted BRD (≥ 80%)\n"
+        "2. Email / chat are NOT intake for projects or rule changes\n"
+        "3. Data import is a business act — BRD + approved file + maker-checker\n"
+        "4. UAT sign-off is business-owned — IT does not accept for them\n"
+        "5. No production data fix without approved business instruction + ticket\n"
+        "6. Document and redirect wrong-bucket requests — do not silently help",
+    ),
+    (
+        "Shift Schedule — Ops & Service Desk",
+        "WEEKDAY (Mon–Fri):\n"
+        "  NIGHT SHIFT      20:00 – 24:00   Monitor · batch · on-call · handover to BOD\n"
+        "  BOD WINDOW       04:00 – 08:00   Health · releases · ready-state prep\n"
+        "  BUSINESS ALLOC   07:30           Business users allocate apps — systems green\n"
+        "  DAY SHIFT        08:30 – 17:30   Catalog SR · incidents · delivery control\n"
+        "  EOD              17:30           Close day · handover to night (20:00)\n\n"
+        "Rule: Ops completes BOD before 07:30 so business can allocate on time.",
+    ),
+    (
+        "Ops Roster — Who Handles What",
+        "ROSTER BY WORK TYPE (not by who asks loudest):\n\n"
+        "IT OPS / SERVICE DESK (catalog SR + incidents):\n"
+        "  Access · system down/slow · deploy/CR · env · approved import execution\n\n"
+        "BUSINESS OPS (self-service — IT redirects, does NOT execute):\n"
+        "  Case updates · loan/collection decisions · allocation disputes\n"
+        "  Rule changes · bulk data · feature requests · UAT sign-off\n\n"
+        "CASE HANDLING:\n"
+        "  IT provides logs & system restore only\n"
+        "  Business unit owns case outcome — delegate back same day\n\n"
+        "Publish weekly roster: name | shift | escalation backup",
+    ),
+    (
+        "Weekend Coverage — Limited Hours",
+        "Weekends: NO full day shift. BOD + EOD + short day window only.\n\n"
+        "STANDARD WEEKEND (no trigger):\n"
+        "  BOD (04:00–08:00) · on-call monitor only · EOD handover\n\n"
+        "EXTENDED DAY SHIFT (max 4 hours) — only if:\n"
+        "  ☐ Batch/data feed late — business cannot allocate\n"
+        "  ☐ P1/P2 incident affecting allocation or catalog access\n"
+        "  ☐ Critical SR in IT catalog (access/system) — not feature delivery\n\n"
+        "OUT OF SCOPE weekends: new features, BRD work, case updates by IT\n"
+        "  → Redirect to business self-service · log wrong_bucket\n\n"
+        "Ops Manager approves extended weekend roster before shift starts.",
+    ),
+    (
+        "IT Catalog SR — Support Only, Not Delivery",
+        "IT Service Catalog accepts ONLY operational support:\n\n"
+        "IN CATALOG (IT resolves):\n"
+        "  Password / VPN / access · account lock · system error\n"
+        "  Performance · integration down · approved import run\n\n"
+        "NOT IN CATALOG (delegate to business — close IT ticket):\n"
+        "  Update case / status / allocation · change business rules\n"
+        "  New screen / report / feature · \"build this for us\"\n"
+        "  Explain why loan rejected · fix customer outcome\n\n"
+        "Script: \"This is business-owned work. IT catalog is for systems\n"
+        "  and access. Please use your business process / BRD intake.\"\n\n"
+        "Feature delivery → BRD → triage — never Service Desk queue.",
+    ),
+    (
+        "Delivery Control — Your Role",
+        "Ops Manager controls the PIPELINE, not business decisions:\n\n"
+        "☐ Enforce one front door (ITSM catalog)\n"
+        "☐ Block IT execution on business-bucket work\n"
+        "☐ Verify BRD linked before FSD / sprint / deploy\n"
+        "☐ Run release readiness + CAB evidence check\n"
+        "☐ Own hypercare (T+1 to T+14) after go-live\n"
+        "☐ Sample tickets daily for bucket correctness\n\n"
+        "You say NO to deploy — you do not update customer cases.",
+    ),
+    (
+        "Release Readiness — Go / No-Go",
+        "Before ANY production deploy, verify:\n\n"
+        "☐ BRD accepted (score ≥ 80%) and linked to CR\n"
+        "☐ FSD complete; in-scope stories closed\n"
+        "☐ SIT exit criteria met — test summary attached\n"
+        "☐ UAT signed by Business Sponsor (not IT)\n"
+        "☐ CAB approved (IT-Governance)\n"
+        "☐ IT-Security sign-off (if flagged)\n"
+        "☐ Rollback plan tested · Comms & training done\n"
+        "☐ Hypercare roster assigned\n\n"
+        "No-go = document reason; escalate to IT Product + Sponsor",
+    ),
+    (
+        "Hard Gates — Non-Negotiable",
+        "1. No FSD / sprint without accepted BRD (≥ 80%)\n"
+        "2. No production deploy without UAT + CAB\n"
+        "3. No security bypass without IT-Security exception register\n"
+        "4. Emergency change → retro-BRD within 2 business days\n"
+        "5. Deployments without linked BRD = 0 (monthly KPI)\n"
+        "6. Business data fixes by IT without approval = 0",
+    ),
+    (
+        "Bucket Allocation Matrix",
+        "PASSWORD / VPN / ACCESS          → IT bucket · Service Desk\n"
+        "SYSTEM DOWN / ERROR / SLOW         → IT bucket · Incident\n"
+        "CHANGE APPROVAL RULE / ADD FIELD   → Business bucket · BRD intake\n"
+        "UPDATE 500 CASE STATUSES           → Business bucket · import approval\n"
+        "BUILD FEATURE / INTEGRATION        → Business bucket · BRD → triage\n"
+        "DEPLOY RELEASE                     → IT bucket · CR after UAT + CAB\n"
+        "IMPORT PARTNER FILE                → Business approval → IT executes\n"
+        "WHY WAS LOAN REJECTED?             → Business ops — IT provides logs only",
+    ),
+    (
+        "30-Second Triage Card",
+        "Ask in order — stop when answered:\n\n"
+        "1. Is the SYSTEM broken, slow, or access blocked?\n"
+        "   YES → IT ticket (Incident or Service Desk)\n\n"
+        "2. Is it CHANGE RULE / CASE / IMPORT / REPORT DEFINITION?\n"
+        "   YES → Business bucket → redirect to BRD\n\n"
+        "3. Is it BUILD / ENHANCE / INTEGRATE?\n"
+        "   YES → Accepted BRD linked? NO → redirect to BRD first\n\n"
+        "4. Still unsure? → BA 30-min triage call — DO NOT assign to Dev",
+    ),
+    (
+        "Support Ticket Runbook",
+        "IT catalog SR only — NOT feature delivery or case work:\n\n"
+        "1. ACKNOWLEDGE (≤ 15 min P3) — ITSM ticket from catalog\n"
+        "2. CLASSIFY — IT catalog / Business self-service / Incident (≤ 30 min)\n"
+        "3. If business-owned (case, rule, feature) → redirect & close IT queue\n"
+        "4. If IT catalog → assign group + priority (≤ 1 hr)\n"
+        "5. RESOLVE per SLA — systems & access only\n"
+        "6. CLOSE — user confirms; KB article if repeat\n"
+        "7. EOD — wrong-bucket count; weekend triggers logged",
+    ),
+    (
+        "Redirect Template — Delegate to Business",
+        "Send when request is NOT in IT catalog (case, rule, feature):\n\n"
+        "\"This request is business-owned — IT does not update cases,\n"
+        "  allocation, or rules via Service Desk.\n\n"
+        " IT catalog is for: access, system errors, approved imports.\n\n"
+        " Your team must handle:\n"
+        "  • Case / allocation updates → business ops process\n"
+        "  • Rule or feature changes → BRD intake + Sponsor sign-off\n"
+        "  • Outcome disputes (loan rejected, etc.) → Credit / business ops\n\n"
+        " IT can provide audit logs only. Please use your business channel.\"",
+    ),
+    (
+        "Incident vs SR vs Business Work",
+        "INCIDENT (IT): FE ONLINE down; POS cannot submit; batch stuck\n"
+        "SERVICE REQUEST (IT): Password reset; new user access\n"
+        "BUSINESS WORK (not IT): Fix wrong disbursement; update case status\n"
+        "DEFECT (IT after release): Bug in new feature → link to release\n\n"
+        "User says \"incident\" but means business activity?\n"
+        "  \"Update 200 cases to closed\" → Business import process\n"
+        "  \"Customer angry — fix their loan\" → Business ops; IT = audit log only",
+    ),
+    (
+        "Incident Priority — P1 to P4",
+        "P1 CRITICAL — major business stop (core banking down, mass POS fail)\n"
+        "   Notify within 30 min: Ops, IT-Security, CIO, EXCO\n\n"
+        "P2 MAJOR — significant degradation (login fail, collections batch stuck)\n"
+        "   Notify within 1 hr: Ops, IT Product, Sponsor\n\n"
+        "P3 MODERATE — workaround exists (single region slow)\n"
+        "   Notify within 4 hr\n\n"
+        "P4 MINOR — cosmetic / single user → next business day",
+    ),
+    (
+        "Incident Response — Phases",
+        "DETECT     Monitor + user report → log incident in ITSM\n"
+        "TRIAGE     Classify P1–P4; open war room if P1/P2\n"
+        "DIAGNOSE   Logs, metrics, recent CRs — IT only\n"
+        "CONTAIN    Rollback, disable feature, scale — document decision\n"
+        "RESOLVE    Fix deploy or data repair WITH business approval only\n"
+        "RECOVER    Verify monitoring green; business confirms ops resumed\n"
+        "CLOSE      Timeline in ITSM; post-mortem if P1/P2 or repeat",
+    ),
+    (
+        "War Room Checklist — P1 / P2",
+        "☐ Incident commander appointed (Ops Manager)\n"
+        "☐ Timeline log — 5-minute updates\n"
+        "☐ IT-Security notified if data / access impact\n"
+        "☐ Business liaison on bridge (does NOT decide IT technical actions)\n"
+        "☐ GRC notified if regulatory impact\n"
+        "☐ Customer comms draft — Legal if customer-facing\n"
+        "☐ Rollback decision documented\n"
+        "☐ Post-mortem scheduled within 5 business days",
+    ),
+    (
+        "System Monitoring — All Day",
+        "Weekday: day shift (08:30–17:30) + night (20:00–24:00) on-call:\n\n"
+        "☐ Production health dashboard (green / amber / red)\n"
+        "☐ Alert queue — no unacknowledged critical alerts > 15 min\n"
+        "☐ Batch / EOD jobs — lending, collections, GL cut-offs\n"
+        "☐ Integration queues — Finacle, FE ONLINE, POS, $NAP\n"
+        "☐ Hypercare releases — daily Sponsor check (T+1 to T+14)\n"
+        "☐ Capacity — CPU, disk, connection pools on critical paths\n"
+        "☐ Security — failed login spikes, WAF blocks (escalate IT-Security)\n\n"
+        "Amber → investigate. Red → incident process.",
+    ),
+    (
+        "EOD Runbook — Day Shift Close 17:30",
+        "End of day shift (08:30–17:30) — handover to night (20:00–24:00):\n\n"
+        "☐ All P1/P2 updated in ITSM (not stale)\n"
+        "☐ Open SRs — none unassigned past SLA\n"
+        "☐ Business-bucket redirects logged with reason\n"
+        "☐ Deployments today — post-deploy verify complete?\n"
+        "☐ Emergency changes — retro-BRD task opened?\n"
+        "☐ Handover note for night / on-call\n"
+        "☐ No informal prod changes via chat — audit sample\n"
+        "☐ Update Ops dashboard metrics (daily slice)",
+    ),
+    (
+        "BOM & EOM — Monthly Rituals",
+        "BOM (1st business day, 60 min):\n"
+        "  Last month KPIs · BRD volume vs BA capacity · release calendar\n"
+        "  Incident trends · wrong-bucket training plan · CAB roster\n\n"
+        "EOM (last business day, 60 min):\n"
+        "  Change freeze for critical systems · evidence pack sample\n"
+        "  Deploys without BRD = 0 · UAT before prod = 100%\n"
+        "  Incident summary to leadership · lessons learned top 3\n"
+        "  Wrong-bucket report to BU Heads",
+    ),
+    (
+        "Post-Mortem & Lessons Learned",
+        "Mandatory when: P1/P2 · failed deploy · repeat P3 (3× in 90 days)\n"
+        "  · emergency change · wrong-bucket caused customer impact\n\n"
+        "Blameless focus: timeline of facts → root cause → SMART actions\n"
+        "Separate: IT systems failure vs business process vs handoff confusion\n\n"
+        "Distribute lessons to: Service Desk KB · BU newsletter · Dev retro\n"
+        "  · EOM leadership pack · quarterly audit",
+    ),
+    (
+        "Ops Guardrails — Posture Card",
+        "Post at Service Desk and war room:\n\n"
+        "1. Systems yes — business decisions no\n"
+        "2. No prod data fix without approved instruction + ticket\n"
+        "3. No rule change without BRD + FSD + deploy path\n"
+        "4. No import without maker-checker\n"
+        "5. Incidents — restore service first; data correction follows business\n"
+        "6. Email is not intake for changes\n"
+        "7. Document and redirect wrong-bucket — don't do business work silently\n"
+        "8. P1/P2 — post-mortem always",
+    ),
+    (
+        "Key KPIs — Ops Dashboard",
+        "Wrong-bucket SR rate              → trend down (EOD / EOM)\n"
+        "SR classified within 1 hr       → target ≥ 95%\n"
+        "P1 MTTR                         → per policy (EOM)\n"
+        "Post-mortems on time (P1/P2)    → target 100%\n"
+        "Deploys without BRD (month)     → target 0\n"
+        "Repeat incidents (same RCA)     → target 0 per quarter\n"
+        "IT data fixes without approval  → target 0",
+    ),
+    (
+        "Summary",
+        "WEEKDAY:  Night 20:00–24:00 · BOD 04:00–08:00 · Biz 07:30 · Day 08:30–17:30 · EOD 17:30\n"
+        "WEEKEND:  BOD + EOD only · day shift max 4h if data late or allocation/incident\n"
+        "ROSTER:   IT = catalog SR + systems · Business = cases, rules, features (self-service)\n"
+        "TICKETS:  Catalog = support only — NOT feature delivery · redirect wrong-bucket\n"
+        "MONTHLY:  BOM capacity · EOM audit · lessons learned\n\n"
+        "IT fixes systems. Business owns cases, allocation, rules, and data decisions.",
+    ),
+    (
+        "Resources & Next Steps",
+        "Runbook:     docs/14-it-operations-runbook.md\n"
+        "Checklist:   docs/11-operations-manager-checklist.md\n"
+        "Framework:   docs/12-it-operations-stakeholder-framework.md\n"
+        "SO guide:    docs/13-service-owner-delivery-control-guide.md\n"
+        "BRD App:     app/ (intake wizard for business redirects)\n\n"
+        "Actions:\n"
+        "• Print 30-second triage card at Service Desk\n"
+        "• Run BOD/EOD logs in ITSM or Confluence daily\n"
+        "• Weekly wrong-bucket report to IT leadership",
+    ),
+]
+
+
+def generate_it_operations_pptx():
+    prs = Presentation()
+    prs.slide_width = PInches(13.333)
+    prs.slide_height = PInches(7.5)
+
+    _add_content_slide(prs, *IT_OPS_SLIDES[0])
+    _add_content_slide(prs, *IT_OPS_SLIDES[1])
+    _add_content_slide(prs, *IT_OPS_SLIDES[2])
+
+    _add_pipeline_slide(
+        prs,
+        "Daily Ops Rhythm",
+        [
+            "BOD\n04-08",
+            "Biz alloc\n07:30",
+            "Day shift\n08:30-17:30",
+            "Monitor\n& SR",
+            "EOD\n17:30",
+        ],
+        subtitle="Night 20:00–24:00 · Weekend: BOD/EOD + max 4h day if triggered",
+    )
+
+    for item in IT_OPS_SLIDES[3:8]:
+        _add_content_slide(prs, *item)
+
+    _add_pipeline_slide(
+        prs,
+        "Delivery Control Pipeline",
+        [
+            "Receive\nReq",
+            "BRD\nGate",
+            "Triage\n& FSD",
+            "Build\n& SIT",
+            "UAT\nsign",
+            "CAB\nShip",
+            "Hyper-\ncare",
+        ],
+        subtitle="Ops enforces gates — does not skip UAT or CAB under pressure",
+    )
+
+    for item in IT_OPS_SLIDES[8:12]:
+        _add_content_slide(prs, *item)
+
+    _add_pipeline_slide(
+        prs,
+        "Support Ticket Handling Flow",
+        ["Catalog\nITSM", "IT or\nBusiness?", "IT SR\nresolve", "Business\nself-svc", "Close /\nredirect"],
+        subtitle="Catalog = support only · case/rule/feature → delegate to business",
+    )
+
+    for item in IT_OPS_SLIDES[12:16]:
+        _add_content_slide(prs, *item)
+
+    _add_pipeline_slide(
+        prs,
+        "Incident Response Flow",
+        ["Detect\n& log", "Triage\nP1-P4", "Diagnose\n& contain", "Resolve\n& verify", "Post-\nmortem"],
+        subtitle="Restore service first — business data correction follows approved process",
+    )
+
+    for item in IT_OPS_SLIDES[16:19]:
+        _add_content_slide(prs, *item)
+
+    _add_numbered_steps_slide(
+        prs,
+        "BOD Runbook — Window 04:00 to 08:00",
+        [
+            (1, "04:00 — Open BOD; handover from night shift (20:00–24:00 prior day)"),
+            (2, "Review overnight P1/P2 — none open or unowned"),
+            (3, "Confirm production health + overnight batch jobs complete"),
+            (4, "List releases today — CR approved? UAT linked?"),
+            (5, "CAB outcomes — failed deploy? Hypercare check"),
+            (6, "Wrong-bucket SR count; BRD queue > 5 days? Escalate"),
+            (7, "07:30 — Confirm apps green for business user allocation"),
+            (8, "Weekend? Approve extended day roster only if data late / incident"),
+            (9, "08:00 — Publish BOD log; assign day-shift escalation path"),
+            (10, "08:30 — Day shift (08:30–17:30) assumes Service Desk lead"),
+        ],
+        subtitle="Weekend: BOD + EOD; day max 4h only on trigger · Ops Manager approves roster",
+    )
+
+    for item in IT_OPS_SLIDES[19:]:
+        _add_content_slide(prs, *item)
+
+    out = OUTPUT / "FE-Credit-IT-Operations-Guide-Slides.pptx"
+    prs.save(out)
+    print(f"Created {out}")
+    return out
+
+
 def generate_it_delivery_framework_pptx():
     prs = Presentation()
     prs.slide_width = PInches(13.333)
@@ -999,4 +1383,5 @@ if __name__ == "__main__":
     generate_pptx()
     generate_business_user_brd_pptx()
     generate_it_delivery_framework_pptx()
+    generate_it_operations_pptx()
     print("Done.")

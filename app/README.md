@@ -1,49 +1,38 @@
 # FE Credit BRD Intake App
 
-Interactive web form adapted to **FE Credit's application landscape** and **IT delivery governance framework** (BRD → FSD → Scrum → UAT → CAB ship).
+Interactive web form for **business users** to draft BRDs aligned with FE Credit governance and the IT delivery pipeline.
 
 ## Features
 
-- 8-step BRD wizard aligned with the official template
-- **Request type classifier** — redirects access/incident to Service Desk; flags data import bucket
-- **Delivery pipeline** sidebar — shows where BRD fits in the full IT path
-- **Stakeholder routing** — IT-Governance, IT-Security, GRC/Legal (grouped)
-- **Hard gates** reminder — no FSD without BRD; no ship without UAT + CAB
-- **VI / EN** language toggle for field teams
-- FE Credit **system picker** grouped by channel / core / ops
-- **Compliance screening** with auto-routing preview
-- **Quality score** preview (target ≥ 80%)
-- **Technical keyword coach** — flags API/Kafka-style text in to-be section
-- **New integration** flag → routes to IT-Governance (ARB)
-- **Export** to Markdown with delivery path and stakeholder routing
-- **Auto-save** draft in browser localStorage
+- 8-step BRD wizard aligned with the official template (sections A–O)
+- **Weighted quality score** (matches BA rubric in `docs/05-brd-quality-checklist.md`, gate ≥ 80%)
+- **Auto risk level** (Low / Medium / High / Critical)
+- **8-step self-check** sidebar (live ✓ as you complete the form)
+- **Request type classifier** — redirects access/incident to Service Desk
+- **Delivery pipeline** — BRD → FSD → Scrum → UAT → CAB
+- **Stakeholder routing** — IT-Governance, IT-Security, GRC/Legal
+- **Export warning** if score &lt; 80% or wrong request bucket
+- VI / EN toggle · auto-save · Markdown export
 
 ## Run locally
-
-ES modules require a local server:
 
 ```bash
 cd app
 python3 -m http.server 8080
+# Open http://localhost:8080
 ```
-
-Open http://localhost:8080
 
 ## Configuration
 
-Edit `config/fe-credit.js` to match your internal CMDB:
+Edit `config/fe-credit.js`:
 
-- Business units
-- Application catalog
-- Request types and buckets
-- Delivery phases (Agile/Scrum pipeline)
-- Compliance questions and routing
-- IT-Governance / IT-Security route categories
+- Business units, applications, compliance questions
+- Request types, delivery phases, score weights
+- Risk level rules, self-check items
 
 ## Related docs
 
-- [IT Operations Stakeholder Framework](../docs/12-it-operations-stakeholder-framework.md)
-- [Operations Manager Checklist](../docs/11-operations-manager-checklist.md)
-- [Application landscape](../docs/00-fe-credit-application-landscape.md)
-- [BRD template (EN)](../docs/01-brd-template-en.md)
-- [ServiceNow/Jira field mapping](../docs/07-servicenow-jira-intake-mapping.md)
+- [Business user BRD slides](../exports/FE-Credit-Business-User-BRD-Guide-Slides.pptx)
+- [BRD quality checklist](../docs/05-brd-quality-checklist.md)
+- [IT Ops framework](../docs/12-it-operations-stakeholder-framework.md)
+- [ServiceNow/Jira mapping](../docs/07-servicenow-jira-intake-mapping.md)

@@ -18,6 +18,7 @@
       </div>
       <div class="header-actions">
         <button type="button" id="langToggle" class="btn btn-ghost" aria-label="Toggle language">VI / EN</button>
+        <span class="risk-badge" id="riskBadge" title="Auto risk level">—</span>
         <span class="score-badge" id="scoreBadge" title="Quality preview">—%</span>
       </div>
     </div>
@@ -40,10 +41,14 @@
         <h2 data-i18n="gatesTitle">Hard gates</h2>
         <ul class="gates-list" id="gatesList"></ul>
       </section>
+      <section class="card selfcheck-card">
+        <h2 data-i18n="selfCheckTitle">8-step self-check</h2>
+        <ul class="selfcheck-list" id="selfCheckList"></ul>
+      </section>
       <section class="card tips-card">
         <h2 data-i18n="tipsTitle">Golden rule</h2>
         <p data-i18n="goldenRule">Write the <strong>problem and business rules</strong> — not the system design.</p>
-        <p class="muted small" data-i18n="frameworkLink">See <a href="../docs/12-it-operations-stakeholder-framework.md">IT Ops Framework</a> and <a href="../docs/00-fe-credit-application-landscape.md">Application Landscape</a>.</p>
+        <p class="muted small" data-i18n="frameworkLink">See <a href="../docs/12-it-operations-stakeholder-framework.md">IT Ops Framework</a>, <a href="../docs/13-service-owner-delivery-control-guide.md">SO Guide</a>, and <a href="../exports/FE-Credit-Business-User-BRD-Guide-Slides.pptx">BRD writing slides</a>.</p>
       </section>
     </aside>
 
@@ -55,6 +60,17 @@
   <footer class="footer">
     <p>FE Credit BRD Training Package · BRD → FSD → UAT → Ship · Gate ≥ 80% · <a href="../docs/11-operations-manager-checklist.md">Ops checklist</a></p>
   </footer>
+
+  <dialog id="warnDialog" class="dialog">
+    <form method="dialog">
+      <h2 data-i18n="warnTitle">Before you export</h2>
+      <p id="warnMessage"></p>
+      <div class="dialog-actions">
+        <button type="submit" class="btn btn-ghost" data-i18n="close">Close</button>
+        <button type="button" class="btn btn-primary" id="warnExportAnyway" data-i18n="exportAnyway">Export anyway</button>
+      </div>
+    </form>
+  </dialog>
 
   <dialog id="exportDialog" class="dialog">
     <form method="dialog">

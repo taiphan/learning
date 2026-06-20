@@ -72,6 +72,46 @@ body {
 .score-badge.pass { background: var(--fe-green); border-color: var(--fe-green); }
 .score-badge.fail { background: var(--warn); border-color: var(--warn); }
 
+.risk-badge {
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.25);
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.75rem;
+  color: #fff;
+  text-transform: uppercase;
+}
+
+.selfcheck-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.35rem 0 0;
+  font-size: 0.78rem;
+}
+
+.selfcheck-list li {
+  display: flex;
+  gap: 0.4rem;
+  align-items: flex-start;
+  padding: 0.25rem 0;
+  color: var(--muted);
+}
+
+.selfcheck-list li.ok { color: var(--fe-green-dark); font-weight: 600; }
+.selfcheck-list .check-icon { width: 1rem; flex-shrink: 0; }
+
+.checkbox-inline {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  font-weight: 400;
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+
+#warnMessage { white-space: pre-line; color: var(--text); }
+
 .steps {
   display: flex;
   gap: 0.25rem;
