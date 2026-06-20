@@ -16,6 +16,27 @@ Program to train FE Credit business users and enforce BRD quality gate.
 
 ---
 
+## Rollout timeline (8 weeks)
+
+```mermaid
+gantt
+  title FE Credit BRD rollout — 8 weeks
+  dateFormat  X
+  axisFormat  W%s
+  section Setup
+  Foundation (templates, BA coaches)      :a1, 0, 1
+  Tooling & communications                :a2, 1, 1
+  section Training
+  Sessions 1-2 (Digital, Sales/POS)       :b1, 2, 2
+  Sessions 3-4 (Collections, Ops)         :b2, 4, 2
+  section Gates
+  Soft gate (form required)               :c1, 6, 1
+  Hard gate (no FRD without BRD)          :milestone, 7, 0
+  Stabilize & measure                     :c2, 7, 1
+```
+
+---
+
 ## Week-by-week plan
 
 ### Week 1 — Foundation

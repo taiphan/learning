@@ -6,6 +6,44 @@ Reference for business users writing BRDs. Use **application names** and **busin
 
 ---
 
+## System landscape (at a glance)
+
+```mermaid
+flowchart TB
+  subgraph CH[Customer-facing channels]
+    FEO[FE ONLINE 2.0]
+    NAP[$NAP]
+    SHD[SHIELD]
+    POS[Partner POS / LOS]
+    WEB[Website / landing]
+  end
+  subgraph CORE[Core banking & operations]
+    LMS[Finacle LMS]
+    CIF[Finacle CIF]
+    FV[FirstVision cards]
+    COL[Collections platform]
+    ESG[eSign]
+    WF[Workflow engine]
+  end
+  subgraph SUP[Supporting platforms]
+    IAM[Keycloak / IAM]
+    CRM[Call center / CRM]
+    BOT[AI chatbot]
+    GW[SMS / Email gateway]
+    CIC[CIC / Credit bureau]
+    BI[BI / Reporting]
+  end
+  CH --> CORE
+  CORE --> SUP
+  CH -. OTP / notify .-> GW
+  CORE -. credit check .-> CIC
+  CORE --> BI
+```
+
+Hosting: core Finacle suite and mission-critical apps run on **AWS**; PII residency follows FE Credit policy and SBV requirements.
+
+---
+
 ## 1. Customer-facing applications
 
 | Application | Primary users | Business purpose | Typical BRD topics |

@@ -35,7 +35,10 @@ FECBRD (Home)
 ├── 📚 Training
 │   ├── Training Program Overview (8-week rollout)
 │   ├── Session 1–4 Materials
-│   ├── Slide Deck (link to exports/FE-Credit-BRD-Training-Slides.pptx)
+│   ├── Slide Deck — Core BRD (exports/FE-Credit-BRD-Training-Slides.pptx)
+│   ├── Slide Deck — Business User BRD Guide (exports/FE-Credit-Business-User-BRD-Guide-Slides.pptx)
+│   ├── Slide Deck — IT Delivery Framework (exports/FE-Credit-IT-Delivery-Framework-Slides.pptx)
+│   ├── Slide Deck — IT Operations Guide (exports/FE-Credit-IT-Operations-Guide-Slides.pptx)
 │   └── Certification — BRD Ready
 │
 ├── ⭐ Gold Standard Examples
@@ -66,6 +69,29 @@ FECBRD (Home)
     │   └── ...
     └── Archive
 ```
+
+---
+
+## BRD workflow (publish on Process & Governance → BRD Workflow)
+
+```mermaid
+flowchart LR
+  R[Business raises need] --> S{Sponsor Director+ signs?}
+  S -->|No| RET[Return to requester]
+  S -->|Yes| SUB[Submit via ServiceNow/Jira BRD form]
+  SUB --> BA[BA quality review]
+  BA --> Q{Score >= 80% and sections complete?}
+  Q -->|No| RET
+  Q -->|Yes| CMP{Compliance flags?}
+  CMP -->|Yes| ROUTE[Route to Risk / Legal / IT-Security]
+  CMP -->|No| TRI[IT Product triage]
+  ROUTE --> TRI
+  TRI --> D{Approved for FRD?}
+  D -->|Deferred/Rejected| ARCH[Log decision + reason]
+  D -->|Yes| FRD[FRD -> build -> SIT -> UAT -> CAB -> ship]
+```
+
+Status flow for each BRD page: `draft → under-review → accepted → (deferred | rejected)`.
 
 ---
 

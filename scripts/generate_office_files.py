@@ -7,7 +7,7 @@ from docx import Document
 from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Inches, Pt
 from pptx import Presentation
-from pptx.enum.shapes import MSO_SHAPE
+from pptx.enum.shapes import MSO_SHAPE, MSO_CONNECTOR
 from pptx.util import Inches as PInches, Pt as PPt
 from pptx.dml.color import RGBColor
 
@@ -320,6 +320,312 @@ def _add_scrum_cycle_slide(prs):
         "        Release readiness   Ops checklist + CAB (IT-Governance)\n"
         "        Ship to production  Deploy + verify + hypercare handover"
     )
+    return slide
+
+
+_LANE_COLORS = [
+    RGBColor(0x1F, 0x4E, 0x79),
+    RGBColor(0x2E, 0x75, 0xB6),
+    RGBColor(0x70, 0xAD, 0x47),
+    RGBColor(0xED, 0x7D, 0x31),
+    RGBColor(0x70, 0x30, 0xA0),
+    RGBColor(0xC0, 0x00, 0x00),
+]
+
+
+def _add_swimlane_slide(prs, title, columns, lanes, subtitle=None):
+    """Cross-functional swimlane: role lanes (rows) x phase columns.
+
+    lanes: list of (lane_name, [cell_text_or_None per column]).
+    """
+    slide = prs.slides.add_slide(prs.slide_layouts[5])
+    slide.shapes.title.text = title
+
+    top = 1.45
+    if subtitle:
+        sub = slide.shapes.add_textbox(PInches(0.4), PInches(1.05), PInches(12.5), PInches(0.35))
+        sub.text_frame.text = subtitle
+        sub.text_frame.paragraphs[0].font.size = PPt(13)
+        sub.text_frame.paragraphs[0].font.color.rgb = RGBColor(0x55, 0x55, 0x55)
+        top = 1.65
+
+    label_w = 1.7
+    grid_x = 0.4 + label_w
+    grid_w = 13.333 - grid_x - 0.25
+    n_cols = len(columns)
+    col_w = grid_w / n_cols
+
+    # column headers
+    for j, col in enumerate(columns):
+        hx = PInches(grid_x + j * col_w)
+        hdr = slide.shapes.add_textbox(hx, PInches(top), PInches(col_w), PInches(0.4))
+        hdr.text_frame.word_wrap = True
+        hdr.text_frame.text = col
+        p = hdr.text_frame.paragraphs[0]
+        p.font.size = PPt(11)
+        p.font.bold = True
+        p.font.color.rgb = RGBColor(0x33, 0x33, 0x33)
+        p.alignment = 1
+
+    lane_top = top + 0.45
+    lane_h = (7.1 - lane_top) / len(lanes)
+    pad = 0.06
+
+    for i, (lane_name, cells) in enumerate(lanes):
+        accent = _LANE_COLORS[i % len(_LANE_COLORS)]
+        y = lane_top + i * lane_h
+
+        # lane label
+        lbl = slide.shapes.add_shape(
+            MSO_SHAPE.RECTANGLE, PInches(0.4), PInches(y), PInches(label_w), PInches(lane_h - pad)
+        )
+        lbl.fill.solid()
+        lbl.fill.fore_color.rgb = accent
+        lbl.line.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
+        lbl.text_frame.word_wrap = True
+        lp = lbl.text_frame.paragraphs[0]
+        lp.text = lane_name
+        lp.font.size = PPt(11)
+        lp.font.bold = True
+        lp.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
+        lp.alignment = 1
+
+        # lane band background
+        band = slide.shapes.add_shape(
+            MSO_SHAPE.RECTANGLE, PInches(grid_x), PInches(y), PInches(grid_w), PInches(lane_h - pad)
+        )
+        band.fill.solid()
+        band.fill.fore_color.rgb = RGBColor(0xF2, 0xF2, 0xF2)
+        band.line.color.rgb = RGBColor(0xD9, 0xD9, 0xD9)
+        band.shadow.inherit = False
+
+        for j, cell in enumerate(cells):
+            if not cell:
+                continue
+            cx = PInches(grid_x + j * col_w + pad)
+            box = slide.shapes.add_shape(
+                MSO_SHAPE.ROUNDED_RECTANGLE,
+                cx, PInches(y + pad), PInches(col_w - 2 * pad), PInches(lane_h - pad - 2 * pad),
+            )
+            box.fill.solid()
+            box.fill.fore_color.rgb = accent
+            box.line.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
+            box.text_frame.word_wrap = True
+            cp = box.text_frame.paragraphs[0]
+            cp.text = cell
+            cp.font.size = PPt(9)
+            cp.font.bold = True
+            cp.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
+            cp.alignment = 1
+
+    return slide
+
+
+def _add_flowchart_slide(prs, title, steps, subtitle=None):
+    """Vertical decision flowchart.
+
+    steps: list of dicts with keys:
+      kind: "start" | "process" | "decision" | "end"
+      text: label
+      branch: optional (label, outcome_text) drawn to the right (decision only)
+    """
+    slide = prs.slides.add_slide(prs.slide_layouts[5])
+    slide.shapes.title.text = title
+
+    top = 1.4
+    if subtitle:
+        sub = slide.shapes.add_textbox(PInches(0.4), PInches(1.05), PInches(12.5), PInches(0.35))
+        sub.text_frame.text = subtitle
+        sub.text_frame.paragraphs[0].font.size = PPt(13)
+        sub.text_frame.paragraphs[0].font.color.rgb = RGBColor(0x55, 0x55, 0x55)
+        top = 1.55
+
+    n = len(steps)
+    avail = 7.1 - top
+    row_h = avail / n
+    node_h = min(0.8, row_h - 0.18)
+    main_x = 1.0
+    main_w = 4.6
+    out_x = 6.6
+    out_w = 6.0
+
+    kind_color = {
+        "start": RGBColor(0x70, 0xAD, 0x47),
+        "process": RGBColor(0x2E, 0x75, 0xB6),
+        "decision": RGBColor(0xED, 0x7D, 0x31),
+        "end": RGBColor(0xC0, 0x00, 0x00),
+    }
+    kind_shape = {
+        "start": MSO_SHAPE.ROUNDED_RECTANGLE,
+        "process": MSO_SHAPE.RECTANGLE,
+        "decision": MSO_SHAPE.DIAMOND,
+        "end": MSO_SHAPE.ROUNDED_RECTANGLE,
+    }
+
+    centers = []
+    for i, step in enumerate(steps):
+        y = top + i * row_h
+        kind = step["kind"]
+        shape = slide.shapes.add_shape(
+            kind_shape[kind], PInches(main_x), PInches(y), PInches(main_w), PInches(node_h)
+        )
+        shape.fill.solid()
+        shape.fill.fore_color.rgb = kind_color[kind]
+        shape.line.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
+        shape.text_frame.word_wrap = True
+        sp = shape.text_frame.paragraphs[0]
+        sp.text = step["text"]
+        sp.font.size = PPt(10)
+        sp.font.bold = True
+        sp.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
+        sp.alignment = 1
+        centers.append(y + node_h / 2)
+
+        # vertical connector to next node
+        if i < n - 1:
+            conn = slide.shapes.add_connector(
+                MSO_CONNECTOR.STRAIGHT,
+                PInches(main_x + main_w / 2), PInches(y + node_h),
+                PInches(main_x + main_w / 2), PInches(top + (i + 1) * row_h),
+            )
+            conn.line.color.rgb = RGBColor(0x80, 0x80, 0x80)
+            conn.line.width = PPt(1.5)
+
+        # branch outcome to the right (for decisions)
+        branch = step.get("branch")
+        if branch:
+            blabel, btext = branch
+            ob = slide.shapes.add_shape(
+                MSO_SHAPE.ROUNDED_RECTANGLE,
+                PInches(out_x), PInches(y + (node_h - 0.55) / 2), PInches(out_w), PInches(0.55),
+            )
+            ob.fill.solid()
+            ob.fill.fore_color.rgb = RGBColor(0x44, 0x72, 0xC4)
+            ob.line.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
+            ob.text_frame.word_wrap = True
+            obp = ob.text_frame.paragraphs[0]
+            obp.text = btext
+            obp.font.size = PPt(9)
+            obp.font.bold = True
+            obp.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
+            obp.alignment = 1
+
+            conn = slide.shapes.add_connector(
+                MSO_CONNECTOR.STRAIGHT,
+                PInches(main_x + main_w), PInches(y + node_h / 2),
+                PInches(out_x), PInches(y + node_h / 2),
+            )
+            conn.line.color.rgb = RGBColor(0x80, 0x80, 0x80)
+            conn.line.width = PPt(1.5)
+
+            tag = slide.shapes.add_textbox(
+                PInches(main_x + main_w + 0.05), PInches(y + node_h / 2 - 0.32),
+                PInches(out_x - main_x - main_w), PInches(0.3),
+            )
+            tag.text_frame.text = blabel
+            tp = tag.text_frame.paragraphs[0]
+            tp.font.size = PPt(9)
+            tp.font.bold = True
+            tp.font.color.rgb = RGBColor(0x00, 0x70, 0x00)
+            tp.alignment = 1
+
+    return slide
+
+
+def _add_org_chart_slide(prs, title, root, groups, subtitle=None):
+    """Org chart: one root box, then manager columns each with stacked reports.
+
+    groups: list of (manager_label, [report_labels]).
+    """
+    slide = prs.slides.add_slide(prs.slide_layouts[5])
+    slide.shapes.title.text = title
+
+    top = 1.5
+    if subtitle:
+        sub = slide.shapes.add_textbox(PInches(0.4), PInches(1.05), PInches(12.5), PInches(0.35))
+        sub.text_frame.text = subtitle
+        sub.text_frame.paragraphs[0].font.size = PPt(13)
+        sub.text_frame.paragraphs[0].font.color.rgb = RGBColor(0x55, 0x55, 0x55)
+        top = 1.7
+
+    # root box centered
+    root_w, root_h = 5.0, 0.7
+    root_x = (13.333 - root_w) / 2
+    rb = slide.shapes.add_shape(
+        MSO_SHAPE.ROUNDED_RECTANGLE, PInches(root_x), PInches(top), PInches(root_w), PInches(root_h)
+    )
+    rb.fill.solid()
+    rb.fill.fore_color.rgb = RGBColor(0x1F, 0x4E, 0x79)
+    rb.line.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
+    rb.text_frame.word_wrap = True
+    rp = rb.text_frame.paragraphs[0]
+    rp.text = root
+    rp.font.size = PPt(12)
+    rp.font.bold = True
+    rp.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
+    rp.alignment = 1
+
+    n = len(groups)
+    col_gap = 0.3
+    col_w = (13.333 - 0.6 - col_gap * (n - 1)) / n
+    start_x = 0.3
+    mgr_top = top + root_h + 0.6
+    mgr_h = 0.65
+    report_h = 0.55
+    report_gap = 0.12
+
+    for i, (mgr, reports) in enumerate(groups):
+        accent = _LANE_COLORS[i % len(_LANE_COLORS)]
+        cx = start_x + i * (col_w + col_gap)
+        mgr_cx = cx + col_w / 2
+
+        # connector root -> manager
+        conn = slide.shapes.add_connector(
+            MSO_CONNECTOR.STRAIGHT,
+            PInches(root_x + root_w / 2), PInches(top + root_h),
+            PInches(mgr_cx), PInches(mgr_top),
+        )
+        conn.line.color.rgb = RGBColor(0x80, 0x80, 0x80)
+        conn.line.width = PPt(1.5)
+
+        mb = slide.shapes.add_shape(
+            MSO_SHAPE.ROUNDED_RECTANGLE, PInches(cx), PInches(mgr_top), PInches(col_w), PInches(mgr_h)
+        )
+        mb.fill.solid()
+        mb.fill.fore_color.rgb = accent
+        mb.line.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
+        mb.text_frame.word_wrap = True
+        mp = mb.text_frame.paragraphs[0]
+        mp.text = mgr
+        mp.font.size = PPt(10)
+        mp.font.bold = True
+        mp.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
+        mp.alignment = 1
+
+        ry = mgr_top + mgr_h + 0.35
+        for report in reports:
+            conn2 = slide.shapes.add_connector(
+                MSO_CONNECTOR.STRAIGHT,
+                PInches(mgr_cx), PInches(ry - report_gap),
+                PInches(mgr_cx), PInches(ry),
+            )
+            conn2.line.color.rgb = RGBColor(0xB0, 0xB0, 0xB0)
+            conn2.line.width = PPt(1.0)
+
+            rbx = slide.shapes.add_shape(
+                MSO_SHAPE.RECTANGLE, PInches(cx + 0.2), PInches(ry), PInches(col_w - 0.4), PInches(report_h)
+            )
+            rbx.fill.solid()
+            rbx.fill.fore_color.rgb = RGBColor(0xF2, 0xF2, 0xF2)
+            rbx.line.color.rgb = accent
+            rbx.text_frame.word_wrap = True
+            rbp = rbx.text_frame.paragraphs[0]
+            rbp.text = report
+            rbp.font.size = PPt(9)
+            rbp.font.color.rgb = RGBColor(0x33, 0x33, 0x33)
+            rbp.alignment = 1
+            ry += report_h + report_gap + 0.1
+
     return slide
 
 
@@ -1252,6 +1558,23 @@ def generate_it_operations_pptx():
         subtitle="Catalog = support only · case/rule/feature → delegate to business",
     )
 
+    # VISUAL: decision flowchart for ticket triage
+    _add_flowchart_slide(
+        prs,
+        "Flowchart — Ticket Triage Decision",
+        [
+            {"kind": "start", "text": "Request arrives (ITSM catalog)"},
+            {"kind": "decision", "text": "System broken / slow / access blocked?",
+             "branch": ("Yes", "IT bucket → Incident or Service Desk (resolve per SLA)")},
+            {"kind": "decision", "text": "Change rule / case / allocation / import?",
+             "branch": ("Yes", "Business bucket → redirect to BRD / self-service")},
+            {"kind": "decision", "text": "Build / enhance / new feature?",
+             "branch": ("Yes", "BRD accepted ≥80%? No → redirect; Yes → IT triage")},
+            {"kind": "end", "text": "Unsure → BA 30-min triage (no Dev assign)"},
+        ],
+        subtitle="Stop at the first Yes — IT executes systems only, never business work",
+    )
+
     for item in IT_OPS_SLIDES[12:16]:
         _add_content_slide(prs, *item)
 
@@ -1281,6 +1604,19 @@ def generate_it_operations_pptx():
             (10, "08:30 — Day shift (08:30–17:30) assumes Service Desk lead"),
         ],
         subtitle="Weekend: BOD + EOD; day max 4h only on trigger · Ops Manager approves roster",
+    )
+
+    # VISUAL: org chart — operations & support resourcing
+    _add_org_chart_slide(
+        prs,
+        "Org Chart — Ops & Support Resourcing",
+        "IT Ops Manager",
+        [
+            ("Service Desk Lead", ["L1 catalog SR", "Bucket triage", "Redirect / KB"]),
+            ("Shift / On-call", ["Day 08:30–17:30", "Night 20:00–24:00", "Weekend on-call"]),
+            ("Release & Incident", ["CAB / change", "Incident commander", "Hypercare / Dev liaison"]),
+        ],
+        subtitle="Roster by work type — IT handles systems; business work is delegated back",
     )
 
     for item in IT_OPS_SLIDES[19:]:
@@ -1319,6 +1655,22 @@ def generate_it_delivery_framework_pptx():
         subtitle="Governed pipeline with Agile/Scrum inside Build → SIT phases",
     )
 
+    # VISUAL: cross-functional swimlane (who does what across phases)
+    _add_swimlane_slide(
+        prs,
+        "Swimlane — Cross-Functional Delivery",
+        ["Intake", "Define", "Design", "Build", "Test", "Release", "Operate"],
+        [
+            ("Business / Sponsor", ["Raise need", "Write BRD\n+ sign", None, None, "UAT\nsign-off", "Go-live\napprove", "Confirm\nservice"]),
+            ("BA", ["Classify", "Score BRD\n≥80%", "Author\nFSD", "Refine\nstories", "Support\nUAT", None, None]),
+            ("IT Product (PO)", [None, "Accept to\ntriage", "Prioritize\nbacklog", "Accept\nsprint", None, "Release\ndecision", None]),
+            ("Scrum / Dev", [None, None, "Design\n+ tasks", "Build +\nunit test", "Fix SIT\ndefects", "Deploy", "Hotfix /\ndefect"]),
+            ("QA", [None, None, "Test\nplan", "Prep\ncases", "Run SIT\n+ regress", None, None]),
+            ("IT Ops / Assurance", ["Route\nticket", "Compliance\nrouting", "ARB /\nSecurity", None, None, "CAB +\nverify", "Monitor /\nhypercare"]),
+        ],
+        subtitle="No hand-off skips a lane — every phase has a named owner",
+    )
+
     # Slides 4–10 content (documents through FSD)
     for item in IT_DELIVERY_SLIDES[2:9]:
         _add_content_slide(prs, *item)
@@ -1351,6 +1703,19 @@ def generate_it_delivery_framework_pptx():
 
     # Dual-track diagram
     _add_dual_track_slide(prs)
+
+    # VISUAL: org chart — development + operations resourcing
+    _add_org_chart_slide(
+        prs,
+        "Org Chart — Development & Operations",
+        "CIO / IT Director",
+        [
+            ("IT Product (PO)", ["BA Team", "Scrum / Dev Team", "QA / Test"]),
+            ("IT Ops Manager", ["Service Desk", "On-call / Night shift", "Release / CAB coord"]),
+            ("IT-Governance & Security", ["CAB / Change", "IT-Security", "GRC / Legal liaison"]),
+        ],
+        subtitle="Delivery (build) and Operations (run) report into IT leadership — assurance is independent",
+    )
 
     for item in IT_DELIVERY_SLIDES[20:]:
         _add_content_slide(prs, *item)

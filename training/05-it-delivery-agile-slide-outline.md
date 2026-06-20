@@ -86,6 +86,9 @@ BRD + FSD + SIT + UAT + CAB + Security (if flagged)
 ## Slide 23 — Dual-track diagram
 Governance track (parallel) vs Delivery track (Scrum)
 
+## Slide 23b — Org chart: Development & Operations
+CIO/IT Director → IT Product (BA, Dev, QA) | IT Ops Manager (Service Desk, on-call, release) | IT-Gov & Security (CAB, IT-Sec, GRC)
+
 ## Slide 24 — Hard gates (non-negotiable)
 No FSD without BRD | No prod without UAT | No deploy without CAB
 
@@ -103,4 +106,4 @@ Framework docs on Confluence; Ops checklist; weekly CAB
 
 ---
 
-*Slide outline v1.0 | 28 slides*
+*Slide outline v1.1 | 32 slides — adds cross-functional swimlane + Dev/Ops org chart*

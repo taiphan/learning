@@ -51,6 +51,21 @@ All must be ☑ before scoring.
 | M. Acceptance criteria | 10% | | |
 | **Total** | **100%** | | **___%** |
 
+**Section weight distribution:**
+
+```mermaid
+pie showData
+  title BRD quality weight by section
+  "H. Business rules" : 20
+  "B. Executive summary" : 15
+  "C. Objectives & KPIs" : 15
+  "D. Current state" : 10
+  "E. To-be state" : 10
+  "F. Scope (in/out)" : 10
+  "I. Data & security" : 10
+  "M. Acceptance criteria" : 10
+```
+
 **Scoring guide:**
 - 0 on business rules usually fails the BRD (max 70% even if other sections perfect)
 - Objectives without baseline = score 1 max on Section C

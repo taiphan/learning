@@ -46,10 +46,12 @@ BOD 04:00–08:00 → Biz 07:30 → Day 08:30–17:30 → Night 20:00–24:00 �
 
 ## Slide 18 — VISUAL: Catalog SR flow (IT resolve vs business self-service)
 
-## Slide 19–22 — Incident types, priority, response flow, war room
+## Slide 19 — VISUAL: Flowchart — ticket triage decision (diamonds, branches)
 
-## Slide 23 — VISUAL: BOD checklist (04:00–08:00, weekend trigger step)
+## Slide 20–23 — Incident types, priority, response flow, war room
 
-## Slide 24–25 — Monitoring, EOD (handover to night 20:00–24:00)
+## Slide 24 — VISUAL: BOD checklist (04:00–08:00, weekend trigger step)
 
-## Slide 26–30 — BOM/EOM, post-mortem, guardrails, KPIs, summary, resources
+## Slide 25 — VISUAL: Org chart — Ops & support resourcing (Service Desk / shift / release)
+
+## Slide 26–34 — Monitoring, EOD, BOM/EOM, post-mortem, guardrails, KPIs, summary, resources

@@ -51,9 +51,9 @@ python3 scripts/generate_office_files.py
 | `exports/FE-Credit-BRD-Template.docx` | Fillable BRD template for Word |
 | `exports/FE-Credit-BRD-Cheat-Sheet.docx` | Printable cheat sheet |
 | `exports/FE-Credit-BRD-Training-Slides.pptx` | Core training slide deck (19 slides) |
-| `exports/FE-Credit-Business-User-BRD-Guide-Slides.pptx` | **Business user guide** — how to write a BRD (28 slides) |
-| `exports/FE-Credit-IT-Delivery-Framework-Slides.pptx` | IT delivery pipeline + Agile/Scrum framework (28 slides) |
-| `exports/FE-Credit-IT-Operations-Guide-Slides.pptx` | **IT Ops guide** — roster, shifts, catalog SR, weekend coverage (32 slides) |
+| `exports/FE-Credit-Business-User-BRD-Guide-Slides.pptx` | **Business user guide** — how to write a BRD (29 slides) |
+| `exports/FE-Credit-IT-Delivery-Framework-Slides.pptx` | IT delivery framework — pipeline, **swimlane, dual-track, scrum, org chart** (32 slides) |
+| `exports/FE-Credit-IT-Operations-Guide-Slides.pptx` | **IT Ops guide** — roster, shifts, catalog SR, **triage flowchart, org chart** (34 slides) |
 
 ## How to use
 
@@ -65,7 +65,7 @@ python3 scripts/generate_office_files.py
 6. Operations Managers: use [intake & deployment checklist](docs/11-operations-manager-checklist.md) and [stakeholder framework](docs/12-it-operations-stakeholder-framework.md).
 7. Service Owners / Managers: use [delivery control & resourcing guide](docs/13-service-owner-delivery-control-guide.md) for pipeline KPIs and team sizing.
 8. IT Operations / Service Desk: use [operations runbook](docs/14-it-operations-runbook.md) for SR bucket allocation, BOD/EOD/EOM/BOM, and incidents.
-9. Train Ops / Service Desk with [IT Operations slides](exports/FE-Credit-IT-Operations-Guide-Slides.pptx) (~75 min).
+9. Train Ops / Service Desk with [IT Operations slides](exports/FE-Credit-IT-Operations-Guide-Slides.pptx) (~90 min).
 
 ## Suggested rollout
 

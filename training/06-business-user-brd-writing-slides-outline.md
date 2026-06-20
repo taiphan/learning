@@ -6,7 +6,7 @@
 
 ---
 
-## Slide list (28 slides)
+## Slide list (deck renders 29 slides — includes pipeline + 8-step visual)
 
 1. Title — How to Write a BRD (EN + VI subtitle)
 2. What you will learn

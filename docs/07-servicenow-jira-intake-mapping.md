@@ -15,6 +15,24 @@ Use this document to configure your ITSM tool (ServiceNow, Jira Service Manageme
 | **SLA — triage decision** | 5 business days |
 | **Prerequisite** | Business Sponsor approval attachment required |
 
+### Intake routing flow
+
+```mermaid
+flowchart TD
+  U[Requester opens catalog] --> T{Request type?}
+  T -->|Access / incident| SD[Service Desk - standard SLA]
+  T -->|Business change / build| F[BRD intake form]
+  F --> V{Sponsor attached and fields valid?}
+  V -->|No| BK[Block submit - inline validation]
+  V -->|Yes| BA[BA queue - first response 2 days]
+  BA --> SC{Score >= 80%?}
+  SC -->|No| RT[Return to requester]
+  SC -->|Yes| CF{Compliance flags Section N?}
+  CF -->|Yes| RL[Risk / Legal / IT-Security]
+  CF -->|No| TR[IT Product triage - decision 5 days]
+  RL --> TR
+```
+
 ---
 
 ## 2. Form fields → BRD template mapping

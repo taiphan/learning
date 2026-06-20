@@ -57,6 +57,19 @@ If **any** row in the Business column applies, **do not** let IT execute. Redire
 
 ## Part 3 — SR intake decision tree (quick reference)
 
+```mermaid
+flowchart TD
+  IN[Incoming request] --> A{Access / incident / standard IT?}
+  A -->|Yes| SD[Service Desk - standard SLA]
+  A -->|No| B{Changes rules / data / process / import?}
+  B -->|Yes| BRD[BRD required - block IT execution]
+  B -->|No| C{Build / deploy / integrate?}
+  C -->|No| U[BA coaching - do not start IT work]
+  C -->|Yes| E{Accepted BRD exists?}
+  E -->|No| BRD
+  E -->|Yes| T[IT triage -> FRD -> delivery]
+```
+
 ```text
 Incoming request
 │
