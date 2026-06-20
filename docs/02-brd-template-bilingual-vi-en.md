@@ -277,4 +277,4 @@
 
 ---
 
-*Mẫu song ngữ v1.0 / Bilingual template v1.0 | FE Credit BRD Training Package*
+*Mẫu song ngữ v1.0 / Bilingual template v1.0 | Finance BRD Training Package*

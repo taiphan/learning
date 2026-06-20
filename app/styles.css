@@ -1,7 +1,7 @@
 :root {
-  --fe-green: #00a651;
-  --fe-green-dark: #008c44;
-  --fe-navy: #1a2b4a;
+  --finance-green: #00a651;
+  --finance-green-dark: #008c44;
+  --finance-navy: #1a2b4a;
   --bg: #f4f6f9;
   --card: #ffffff;
   --border: #dde3ec;
@@ -25,7 +25,7 @@ body {
 }
 
 .header {
-  background: linear-gradient(135deg, var(--fe-navy), #243b5e);
+  background: linear-gradient(135deg, var(--finance-navy), #243b5e);
   color: #fff;
   padding: 1rem 1.5rem 0;
   box-shadow: var(--shadow);
@@ -44,7 +44,7 @@ body {
 .brand { display: flex; gap: 0.75rem; align-items: center; }
 
 .brand-mark {
-  background: var(--fe-green);
+  background: var(--finance-green);
   color: #fff;
   font-weight: 800;
   width: 44px;
@@ -69,7 +69,7 @@ body {
   font-size: 0.9rem;
 }
 
-.score-badge.pass { background: var(--fe-green); border-color: var(--fe-green); }
+.score-badge.pass { background: var(--finance-green); border-color: var(--finance-green); }
 .score-badge.fail { background: var(--warn); border-color: var(--warn); }
 
 .risk-badge {
@@ -98,7 +98,7 @@ body {
   color: var(--muted);
 }
 
-.selfcheck-list li.ok { color: var(--fe-green-dark); font-weight: 600; }
+.selfcheck-list li.ok { color: var(--finance-green-dark); font-weight: 600; }
 .selfcheck-list .check-icon { width: 1rem; flex-shrink: 0; }
 
 .checkbox-inline {
@@ -133,7 +133,7 @@ body {
 }
 
 .step-tab:hover { color: #fff; }
-.step-tab.active { color: #fff; border-bottom-color: var(--fe-green); font-weight: 600; }
+.step-tab.active { color: #fff; border-bottom-color: var(--finance-green); font-weight: 600; }
 .step-tab.done { color: rgba(255,255,255,0.9); }
 
 .main {
@@ -161,7 +161,7 @@ body {
 .form.card { padding: 1.5rem; }
 
 .sidebar .card { margin-bottom: 1rem; }
-.sidebar h2 { margin: 0 0 0.5rem; font-size: 0.95rem; color: var(--fe-navy); }
+.sidebar h2 { margin: 0 0 0.5rem; font-size: 0.95rem; color: var(--finance-navy); }
 .sidebar h3 { margin: 0.5rem 0 0.25rem; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.03em; color: var(--muted); }
 
 .pipeline {
@@ -185,14 +185,14 @@ body {
 
 .pipeline-step.active {
   background: #e8f5ee;
-  border-left-color: var(--fe-green);
+  border-left-color: var(--finance-green);
   font-weight: 600;
 }
 
 .pipeline-label { color: var(--text); }
 .pipeline-owner { color: var(--muted); font-size: 0.7rem; white-space: nowrap; }
 
-.route-group[data-cat="it_governance"] h3 { color: var(--fe-navy); }
+.route-group[data-cat="it_governance"] h3 { color: var(--finance-navy); }
 .route-group[data-cat="it_security"] h3 { color: var(--danger); }
 .route-group[data-cat="compliance"] h3 { color: #2e75b6; }
 
@@ -231,14 +231,14 @@ body {
 
 .bucket-hint.visible { display: block; }
 
-.footer a { color: var(--fe-green-dark); }
+.footer a { color: var(--finance-green-dark); }
 
 .panel { display: none; }
 .panel.active { display: block; }
 
 .panel h2 {
   margin: 0 0 0.25rem;
-  color: var(--fe-navy);
+  color: var(--finance-navy);
   font-size: 1.15rem;
 }
 
@@ -343,8 +343,8 @@ body {
   cursor: pointer;
 }
 
-.btn-primary { background: var(--fe-green); color: #fff; }
-.btn-primary:hover { background: var(--fe-green-dark); }
+.btn-primary { background: var(--finance-green); color: #fff; }
+.btn-primary:hover { background: var(--finance-green-dark); }
 
 .btn-ghost {
   background: transparent;
@@ -371,7 +371,7 @@ body {
 .routing-list .tag {
   display: inline-block;
   background: #e8f5ee;
-  color: var(--fe-green-dark);
+  color: var(--finance-green-dark);
   font-size: 0.7rem;
   padding: 0.1rem 0.45rem;
   border-radius: 4px;
@@ -381,7 +381,7 @@ body {
 
 .muted { color: var(--muted); font-size: 0.85rem; }
 .small { font-size: 0.75rem; }
-.muted a { color: var(--fe-green-dark); }
+.muted a { color: var(--finance-green-dark); }
 
 .footer {
   text-align: center;
@@ -401,7 +401,7 @@ body {
 
 .dialog form { padding: 1.25rem; }
 
-.dialog h2 { margin-top: 0; color: var(--fe-navy); }
+.dialog h2 { margin-top: 0; color: var(--finance-navy); }
 
 .dialog textarea {
   width: 100%;

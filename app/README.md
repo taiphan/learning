@@ -1,6 +1,6 @@
-# FE Credit BRD Intake App
+# Finance BRD Intake App
 
-Interactive web form for **business users** to draft BRDs aligned with FE Credit governance and the IT delivery pipeline.
+Interactive web form for **business users** to draft BRDs aligned with Finance governance and the IT delivery pipeline.
 
 ## Features
 
@@ -24,7 +24,7 @@ python3 -m http.server 8080
 
 ## Configuration
 
-Edit `config/fe-credit.js`:
+Edit `config/finance.js`:
 
 - Business units, applications, compliance questions
 - Request types, delivery phases, score weights
@@ -32,7 +32,7 @@ Edit `config/fe-credit.js`:
 
 ## Related docs
 
-- [Business user BRD slides](../exports/FE-Credit-Business-User-BRD-Guide-Slides.pptx)
+- [Business user BRD slides](../exports/Finance-Business-User-BRD-Guide-Slides.pptx)
 - [BRD quality checklist](../docs/05-brd-quality-checklist.md)
 - [IT Ops framework](../docs/12-it-operations-stakeholder-framework.md)
 - [ServiceNow/Jira mapping](../docs/07-servicenow-jira-intake-mapping.md)

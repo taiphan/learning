@@ -199,7 +199,7 @@ CAB prep time per release         = 2–4 hours
 Hypercare per major release       = 0.25–0.5 FTE for 2 weeks
 ```
 
-**Shared Ops pool (typical for FE Credit scale):**
+**Shared Ops pool (typical for Finance scale):**
 
 | Portfolio size | Squads | Ops FTE (pool) | IT-Governance (shared) |
 |----------------|--------|----------------|-------------------------|
@@ -226,7 +226,7 @@ BA FTE needed ≈ (BRDs per month ÷ 6) + (active epics ÷ 2.5)
 
 Example: 24 BRDs/month + 8 active epics → (24÷6) + (8÷2.5) ≈ **4 + 3.2 → 4–5 BA** (with tooling and senior/junior mix).
 
-### 5.4 Recommended ratios summary (FE Credit consumer finance)
+### 5.4 Recommended ratios summary (Finance consumer finance)
 
 | Ratio | Target range | If outside range |
 |-------|--------------|------------------|
@@ -321,7 +321,7 @@ Ops firefighting every week?
 
 ---
 
-## 10. Example — sizing one FE Credit stream
+## 10. Example — sizing one Finance stream
 
 **Scope:** FE ONLINE 2.0 enhancements + POS visibility  
 **Demand:** ~18 BRDs/month, 2 active squads worth of epics
@@ -351,7 +351,7 @@ Use to evaluate how mature your control is:
 | **3 — Managed** | SLAs; scorecard; capacity model | Tune ratios; monthly portfolio |
 | **4 — Optimized** | Predictable lead time; low escape rate | Continuous improvement; automate evidence |
 
-**Target for FE Credit:** Level **3** by end of BRD rollout (Week 8+), Level **4** within 2 quarters.
+**Target for Finance:** Level **3** by end of BRD rollout (Week 8+), Level **4** within 2 quarters.
 
 ---
 
@@ -370,4 +370,4 @@ Use to evaluate how mature your control is:
 
 ---
 
-*Service Owner Delivery Control Guide v1.0 | FE Credit BRD Training Package*
+*Service Owner Delivery Control Guide v1.0 | Finance BRD Training Package*

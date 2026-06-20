@@ -1,4 +1,4 @@
-# FE Credit BRD Quality Checklist & Scoring Rubric
+# Finance BRD Quality Checklist & Scoring Rubric
 
 Use this checklist for **self-review** (business user), **BA quality review**, and **training certification**.
 
@@ -114,7 +114,7 @@ Legal needed: ☐ Yes ☐ No
 
 ## Part 5 — Certification (training program)
 
-**BRD Ready — FE Credit** awarded when:
+**BRD Ready — Finance** awarded when:
 - Attended all 4 training sessions
 - Submitted 1 real BRD scoring ≥ 80%
 - Sponsor sign-off obtained
@@ -122,4 +122,4 @@ Legal needed: ☐ Yes ☐ No
 
 ---
 
-*Checklist v1.0 | FE Credit BRD Training Package*
+*Checklist v1.0 | Finance BRD Training Package*

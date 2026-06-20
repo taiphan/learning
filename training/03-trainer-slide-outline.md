@@ -1,4 +1,4 @@
-# FE Credit BRD Training — Slide Outline (28 slides)
+# Finance BRD Training — Slide Outline (28 slides)
 
 **Program:** Business User BRD Writing Training  
 **Audience:** Sales/POS, Digital, Collections, Operations, Product, Risk liaisons  
@@ -7,16 +7,16 @@
 
 ---
 
-## Session 1 — Why BRD Matters at FE Credit (2 hours)
+## Session 1 — Why BRD Matters at Finance (2 hours)
 
 ### Slide 1 — Title
-- **FE Credit Business Requirements Document (BRD) Training**
+- **Finance Business Requirements Document (BRD) Training**
 - Subtitle: Write requirements IT can deliver — without rework
 - Trainer, date, version
 
 ### Slide 2 — Learning objectives
 By end of program, participants will:
-- Write a complete BRD using FE Credit template
+- Write a complete BRD using Finance template
 - Separate business need from technical solution
 - Define testable acceptance criteria
 - Pass BRD quality gate (≥ 80%)
@@ -35,7 +35,7 @@ By end of program, participants will:
 |-----|-----|------------------|-----|
 | Business | BA + IT | IT | Business + QA |
 
-### Slide 6 — FE Credit context
+### Slide 6 — Finance context
 - Consumer finance: personal loans, POS installment, cards, digital app (FE ONLINE 2.0)
 - Nationwide POS network, call center, collections
 - High regulatory and audit expectations
@@ -72,7 +72,7 @@ Sections A–P map; mandatory vs optional
 
 ### Slide 14 — Section B: Executive summary
 Formula: **[Role] cannot [task] because [constraint], causing [impact]**
-- FE Credit example: POS motorbike loan drop-off
+- Finance example: POS motorbike loan drop-off
 
 ### Slide 15 — Section C: Objectives & KPIs
 - Baseline → target → measurement method
@@ -96,7 +96,7 @@ Formula: **[Role] cannot [task] because [constraint], causing [impact]**
 - Rules IT must not guess: eligibility, approval, cut-off, exceptions
 
 ### Slide 20 — Section I & J: Data, security, controls
-- Data classification at FE Credit
+- Data classification at Finance
 - When remote/home access triggers Security review
 - Maker-checker, reconciliation, fraud controls
 
@@ -113,13 +113,13 @@ Draft Sections B, C, F, M for a sample POS lending scenario
 
 ---
 
-## Session 3 — Data, Risk & Compliance at FE Credit (2 hours)
+## Session 3 — Data, Risk & Compliance at Finance (2 hours)
 
 ### Slide 24 — Why compliance section is not optional
 - SBV / internal audit / privacy expectations
 - Consequences of unclear data handling
 
-### Slide 25 — FE Credit compliance screening (Section N)
+### Slide 25 — Finance compliance screening (Section N)
 7 yes/no questions and auto-escalation to Risk
 
 ### Slide 26 — Data classification quick guide
@@ -152,7 +152,7 @@ Compliance screening on 3 sample BRDs — decide: standard path vs Risk review
 - 0 / 1 / 2 scoring per section
 - Gate: ≥ 80% + sponsor sign-off
 
-### Slide 33 — Top 10 BRD mistakes at FE Credit
+### Slide 33 — Top 10 BRD mistakes at Finance
 1. Solution not need  
 2. No KPI baseline  
 3. Missing business rules  
@@ -181,7 +181,7 @@ Compliance screening on 3 sample BRDs — decide: standard path vs Risk review
 - Attendance all 4 sessions
 - Submit 1 BRD scoring ≥ 80%
 - Sponsor sign-off on submitted BRD
-- Badge: "BRD Ready — FE Credit"
+- Badge: "BRD Ready — Finance"
 
 ### Slide 38 — Q&A and next steps
 - Office hours schedule (weekly)

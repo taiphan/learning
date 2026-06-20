@@ -118,7 +118,7 @@ Roles analyzed:
 
 ### B.3 Adaptation plan (how to get it)
 
-1. **Lead with the artifact you already own.** Your FE-Credit BRD package (template + quality rubric ≥80% + delivery framework + UAT scenarios) is a portfolio piece — bring a redacted sample BRD and the quality-gate scorecard to interview.
+1. **Lead with the artifact you already own.** Your Finance BRD package (template + quality rubric ≥80% + delivery framework + UAT scenarios) is a portfolio piece — bring a redacted sample BRD and the quality-gate scorecard to interview.
 2. **Prove the lending stack.** Map your experience explicitly onto **LOS → T24 → disbursement** and (if cards) **Way4/SmartVista**. If you lack hands-on T24/Way4, narrate adjacent integration work and study the data models.
 3. **Show As-is/To-be in a tool.** Produce 1–2 **Bizagi/Lucidchart/Visio** process diagrams (loan origination current vs automated) — the JD names these tools specifically.
 4. **Differentiate with BPM + AI/OCR.** The "ưu tiên" (preferred) line rewards anyone who has done **process digitization** and **AI-OCR** in banking — tie in your AI-Factory document-intelligence framing.

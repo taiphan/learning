@@ -65,7 +65,7 @@ Allow customers to upload income proof via photo (JPG/PNG) and PDF up to 10MB wi
 ### D.2 Systems
 - FE ONLINE 2.0 mobile app (Android/iOS) — primary channel
 - Digital origination services behind app
-- Document storage per FE Credit data policy
+- Document storage per Finance data policy
 
 ### D.3 Volume
 | Metric | Value |
@@ -215,4 +215,4 @@ Customer sees clear error messages in Vietnamese. Successful upload triggers con
 
 ---
 
-*Sample BRD for training — not an official FE Credit project document.*
+*Sample BRD for training — not an official Finance project document.*

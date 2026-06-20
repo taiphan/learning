@@ -13,7 +13,7 @@
 
 ## Goal
 
-Use **fe-credit-brd-training** as dual base: (1) FE Credit BRD domain credibility, (2) **ai-factory/** 12-month path to hire-ready AI engineer (OCB/NAB/VPBank; Anthropic stretch). Zero Python today · 10 hrs/week.
+Use **finance-brd-training** as dual base: (1) Finance BRD domain credibility, (2) **ai-factory/** 12-month path to hire-ready AI engineer (OCB/NAB/VPBank; Anthropic stretch). Zero Python today · 10 hrs/week.
 
 ## Done
 
@@ -31,13 +31,13 @@ Use **fe-credit-brd-training** as dual base: (1) FE Credit BRD domain credibilit
 
 ## Next
 
-1. **Learning app:** `cd ai-factory/learning-app && python3 -m http.server 8081`
-2. `cd ai-factory/learning-lab && pip install -r requirements.txt && python3 setup_db.py`
-3. Follow week 1 in the app → run lab commands in Cursor
+1. Read [project-adaptation.md](ai-factory/project-adaptation.md) — three-app workflow
+2. Week 1 loop: learning app → BRD export → `week01_brd_checklist.py`
+3. Mark weeks complete in learning app as you finish labs
 
 ## Decisions
 
-- Corporate FE Credit materials stay as-is; personal coding in `ai-factory/learning-lab/` + external repos
+- Corporate Finance materials stay as-is; personal coding in `ai-factory/learning-lab/` + external repos
 - BRD app scoring aligned with `docs/05-brd-quality-checklist.md` — exercises mirror same gates
 - SESSION resume = Read this file, not CodeGraph
 

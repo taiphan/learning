@@ -2,7 +2,7 @@
 
 How the **IT Operations Manager** orchestrates the **development team** and **stakeholders** (business users, **IT-Governance**, **IT-Security**, governance/compliance, audit, BOD) from demand intake through production operations.
 
-**Related docs:** [IT Operations Runbook](14-it-operations-runbook.md) · [Governance RACI](10-governance-raci.md) · [Ops checklist](11-operations-manager-checklist.md) · [BRD quality gate](05-brd-quality-checklist.md) · [Rollout plan](09-rollout-plan-8-weeks.md) · [Training slides](../exports/FE-Credit-IT-Delivery-Framework-Slides.pptx)
+**Related docs:** [IT Operations Runbook](14-it-operations-runbook.md) · [Governance RACI](10-governance-raci.md) · [Ops checklist](11-operations-manager-checklist.md) · [BRD quality gate](05-brd-quality-checklist.md) · [Rollout plan](09-rollout-plan-8-weeks.md) · [Training slides](../exports/Finance-IT-Delivery-Framework-Slides.pptx)
 
 ---
 
@@ -608,4 +608,4 @@ flowchart TB
 
 ---
 
-*IT Operations Stakeholder Framework v1.1 | FE Credit BRD Training Package*
+*IT Operations Stakeholder Framework v1.1 | Finance BRD Training Package*

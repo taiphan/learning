@@ -1,4 +1,4 @@
-# FE Credit BRD Cheat Sheet / Phiếu hướng dẫn nhanh BRD
+# Finance BRD Cheat Sheet / Phiếu hướng dẫn nhanh BRD
 
 ---
 
@@ -62,7 +62,7 @@
 
 ---
 
-## Quick reference — FE Credit compliance triggers
+## Quick reference — Finance compliance triggers
 
 | If your BRD includes… | Route to |
 |------------------------|----------|

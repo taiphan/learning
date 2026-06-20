@@ -301,4 +301,4 @@ Approver signature:
 
 ---
 
-*Operations Manager Checklist v1.0 | FE Credit BRD Training Package*
+*Operations Manager Checklist v1.0 | Finance BRD Training Package*

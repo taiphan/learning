@@ -67,7 +67,7 @@ List 1–3 objectives. Each must have a **baseline**, **target**, and **how meas
 | 2 | | | | | | |
 | 3 | | | | | | |
 
-**Objective examples (FE Credit):**
+**Objective examples (Finance):**
 - Reduce digital loan application completion rate drop-off from 42% to 30%
 - Reduce POS same-day disbursement TAT from 24 hours to 4 hours
 - Reduce manual collections list preparation from 2 hours/day to 15 minutes/day
@@ -86,7 +86,7 @@ List 1–3 objectives. Each must have a **baseline**, **target**, and **how meas
 
 ### D.2 Current systems involved
 
-Select from [FE Credit Application Landscape](00-fe-credit-application-landscape.md). Common systems:
+Select from [Finance Application Landscape](00-finance-application-landscape.md). Common systems:
 
 | System | Purpose in current process |
 |--------|--------------------------|
@@ -385,4 +385,4 @@ Use **Given / When / Then** format. These become UAT test cases.
 
 ---
 
-*Template version: 1.0 | FE Credit BRD Training Package*
+*Template version: 1.0 | Finance BRD Training Package*

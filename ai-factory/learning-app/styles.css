@@ -282,6 +282,14 @@ h1, h2, h3, h4, .btn, .tab, .week-badge, .stat-value, .eyebrow {
   margin-bottom: 1rem;
 }
 
+.week-bridge {
+  margin-bottom: 1rem;
+  border-left: 4px solid var(--sky);
+  font-size: 0.9rem;
+}
+
+.week-bridge a { color: var(--sky); font-weight: 600; }
+
 .panel-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));

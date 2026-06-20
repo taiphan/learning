@@ -3,18 +3,18 @@
 **Program:** IT Operations & Delivery Framework  
 **Audience:** IT Ops, Dev leads, BA, IT Product, IT-Governance, IT-Security  
 **Duration:** ~90 minutes  
-**Companion deck:** `exports/FE-Credit-IT-Delivery-Framework-Slides.pptx`
+**Companion deck:** `exports/Finance-IT-Delivery-Framework-Slides.pptx`
 
 ---
 
 ## Slide 1 — Title
-- **FE Credit IT Delivery Framework**
+- **Finance IT Delivery Framework**
 - Subtitle: Requirement → BRD → FSD → Test → UAT → Ship → Operations Support
 - Agile/Scrum internal process + stakeholder governance
 
 ## Slide 2 — Learning objectives
 - Understand end-to-end delivery pipeline and gates
-- Map Agile/Scrum ceremonies to FE Credit governance
+- Map Agile/Scrum ceremonies to Finance governance
 - Know stakeholder roles: Business, Dev, IT-Gov, IT-Security, GRC, Audit
 - Apply "no BRD → no code" and evidence chain for release
 
@@ -53,7 +53,7 @@ BA creates functional spec from BRD → linked in Jira → sprint-ready stories
 ## Slide 12 — Agile/Scrum overlay
 Where Scrum fits inside governed delivery (diagram)
 
-## Slide 13 — Scrum roles at FE Credit
+## Slide 13 — Scrum roles at Finance
 PO (IT Product) | SM (Dev lead) | Dev Team | BA (requirements) | Ops (release)
 
 ## Slide 14 — Product backlog → Sprint backlog

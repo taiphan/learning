@@ -1,6 +1,6 @@
-# FE Credit BRD Training Package
+# Finance BRD Training Package
 
-Training materials and **BRD intake web app** for business users at FE Credit (consumer finance — FE ONLINE 2.0, Finacle on AWS, nationwide POS).
+Training materials and **BRD intake web app** for business users (consumer finance — FE ONLINE 2.0, Finacle on AWS, nationwide POS).
 
 ## Quick start — BRD Intake App
 
@@ -24,13 +24,13 @@ cd ai-factory/learning-app && python3 -m http.server 8081
 | Lab exercises | [ai-factory/learning-lab](ai-factory/learning-lab/) |
 | Curriculum source | [ai-factory/learning_data.py](ai-factory/learning_data.py) |
 
-**Live site:** https://taiphan.github.io/fe-credit-brd-training/ — learning app at `/`, BRD intake at `/brd/`.
+**Live site:** https://taiphan.github.io/finance-brd-training/ — learning app at `/`, BRD intake at `/brd/`.
 
 ## Contents
 
 | # | File | Description |
 |---|------|-------------|
-| 0 | [docs/00-fe-credit-application-landscape.md](docs/00-fe-credit-application-landscape.md) | **FE Credit apps & systems** — reference for BRD writers |
+| 0 | [docs/00-finance-application-landscape.md](docs/00-finance-application-landscape.md) | **Finance apps & systems** — reference for BRD writers |
 | 1 | [docs/01-brd-template-en.md](docs/01-brd-template-en.md) | Full BRD template (English) — copy into Word/Confluence |
 | 2 | [docs/02-brd-template-bilingual-vi-en.md](docs/02-brd-template-bilingual-vi-en.md) | Bilingual BRD template (Vietnamese + English) for field teams |
 | 3 | [training/03-trainer-slide-outline.md](training/03-trainer-slide-outline.md) | Trainer slide outline (28 slides, 4 sessions) |
@@ -63,12 +63,12 @@ python3 scripts/generate_office_files.py
 
 | File | Description |
 |------|-------------|
-| `exports/FE-Credit-BRD-Template.docx` | Fillable BRD template for Word |
-| `exports/FE-Credit-BRD-Cheat-Sheet.docx` | Printable cheat sheet |
-| `exports/FE-Credit-BRD-Training-Slides.pptx` | Core training slide deck (19 slides) |
-| `exports/FE-Credit-Business-User-BRD-Guide-Slides.pptx` | **Business user guide** — how to write a BRD (29 slides) |
-| `exports/FE-Credit-IT-Delivery-Framework-Slides.pptx` | IT delivery framework — pipeline, **swimlane, dual-track, scrum, org chart** (32 slides) |
-| `exports/FE-Credit-IT-Operations-Guide-Slides.pptx` | **IT Ops guide** — roster, shifts, catalog SR, **triage flowchart, org chart** (34 slides) |
+| `exports/Finance-BRD-Template.docx` | Fillable BRD template for Word |
+| `exports/Finance-BRD-Cheat-Sheet.docx` | Printable cheat sheet |
+| `exports/Finance-BRD-Training-Slides.pptx` | Core training slide deck (19 slides) |
+| `exports/Finance-Business-User-BRD-Guide-Slides.pptx` | **Business user guide** — how to write a BRD (29 slides) |
+| `exports/Finance-IT-Delivery-Framework-Slides.pptx` | IT delivery framework — pipeline, **swimlane, dual-track, scrum, org chart** (32 slides) |
+| `exports/Finance-IT-Operations-Guide-Slides.pptx` | **IT Ops guide** — roster, shifts, catalog SR, **triage flowchart, org chart** (34 slides) |
 
 ## How to use
 
@@ -80,7 +80,7 @@ python3 scripts/generate_office_files.py
 6. Operations Managers: use [intake & deployment checklist](docs/11-operations-manager-checklist.md) and [stakeholder framework](docs/12-it-operations-stakeholder-framework.md).
 7. Service Owners / Managers: use [delivery control & resourcing guide](docs/13-service-owner-delivery-control-guide.md) for pipeline KPIs and team sizing.
 8. IT Operations / Service Desk: use [operations runbook](docs/14-it-operations-runbook.md) for SR bucket allocation, BOD/EOD/EOM/BOM, and incidents.
-9. Train Ops / Service Desk with [IT Operations slides](exports/FE-Credit-IT-Operations-Guide-Slides.pptx) (~90 min).
+9. Train Ops / Service Desk with [IT Operations slides](exports/Finance-IT-Operations-Guide-Slides.pptx) (~90 min).
 
 ## Suggested rollout
 

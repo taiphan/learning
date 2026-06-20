@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate Word and PowerPoint deliverables from FE Credit BRD training package."""
+"""Generate Word and PowerPoint deliverables from Finance BRD training package."""
 
 import math
 import re
@@ -44,8 +44,8 @@ from anthropic_docx import (  # noqa: E402
 # Fonts: Poppins headings · Lora body (Arial/Georgia fallback)
 # ======================================================================
 
-FOOTER_TEXT = "FE Credit  ·  Internal use only"
-DECK_KICKER = "FE Credit"
+FOOTER_TEXT = "Finance  ·  Internal use only"
+DECK_KICKER = "Finance"
 
 
 def _idx(prs):
@@ -382,7 +382,7 @@ def generate_brd_template_docx():
     doc = new_branded_document()
     add_cover(
         doc,
-        "FE Credit — Business Requirements Document (BRD)",
+        "Finance — Business Requirements Document (BRD)",
         meta="Template v1.0 · Internal use only",
     )
     add_callout_box(
@@ -458,7 +458,7 @@ def generate_brd_template_docx():
             label = field if field.endswith(":") else f"{field}:"
             add_field(doc, label)
 
-    out = OUTPUT / "FE-Credit-BRD-Template.docx"
+    out = OUTPUT / "Finance-BRD-Template.docx"
     doc.save(out)
     print(f"Created {out}")
     return out
@@ -468,7 +468,7 @@ def generate_cheat_sheet_docx():
     doc = new_branded_document()
     add_cover(
         doc,
-        "FE Credit BRD Cheat Sheet",
+        "Finance BRD Cheat Sheet",
         subtitle="Quick reference for business authors · POS, HQ, Digital, Collections",
         meta="Internal use only",
     )
@@ -522,19 +522,19 @@ def generate_cheat_sheet_docx():
         row[0].text = a
         row[1].text = b
 
-    out = OUTPUT / "FE-Credit-BRD-Cheat-Sheet.docx"
+    out = OUTPUT / "Finance-BRD-Cheat-Sheet.docx"
     doc.save(out)
     print(f"Created {out}")
     return out
 
 
 SLIDES = [
-    ("FE Credit BRD Training", "Write requirements IT can deliver — without rework\nSession 1 of 4"),
-    ("Learning Objectives", "• Write a complete BRD using FE Credit template\n• Separate business need from technical solution\n• Define testable acceptance criteria\n• Pass BRD quality gate (≥ 80%)"),
+    ("Finance BRD Training", "Write requirements IT can deliver — without rework\nSession 1 of 4"),
+    ("Learning Objectives", "• Write a complete BRD using Finance template\n• Separate business need from technical solution\n• Define testable acceptance criteria\n• Pass BRD quality gate (≥ 80%)"),
     ("Why We Are Here", "• High volume of IT requests from business\n• Rework costs: delay, UAT defects, compliance risk\n• Goal: faster triage, predictable delivery"),
     ("What Is a BRD?", "Document describing:\n• Business problem\n• Outcomes and KPIs\n• Business rules and scope\n\nNOT: technical design, vendor selection, project plan"),
     ("BRD vs Other Documents", "BRD → Business owns\nFRD → BA + IT\nTechnical Design → IT\nUAT → Business + QA"),
-    ("FE Credit Context", "• FE ONLINE 2.0 (customer mobile app)\n• Finacle LMS, CIF, Assure on AWS\n• POS/LOS, FirstVision cards, Collections\n• ~13k POS, SBV compliance expectations"),
+    ("Finance Context", "• FE ONLINE 2.0 (customer mobile app)\n• Finacle LMS, CIF, Assure on AWS\n• POS/LOS, FirstVision cards, Collections\n• ~13k POS, SBV compliance expectations"),
     ("Request Journey", "Business BRD → BA review → IT triage → Risk (if needed)\n→ FRD → Build → UAT → Go-live"),
     ("Good vs Bad Request", "BAD: 'Build Kafka API to Finacle'\nGOOD: 'POS needs same-day approval visibility during customer visit'"),
     ("The Golden Rule", "Write the PROBLEM and RULES,\nnot the SYSTEM DESIGN."),
@@ -802,7 +802,7 @@ def _add_org_chart_slide(prs, title, root, groups, subtitle=None):
 
 IT_DELIVERY_SLIDES = [
     (
-        "FE Credit IT Delivery Framework",
+        "Finance IT Delivery Framework",
         "Requirement → BRD → FSD → Test → UAT → Ship → Operations Support\n"
         "Governed delivery with Agile/Scrum internal process",
     ),
@@ -894,7 +894,7 @@ IT_DELIVERY_SLIDES = [
         "2-week sprints typical; release may span 1–2 sprints + UAT window",
     ),
     (
-        "Scrum Roles at FE Credit",
+        "Scrum Roles at Finance",
         "Product Owner (IT Product)    Prioritizes backlog; accepts sprint output\n"
         "Scrum Master (Dev Lead)       Facilitates ceremonies; removes blockers\n"
         "Development Team            Build, unit test, support SIT fixes\n"
@@ -1068,7 +1068,7 @@ def _add_numbered_steps_slide(prs, title, steps, subtitle=None):
 
 BUSINESS_USER_BRD_SLIDES = [
     (
-        "How to Write a BRD at FE Credit",
+        "How to Write a BRD at Finance",
         "A practical guide for business users\n"
         "Hướng dẫn viết BRD cho nhân viên nghiệp vụ\n\n"
         "Your BRD is the contract for what IT will deliver.",
@@ -1174,7 +1174,7 @@ BUSINESS_USER_BRD_SLIDES = [
         "Section D — Current State",
         "Describe TODAY before IT changes anything:\n"
         "• Step-by-step current process\n"
-        "• Which FE Credit systems are involved\n"
+        "• Which Finance systems are involved\n"
         "   (FE ONLINE 2.0, Finacle, POS/LOS, Collections…)\n"
         "• How many users and transactions per month\n\n"
         "IT uses this to understand where you are now.",
@@ -1310,7 +1310,7 @@ BUSINESS_USER_BRD_SLIDES = [
         "See visual on previous slide. Remember:\n"
         "1 Problem  2 Quantify  3 Who uses  4 Business rules\n"
         "5 Scope in/out  6 Data & compliance  7 Acceptance criteria  8 Sponsor sign\n\n"
-        "Badge: BRD Ready — FE Credit (after training + 1 BRD ≥ 80%)",
+        "Badge: BRD Ready — Finance (after training + 1 BRD ≥ 80%)",
     ),
     (
         "Next Steps",
@@ -1328,7 +1328,7 @@ BUSINESS_USER_BRD_SLIDES = [
 def generate_business_user_brd_pptx():
     global FOOTER_TEXT, DECK_KICKER
     FOOTER_TEXT = "How to Write a BRD  ·  Business User Guide"
-    DECK_KICKER = "FE Credit · Business User Guide"
+    DECK_KICKER = "Finance · Business User Guide"
     prs = Presentation()
     prs.slide_width = PInches(13.333)
     prs.slide_height = PInches(7.5)
@@ -1368,7 +1368,7 @@ def generate_business_user_brd_pptx():
             continue  # covered by numbered steps slide
         _add_content_slide(prs, *item)
 
-    out = OUTPUT / "FE-Credit-Business-User-BRD-Guide-Slides.pptx"
+    out = OUTPUT / "Finance-Business-User-BRD-Guide-Slides.pptx"
     prs.save(out)
     print(f"Created {out}")
     return out
@@ -1376,7 +1376,7 @@ def generate_business_user_brd_pptx():
 
 IT_OPS_SLIDES = [
     (
-        "FE Credit IT Operations Guide",
+        "Finance IT Operations Guide",
         "Delivery control · Support tickets · Incidents · Daily monitoring\n"
         "For Ops Manager, Service Desk, on-call & release coordinators",
     ),
@@ -1671,7 +1671,7 @@ IT_OPS_SLIDES = [
 def generate_it_operations_pptx():
     global FOOTER_TEXT, DECK_KICKER
     FOOTER_TEXT = "IT Operations Guide  ·  Internal use only"
-    DECK_KICKER = "FE Credit · IT Operations"
+    DECK_KICKER = "Finance · IT Operations"
     prs = Presentation()
     prs.slide_width = PInches(13.333)
     prs.slide_height = PInches(7.5)
@@ -1785,7 +1785,7 @@ def generate_it_operations_pptx():
     for item in IT_OPS_SLIDES[19:]:
         _add_content_slide(prs, *item)
 
-    out = OUTPUT / "FE-Credit-IT-Operations-Guide-Slides.pptx"
+    out = OUTPUT / "Finance-IT-Operations-Guide-Slides.pptx"
     prs.save(out)
     print(f"Created {out}")
     return out
@@ -1794,7 +1794,7 @@ def generate_it_operations_pptx():
 def generate_it_delivery_framework_pptx():
     global FOOTER_TEXT, DECK_KICKER
     FOOTER_TEXT = "IT Delivery Framework  ·  Internal use only"
-    DECK_KICKER = "FE Credit · IT Delivery Framework"
+    DECK_KICKER = "Finance · IT Delivery Framework"
     prs = Presentation()
     prs.slide_width = PInches(13.333)
     prs.slide_height = PInches(7.5)
@@ -1886,7 +1886,7 @@ def generate_it_delivery_framework_pptx():
     for item in IT_DELIVERY_SLIDES[20:]:
         _add_content_slide(prs, *item)
 
-    out = OUTPUT / "FE-Credit-IT-Delivery-Framework-Slides.pptx"
+    out = OUTPUT / "Finance-IT-Delivery-Framework-Slides.pptx"
     prs.save(out)
     print(f"Created {out}")
     return out
@@ -1894,8 +1894,8 @@ def generate_it_delivery_framework_pptx():
 
 def generate_pptx():
     global FOOTER_TEXT, DECK_KICKER
-    FOOTER_TEXT = "FE Credit BRD Training  ·  Internal use only"
-    DECK_KICKER = "FE Credit BRD Training"
+    FOOTER_TEXT = "Finance BRD Training  ·  Internal use only"
+    DECK_KICKER = "Finance BRD Training"
     prs = Presentation()
     prs.slide_width = PInches(13.333)
     prs.slide_height = PInches(7.5)
@@ -1903,7 +1903,7 @@ def generate_pptx():
     for title, body in SLIDES:
         _add_content_slide(prs, title, body)
 
-    out = OUTPUT / "FE-Credit-BRD-Training-Slides.pptx"
+    out = OUTPUT / "Finance-BRD-Training-Slides.pptx"
     prs.save(out)
     print(f"Created {out}")
     return out

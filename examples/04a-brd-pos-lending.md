@@ -118,7 +118,7 @@ Authorized POS users see a clear status on the **Partner POS / LOS tablet**: **S
 | Customer | — | — | POS | Receives SMS only |
 
 **Customer impact:** Yes  
-**Partner impact:** Yes — dealership staff may view status screen alongside FE Credit agent
+**Partner impact:** Yes — dealership staff may view status screen alongside Finance agent
 
 ---
 
@@ -220,4 +220,4 @@ Authorized POS users see a clear status on the **Partner POS / LOS tablet**: **S
 
 ---
 
-*Sample BRD for training — not an official FE Credit project document.*
+*Sample BRD for training — not an official Finance project document.*

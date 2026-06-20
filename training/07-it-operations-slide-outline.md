@@ -3,13 +3,13 @@
 **Program:** IT Operations — Delivery Control, Support & Daily Monitoring  
 **Audience:** Ops Manager, Service Desk, on-call engineers, release coordinators  
 **Duration:** ~90 minutes  
-**Companion deck:** `exports/FE-Credit-IT-Operations-Guide-Slides.pptx`  
+**Companion deck:** `exports/Finance-IT-Operations-Guide-Slides.pptx`  
 **Runbook:** `docs/14-it-operations-runbook.md`
 
 ---
 
 ## Slide 1 — Title
-- **FE Credit IT Operations Guide**
+- **Finance IT Operations Guide**
 - Delivery control · Support tickets · Incidents · BOD/EOD monitoring
 
 ## Slide 2 — Learning objectives

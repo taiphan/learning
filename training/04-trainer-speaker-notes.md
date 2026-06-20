@@ -1,6 +1,6 @@
-# FE Credit BRD Training — Detailed Speaker Notes
+# Finance BRD Training — Detailed Speaker Notes
 
-Companion to slide deck. Use with `exports/FE-Credit-BRD-Training-Slides.pptx` and `03-trainer-slide-outline.md`.
+Companion to slide deck. Use with `exports/Finance-BRD-Training-Slides.pptx` and `03-trainer-slide-outline.md`.
 
 ---
 
@@ -14,7 +14,7 @@ Companion to slide deck. Use with `exports/FE-Credit-BRD-Training-Slides.pptx` a
 ---
 
 ### Slide: Good vs Bad Request
-**Story (FE Credit):**  
+**Story (Finance):**  
 Regional Sales asked IT to "add a dashboard." After 6 weeks IT built the wrong metrics. Root cause: no KPI, no definition of "approval status." Rewrote as BRD with conversion rate target → delivered in 8 weeks with correct scope.
 
 **Activity debrief:** Praise outcomes, not systems. Redirect "use AI/OCR/Kafka" to "customer cannot upload photo of payslip."
@@ -38,7 +38,7 @@ Pairs rewrite using formula. Share 2 examples.
 ---
 
 ### Section C — KPIs
-**FE Credit examples to write on board:**
+**Finance examples to write on board:**
 - Digital: completion rate 58% → 68%
 - POS: conversion 72% → 80%
 - Collections: DPD30 roll-forward 38% → 34%
@@ -127,4 +127,4 @@ Hand out printed compliance screening from 3 samples (POS, eKYC, Collections). G
 
 ---
 
-*Speaker notes v1.0 | FE Credit BRD Training Package*
+*Speaker notes v1.0 | Finance BRD Training Package*

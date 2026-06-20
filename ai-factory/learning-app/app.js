@@ -11,7 +11,8 @@
 
   function loadState() {
     try {
-      const raw = localStorage.getItem(cfg.STORAGE_KEY);
+      let raw = localStorage.getItem(cfg.STORAGE_KEY);
+      if (!raw) raw = localStorage.getItem("fe-credit-ai-learning-progress");
       if (raw) return JSON.parse(raw);
     } catch (_) { /* ignore */ }
     return {
@@ -257,6 +258,26 @@
       $("#checkpointText").textContent = w.checkpoint;
     } else {
       cpEl.hidden = true;
+    }
+
+    const bridge = $("#weekBridge");
+    const brdHref = location.pathname.includes("/brd") ? "../brd/" : "brd/";
+    if (n === 1) {
+      bridge.hidden = false;
+      bridge.innerHTML =
+        `<strong>Week 1 bridge:</strong> Draft a BRD in the <a href="${brdHref}">Finance BRD app</a>, export `.md`, then run ` +
+        `<code>python3 exercises/week01_brd_checklist.py your-export.md</code> from learning-lab.`;
+    } else if (n === 2) {
+      bridge.hidden = false;
+      bridge.innerHTML =
+        `<strong>Week 2 bridge:</strong> Loan rules in Python mirror Section H of ` +
+        `<a href="https://github.com/taiphan/finance-brd-training/blob/main/examples/04a-brd-pos-lending.md" target="_blank" rel="noopener">examples/04a-brd-pos-lending.md</a>.`;
+    } else if (n >= 25 && n <= 33) {
+      bridge.hidden = false;
+      bridge.innerHTML =
+        `<strong>GenAI phase:</strong> Use BRDs you export from the intake app as RAG corpus (see <code>projects/policy-rag/ask.py</code>).`;
+    } else {
+      bridge.hidden = true;
     }
 
     $("#studyText").textContent = w.study;

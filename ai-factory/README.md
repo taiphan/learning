@@ -35,7 +35,7 @@ Generate everything from one data source:
 ```bash
 python3 ai-factory/generate_all_learning.py
 python3 ai-factory/scaffold_learning_lab.py   # week exercise stubs only
-python3 scripts/generate_office_files.py    # FE Credit corporate decks
+python3 scripts/generate_office_files.py    # Finance corporate decks
 ```
 
 ---

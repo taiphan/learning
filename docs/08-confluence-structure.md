@@ -1,4 +1,4 @@
-# Confluence Space Structure — FE Credit BRD Program
+# Confluence Space Structure — Finance BRD Program
 
 Recommended Confluence space layout for templates, training, and living BRD repository.
 
@@ -6,7 +6,7 @@ Recommended Confluence space layout for templates, training, and living BRD repo
 
 ## Space name
 
-**FE Credit — Business Requirements (BRD)**
+**Finance — Business Requirements (BRD)**
 
 | Setting | Value |
 |---------|-------|
@@ -35,10 +35,10 @@ FECBRD (Home)
 ├── 📚 Training
 │   ├── Training Program Overview (8-week rollout)
 │   ├── Session 1–4 Materials
-│   ├── Slide Deck — Core BRD (exports/FE-Credit-BRD-Training-Slides.pptx)
-│   ├── Slide Deck — Business User BRD Guide (exports/FE-Credit-Business-User-BRD-Guide-Slides.pptx)
-│   ├── Slide Deck — IT Delivery Framework (exports/FE-Credit-IT-Delivery-Framework-Slides.pptx)
-│   ├── Slide Deck — IT Operations Guide (exports/FE-Credit-IT-Operations-Guide-Slides.pptx)
+│   ├── Slide Deck — Core BRD (exports/Finance-BRD-Training-Slides.pptx)
+│   ├── Slide Deck — Business User BRD Guide (exports/Finance-Business-User-BRD-Guide-Slides.pptx)
+│   ├── Slide Deck — IT Delivery Framework (exports/Finance-IT-Delivery-Framework-Slides.pptx)
+│   ├── Slide Deck — IT Operations Guide (exports/Finance-IT-Operations-Guide-Slides.pptx)
 │   └── Certification — BRD Ready
 │
 ├── ⭐ Gold Standard Examples
@@ -177,4 +177,4 @@ Create **Page Properties Report** on Home for PMO/BA visibility.
 
 ---
 
-*Confluence structure v1.0 | FE Credit BRD Training Package*
+*Confluence structure v1.0 | Finance BRD Training Package*

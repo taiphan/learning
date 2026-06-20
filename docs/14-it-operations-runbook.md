@@ -2,7 +2,7 @@
 
 Operational playbook for **IT Operations** and **Service Desk** to handle business requests, daily/monthly rituals (BOD/EOD/EOM/BOM), incidents, and post-mortems — while keeping **IT in the systems bucket**, not business activity.
 
-**Related docs:** [Ops checklist](11-operations-manager-checklist.md) · [Stakeholder framework](12-it-operations-stakeholder-framework.md) · [Governance RACI](10-governance-raci.md) · [ServiceNow mapping](07-servicenow-jira-intake-mapping.md) · [Training slides](../exports/FE-Credit-IT-Operations-Guide-Slides.pptx)
+**Related docs:** [Ops checklist](11-operations-manager-checklist.md) · [Stakeholder framework](12-it-operations-stakeholder-framework.md) · [Governance RACI](10-governance-raci.md) · [ServiceNow mapping](07-servicenow-jira-intake-mapping.md) · [Training slides](../exports/Finance-IT-Operations-Guide-Slides.pptx)
 
 ---
 
@@ -536,4 +536,4 @@ Add to ServiceNow/Jira for reporting:
 
 ---
 
-*IT Operations Runbook v1.0 | FE Credit BRD Training Package*
+*IT Operations Runbook v1.0 | Finance BRD Training Package*

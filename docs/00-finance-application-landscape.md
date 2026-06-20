@@ -1,4 +1,4 @@
-# FE Credit — Application & System Landscape
+# Finance — Application & System Landscape
 
 Reference for business users writing BRDs. Use **application names** and **business capabilities** in your BRD — not internal technical components (Kafka, Redis, etc.) unless requesting integration with an approved partner.
 
@@ -38,7 +38,7 @@ flowchart TB
   CORE --> BI
 ```
 
-Hosting: core Finacle suite and mission-critical apps run on **AWS**; PII residency follows FE Credit policy and SBV requirements.
+Hosting: core Finacle suite and mission-critical apps run on **AWS**; PII residency follows Finance policy and SBV requirements.
 
 ---
 
@@ -64,7 +64,7 @@ Hosting: core Finacle suite and mission-critical apps run on **AWS**; PII reside
 | **eSign** | Electronic contract signing | Confidential |
 | **Workflow engine (e.g. Flowable)** | Approval chains, business process automation | Internal |
 
-**Hosting:** Core Finacle suite and mission-critical apps run on **AWS** (SaaS/cloud model). Customer PII residency rules apply per FE Credit policy and SBV requirements.
+**Hosting:** Core Finacle suite and mission-critical apps run on **AWS** (SaaS/cloud model). Customer PII residency rules apply per Finance policy and SBV requirements.
 
 ---
 
@@ -112,7 +112,7 @@ Hosting: core Finacle suite and mission-critical apps run on **AWS**; PII reside
 
 ## 6. Data classification guide (BRD Section I)
 
-| Class | Examples at FE Credit | Default handling |
+| Class | Examples at Finance | Default handling |
 |-------|----------------------|------------------|
 | **Public** | Marketing, published rates | Standard |
 | **Internal** | Procedures, org charts | Staff access only |

@@ -1,6 +1,6 @@
 # BRD Governance — RACI & Approval Matrix
 
-Who does what from business idea to FRD at FE Credit.
+Who does what from business idea to FRD at Finance.
 
 ---
 
@@ -93,4 +93,4 @@ flowchart LR
 
 ---
 
-*Governance v1.0 | FE Credit BRD Training Package*
+*Governance v1.0 | Finance BRD Training Package*

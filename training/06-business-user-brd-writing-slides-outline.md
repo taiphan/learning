@@ -2,7 +2,7 @@
 
 **Audience:** Business users (Sales/POS, Digital, Collections, Operations)  
 **Duration:** ~60–90 minutes (self-serve or facilitated)  
-**Deck:** `exports/FE-Credit-Business-User-BRD-Guide-Slides.pptx`
+**Deck:** `exports/Finance-Business-User-BRD-Guide-Slides.pptx`
 
 ---
 
@@ -49,4 +49,4 @@
 
 ---
 
-*Outline v1.0 | FE Credit BRD Training Package*
+*Outline v1.0 | Finance BRD Training Package*

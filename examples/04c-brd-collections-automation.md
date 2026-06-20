@@ -119,7 +119,7 @@ Each eligible morning, system identifies accounts hitting DPD1, DPD3, or DPD7 an
 | BR-05 | Exclude: customers with marketing/collections opt-out flag |
 | BR-06 | Exclude: accounts with payment received but not yet posted (grace 24h) |
 | BR-07 | SMS content must use Legal template COL-SMS-2025-03 only |
-| BR-08 | Include outstanding amount and FE Credit payment channels only |
+| BR-08 | Include outstanding amount and Finance payment channels only |
 | BR-09 | Do not include full account number; mask loan ID (last 4 digits) |
 | BR-10 | If mobile number invalid, route to collector manual queue |
 
@@ -207,4 +207,4 @@ Each eligible morning, system identifies accounts hitting DPD1, DPD3, or DPD7 an
 
 ---
 
-*Sample BRD for training — not an official FE Credit project document.*
+*Sample BRD for training — not an official Finance project document.*

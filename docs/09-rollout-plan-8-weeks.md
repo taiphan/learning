@@ -1,6 +1,6 @@
 # 8-Week BRD Training & Governance Rollout Plan
 
-Program to train FE Credit business users and enforce BRD quality gate.
+Program to train Finance business users and enforce BRD quality gate.
 
 ---
 
@@ -20,7 +20,7 @@ Program to train FE Credit business users and enforce BRD quality gate.
 
 ```mermaid
 gantt
-  title FE Credit BRD rollout — 8 weeks
+  title Finance BRD rollout — 8 weeks
   dateFormat  X
   axisFormat  W%s
   section Setup
@@ -191,4 +191,4 @@ Session 4: peer review + certification.
 
 ---
 
-*Rollout plan v1.0 | FE Credit BRD Training Package*
+*Rollout plan v1.0 | Finance BRD Training Package*

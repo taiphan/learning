@@ -42,5 +42,5 @@
 
 ---
 
-*Exported from FE Credit BRD Intake App.*
+*Exported from Finance BRD Intake App.*
 *Training sample — Section M (acceptance tests) not included yet.*

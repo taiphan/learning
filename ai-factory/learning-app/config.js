@@ -18,5 +18,5 @@ window.LEARNING_CONFIG = {
     career: "Quantify impact in VND or bps — hiring managers need numbers.",
   },
   DATA_URL: "learning-data.json",
-  STORAGE_KEY: "fe-credit-ai-learning-progress",
+  STORAGE_KEY: "finance-ai-learning-progress",
 };

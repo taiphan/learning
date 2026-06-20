@@ -1,9 +1,9 @@
-/** FE Credit BRD intake — application landscape & form config */
-export const FECREDIT = {
+/** Finance BRD intake — application landscape & form config */
+export const FINANCE = {
   org: {
-    name: 'FE Credit',
+    name: 'Finance',
     legalName: 'SMBC Vietnam Prosperity Bank Finance Company Limited',
-    formerName: 'VPBank Finance / FECredit',
+    formerName: 'VPBank Finance (legacy consumer finance brand)',
   },
 
   businessUnits: [
@@ -82,6 +82,15 @@ export const FECREDIT = {
       group: 'customer',
       label: { en: 'AI Chatbot', vi: 'Chatbot AI' },
       desc: { en: '24/7 digital customer support', vi: 'Hỗ trợ KH 24/7' },
+    },
+    {
+      id: 'policy_copilot',
+      group: 'ops',
+      label: { en: 'AI Policy Copilot (learning pilot)', vi: 'Copilot chính sách AI (học tập)' },
+      desc: {
+        en: 'RAG over credit policy for branch staff — your Week 25–33 portfolio project',
+        vi: 'Hỏi đáp chính sách tín dụng — dự án portfolio tuần 25–33',
+      },
     },
     {
       id: 'esign',
