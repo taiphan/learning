@@ -22,7 +22,7 @@ Use **learning** repo as dual base: (1) Finance BRD domain credibility, (2) **cu
 - Shared libs: `lab/lib/` (brd_utils, loan_utils, rag_simple)
 - **Learning-Master-Slides.pptx** — 164 slides (3 per week + index); clickable W01–W52
 - **exports/learning/weeks/** — 52 individual week decks
-- AI skills catalog, workbook, visual decks wired to same data source
+- Repo restructured: `apps/learning`, `apps/brd`, `curriculum/`, `lab/`, `exports/learning/`
 
 ## In progress
 
