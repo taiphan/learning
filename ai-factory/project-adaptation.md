@@ -54,7 +54,7 @@ cd app && python3 -m http.server 8080
 
 ### What it does
 
-Static **8-step wizard** — no backend, drafts in `localStorage` (`finance-brd-draft`):
+Static **8-step wizard** — no backend, drafts in `localStorage` (`learning-brd-draft`):
 
 ```
 Request → Summary → Objectives → Current → To-be → Rules → Compliance → Acceptance

@@ -12,6 +12,7 @@
   function loadState() {
     try {
       let raw = localStorage.getItem(cfg.STORAGE_KEY);
+      if (!raw) raw = localStorage.getItem("finance-ai-learning-progress");
       if (!raw) raw = localStorage.getItem("fe-credit-ai-learning-progress");
       if (raw) return JSON.parse(raw);
     } catch (_) { /* ignore */ }

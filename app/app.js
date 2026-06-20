@@ -1,6 +1,6 @@
 import { FINANCE } from './config/finance.js';
 
-const STORAGE_KEY = 'finance-brd-draft';
+const STORAGE_KEY = 'learning-brd-draft';
 let lang = 'en';
 let currentStep = 0;
 
@@ -377,6 +377,7 @@ function restoreFormData(form, data) {
 function loadDraft() {
   try {
     let raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) raw = localStorage.getItem('finance-brd-draft');
     if (!raw) raw = localStorage.getItem('fecredit-brd-draft');
     if (!raw) return;
     const { data, currentStep: step, lang: l } = JSON.parse(raw);

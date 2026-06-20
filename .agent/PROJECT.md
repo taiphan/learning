@@ -90,7 +90,7 @@
 ## Notes
 
 - **Dual purpose repo:** (1) Finance corporate BRD training package, (2) `ai-factory/` overlay for personal zero→AI-engineer journey.
-- **No backend:** BRD app is static; drafts in `localStorage` key `finance-brd-draft`.
+- **No backend:** BRD app is static; drafts in `localStorage` key `learning-brd-draft`.
 - **Scoring gate:** Export warns if quality score &lt; 80% — mirrors `docs/05-brd-quality-checklist.md`.
 - **Do not commit:** `.env`, API keys, real customer PII in BRD exports.
 - **SESSION.md** was from class-ai-agent template — updated for this project's learning goal.
