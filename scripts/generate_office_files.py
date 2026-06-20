@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "exports"
 OUTPUT.mkdir(exist_ok=True)
 
-sys.path.insert(0, str(ROOT / "ai-factory"))
+sys.path.insert(0, str(ROOT / "curriculum"))
 from anthropic_theme import (  # noqa: E402
     SW, SH, ACCENTS, SLATE, CREAM, CLAY, SKY, OLIVE, FIG, CACTUS,
     NAVY, BLUE, GREEN, ORANGE, PURPLE, TEAL, RED, WHITE, INK, GREY, LIGHT,

@@ -26,15 +26,15 @@ jobs:
 
       - name: Sync curriculum JSON
         run: |
-          cd ai-factory
+          cd curriculum
           python3 -c "from learning_loader import export_json; export_json()"
 
       - name: Build static site
         run: |
           mkdir -p _site
-          cp -r ai-factory/learning-app/* _site/
+          cp -r apps/learning/* _site/
           mkdir -p _site/brd
-          cp -r app/* _site/brd/
+          cp -r apps/brd/* _site/brd/
           cat > _site/brd-index.html <<'HTML'
           <!DOCTYPE html>
           <html lang="en">
@@ -43,7 +43,7 @@ jobs:
             <meta http-equiv="refresh" content="0; url=./brd/" />
             <title>BRD Intake</title>
           </head>
-          <body><p><a href="./brd/">Finance BRD Intake</a></p></body>
+          <body><p><a href="./brd/">Learning BRD Intake</a></p></body>
           </html>
           HTML
 

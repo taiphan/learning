@@ -1,12 +1,12 @@
 # Project structure map
 
-> Persistent overview for AI agents. Updated 2026-06-20 via `/understand` (Cursor).
+> Persistent overview for AI agents. Updated 2026-06-21.
 
 ## Meta
 
 | Field | Value |
 |-------|-------|
-| **Updated** | 2026-06-20 |
+| **Updated** | 2026-06-21 |
 | **Tool** | cursor |
 | **Owner context** | Banking domain expert · zero Python · 12-month AI engineer path |
 
@@ -14,83 +14,64 @@
 
 | Layer | Technology |
 |-------|------------|
+| Learning app | Vanilla JS, HTML, CSS — no build step |
 | BRD web app | Vanilla JS (ES modules), HTML, CSS — no build step |
 | Office exports | Python 3.11+ · `python-docx` · `python-pptx` |
-| AI-factory decks | Python · `anthropic_theme.py` (Anthropic brand PPTX/DOCX) |
-| Learning lab | Python exercises · CSV/SQL · Jupyter (planned) |
+| Curriculum decks | Python · `anthropic_theme.py` |
+| Learning lab | Python exercises · CSV/SQL · Jupyter |
 | Agent scaffolding | `class-ai-agent` 1.6.5 · `.cursor/` `.claude/` `.kiro/` `.agents/` |
-| Code intelligence | CodeGraph 1.0.1 · `.codegraph/codegraph.db` (22 files indexed) |
+| Code intelligence | CodeGraph · `.codegraph/codegraph.db` |
 
 ## Layout
 
 | Path | Purpose |
 |------|---------|
-| `app/` | **BRD Intake web app** — 8-step wizard, scoring, export (VI/EN) |
-| `ai-factory/learning-app/` | **52-week learning cockpit** — progress, study/lab tabs, localStorage |
-| `app/config/learning.js` | Org, BUs, apps, products, score weights, routing rules |
-| `app/app.js` | Form logic, scoring, risk, export, i18n (~860 lines) |
+| `apps/learning/` | **52-week learning cockpit** — progress, study/lab tabs, localStorage |
+| `apps/brd/` | **BRD Intake web app** — 8-step wizard, scoring, export (VI/EN) |
+| `apps/brd/config/learning.js` | Org, BUs, apps, products, score weights, routing rules |
+| `curriculum/` | `learning_data.py`, generators, workbook, career docs |
+| `lab/` | Hands-on Python/SQL exercises (week01–52), projects, notebooks |
 | `docs/` | BRD templates, governance, IT ops, ServiceNow mapping (00–14) |
-| `examples/` | Gold-standard sample BRDs (POS lending, eKYC, collections) |
+| `examples/` | Gold-standard sample BRDs |
 | `training/` | Trainer slide outlines and speaker notes |
-| `exports/` | Generated DOCX/PPTX (Finance training + AI learning decks) |
-| `scripts/generate_office_files.py` | Master generator for Finance Word/PowerPoint |
-| `ai-factory/` | **Personal AI learning path** — syllabus, workbook, career docs, slide generators |
-| `ai-factory/learning-lab/` | Hands-on Python/SQL exercises (week01–02 + solutions) |
-| `ai-factory/exports/` | AI Skills slides, roadmap, visual deck |
-| `.agent/` | Session handoff (`SESSION.md`), this map, onboarding marker |
-| `.cursor/` | Cursor rules, commands, MCP config (CodeGraph, Supabase) |
+| `exports/learning/` | AI learning slide decks + `weeks/` |
+| `exports/` | BRD training DOCX/PPTX (FE-Credit exports) |
+| `scripts/generate_office_files.py` | Master generator for BRD Word/PowerPoint |
+| `.agent/` | Session handoff (`SESSION.md`), this map |
 
 ## Entry points
 
 | What | How to run |
 |------|------------|
-| **BRD Intake App** | `cd app && python3 -m http.server 8080` → http://localhost:8080 |
-| **Learning app (52 weeks)** | `cd ai-factory/learning-app && python3 -m http.server 8081` |
+| **Learning app** | `cd apps/learning && python3 -m http.server 8081` |
+| **BRD Intake App** | `cd apps/brd && python3 -m http.server 8080` |
 | **Live site** | https://taiphan.github.io/learning/ (learning) · `/brd/` (BRD) |
-| **Regenerate curriculum** | `python3 ai-factory/generate_all_learning.py` |
-| **AI skills slides** | `python3 ai-factory/generate_ai_skills_slides.py` |
-| **AI visual slides** | `python3 ai-factory/generate_ai_skills_visual_slides.py` |
-| **AI roadmap slides** | `python3 ai-factory/generate_ai_roadmap_slides.py` |
-| **Week 1 exercise** | `python3 ai-factory/learning-lab/exercises/week01_brd_checklist.py` |
+| **Regenerate curriculum** | `python3 curriculum/generate_all_learning.py` |
+| **Week 1 exercise** | `python3 lab/exercises/week01_brd_checklist.py` |
 
 ## Key files
 
 | Area | Files |
 |------|-------|
-| BRD template (source of truth) | `docs/01-brd-template-en.md`, `docs/05-brd-quality-checklist.md` |
-| App config / scoring | `app/config/learning.js` — `scoreWeights`, `selfCheckItems`, `requestTypes` |
-| App core logic | `app/app.js` — `computeScore`, `exportBRD`, `computeRouting`, `init` |
-| Sample BRD for exercises | `examples/04a-brd-pos-lending.md` |
-| Learning start | `ai-factory/ai-skills-workbook.md`, `ai-factory/reading-path.md` |
-| Career targets | `ai-factory/job-skills-adaptation.md`, `ai-factory/cv-cover-letter.md` |
-| AI governance narrative | `ai-factory/governance-mlops.md` |
-| Adaptation guide | `ai-factory/project-adaptation.md` |
+| BRD template | `docs/01-brd-template-en.md`, `docs/05-brd-quality-checklist.md` |
+| App config / scoring | `apps/brd/config/learning.js` |
+| App core logic | `apps/brd/app.js` |
+| Curriculum source | `curriculum/learning_data.py` → `learning-data.json` |
+| Adaptation guide | `curriculum/project-adaptation.md` |
+| Sample BRD | `examples/04a-brd-pos-lending.md` |
 
 ## Commands
 
 | Action | Command |
 |--------|---------|
-| Install npm dep | `npm install` (class-ai-agent only) |
-| Run BRD app | `cd app && python3 -m http.server 8080` |
-| Generate FE exports | `python3 scripts/generate_office_files.py` |
-| Generate AI decks | `python3 ai-factory/generate_ai_skills_*.py` |
-| CodeGraph status | `codegraph status` |
+| Run learning app | `cd apps/learning && python3 -m http.server 8081` |
+| Run BRD app | `cd apps/brd && python3 -m http.server 8080` |
+| Generate all learning assets | `python3 curriculum/generate_all_learning.py` |
+| Generate BRD exports | `python3 scripts/generate_office_files.py` |
 | CodeGraph re-index | `codegraph index --force` |
-| Python exercises | `cd ai-factory/learning-lab/exercises && python3 week01_*.py` |
-
-## Code intelligence
-
-| Item | Status |
-|------|--------|
-| CodeGraph index | Present — `/Users/phantuantai/Projects/learning/.codegraph/` |
-| Indexed | 22 files · 555 nodes · Python generators + `app/app.js`, `learning.js` |
-| Workspace root | `/Users/phantuantai/Projects/learning` |
-| OntoSight | `npx @royalsolution/ontosight@0.2.0 "/Users/phantuantai/Projects/learning" --symbol init --path app` |
 
 ## Notes
 
-- **Dual purpose repo:** (1) Finance corporate BRD training package, (2) `ai-factory/` overlay for personal zero→AI-engineer journey.
-- **No backend:** BRD app is static; drafts in `localStorage` key `learning-brd-draft`.
-- **Scoring gate:** Export warns if quality score &lt; 80% — mirrors `docs/05-brd-quality-checklist.md`.
-- **Do not commit:** `.env`, API keys, real customer PII in BRD exports.
-- **SESSION.md** was from class-ai-agent template — updated for this project's learning goal.
+- **Dual purpose repo:** (1) BRD training package (`docs/`, `apps/brd/`), (2) personal zero→AI-engineer journey (`curriculum/`, `lab/`, `apps/learning/`).
+- **No backend:** drafts in `localStorage` (`learning-brd-draft`, `learning-ai-learning-progress`).
+- **Scoring gate:** Export warns if quality score &lt; 80%.

@@ -4,27 +4,51 @@ Local folder: `~/Projects/learning` · GitHub: [learning](https://github.com/tai
 
 Training materials, **learning app**, and **Learning BRD intake app** for business users (consumer finance scenario — FE ONLINE 2.0, Finacle on AWS, nationwide POS).
 
+## Repository layout
+
+```
+learning/
+├── apps/
+│   ├── learning/     # 52-week cockpit (GitHub Pages `/`)
+│   └── brd/          # BRD intake wizard (`/brd/`)
+├── curriculum/       # learning_data.py, generators, workbook, career docs
+├── lab/              # Python/SQL exercises, projects, notebooks
+├── docs/             # BRD templates, governance, IT ops
+├── examples/         # Sample BRDs
+├── training/         # Trainer slide outlines
+├── exports/
+│   ├── learning/     # AI learning slide decks + weeks/
+│   └── *.pptx        # BRD training exports (Word/PPTX)
+└── scripts/          # Office file generator for BRD package
+```
+
+## Quick start — Learning app
+
+```bash
+cd apps/learning && python3 -m http.server 8081
+# Open http://localhost:8081
+```
+
 ## Quick start — BRD Intake App
 
 ```bash
-cd app && python3 -m http.server 8080
+cd apps/brd && python3 -m http.server 8080
 # Open http://localhost:8080
 ```
 
-See [app/README.md](app/README.md).
+See [apps/brd/README.md](apps/brd/README.md).
 
-## AI learning path (52 weeks)
+## Regenerate curriculum
 
 ```bash
-cd ai-factory/learning-app && python3 -m http.server 8081
-# Open http://localhost:8081
+python3 curriculum/generate_all_learning.py
 ```
 
 | Resource | Path |
 |----------|------|
-| Learning app | [ai-factory/learning-app](ai-factory/learning-app/) |
-| Lab exercises | [ai-factory/learning-lab](ai-factory/learning-lab/) |
-| Curriculum source | [ai-factory/learning_data.py](ai-factory/learning_data.py) |
+| Learning app | [apps/learning](apps/learning/) |
+| Lab exercises | [lab](lab/) |
+| Curriculum source | [curriculum/learning_data.py](curriculum/learning_data.py) |
 
 **Live site:** https://taiphan.github.io/learning/ — learning app at `/`, BRD intake at `/brd/`.
 
@@ -38,57 +62,32 @@ cd ai-factory/learning-app && python3 -m http.server 8081
 | 3 | [training/03-trainer-slide-outline.md](training/03-trainer-slide-outline.md) | Trainer slide outline (28 slides, 4 sessions) |
 | 4a | [examples/04a-brd-pos-lending.md](examples/04a-brd-pos-lending.md) | Sample BRD: POS motorbike/installment lending |
 | 4b | [examples/04b-brd-fe-online-ekyc.md](examples/04b-brd-fe-online-ekyc.md) | Sample BRD: FE ONLINE 2.0 eKYC |
-| 4c | [examples/04c-brd-collections-automation.md](examples/04c-brd-collections-automation.md) | Sample BRD: Collections automation |
-| — | [docs/05-brd-quality-checklist.md](docs/05-brd-quality-checklist.md) | Quality checklist and scoring rubric |
-| — | [docs/06-brd-cheat-sheet.md](docs/06-brd-cheat-sheet.md) | 1-page cheat sheet for business users |
-| 5 | [docs/07-servicenow-jira-intake-mapping.md](docs/07-servicenow-jira-intake-mapping.md) | ServiceNow/Jira form — 46 fields, routing, SLA |
-| 6 | [docs/08-confluence-structure.md](docs/08-confluence-structure.md) | Confluence space layout and dashboard |
-| 7 | [docs/09-rollout-plan-8-weeks.md](docs/09-rollout-plan-8-weeks.md) | 8-week training and governance rollout |
-| 8 | [docs/10-governance-raci.md](docs/10-governance-raci.md) | RACI, approval matrix, escalation |
-| 9 | [docs/11-operations-manager-checklist.md](docs/11-operations-manager-checklist.md) | **Ops Manager checklist** — intake, deployment gates, risk control |
-| 10 | [docs/12-it-operations-stakeholder-framework.md](docs/12-it-operations-stakeholder-framework.md) | **Stakeholder framework** — dev, business, IT-Governance, IT-Security, GRC, audit, BOD |
-| 11 | [docs/13-service-owner-delivery-control-guide.md](docs/13-service-owner-delivery-control-guide.md) | **SO/Manager guide** — pipeline control, evaluation, BA/Dev/QC/Ops sizing |
-| 12 | [docs/14-it-operations-runbook.md](docs/14-it-operations-runbook.md) | **Ops runbook** — SR bucket allocation, BOD/EOD/EOM/BOM, incidents, post-mortem |
-| — | [training/07-it-operations-slide-outline.md](training/07-it-operations-slide-outline.md) | **IT Ops guide** — delivery control, SR, incidents, BOD/EOD monitoring |
-| — | [training/06-business-user-brd-writing-slides-outline.md](training/06-business-user-brd-writing-slides-outline.md) | Business user BRD writing guide — slide outline |
-| — | [training/05-it-delivery-agile-slide-outline.md](training/05-it-delivery-agile-slide-outline.md) | IT delivery + Agile/Scrum slide outline |
-| — | [training/04-trainer-speaker-notes.md](training/04-trainer-speaker-notes.md) | Detailed facilitator speaker notes |
-| — | [app/](app/) | **BRD intake web app** (VI/EN, routing, export) |
+| 4c | [examples/04c-brd-collections-automation.md](examples/04c-brd-collections-automation.md) | Sample BRD: collections automation |
+| 5 | [docs/05-brd-quality-checklist.md](docs/05-brd-quality-checklist.md) | BA quality rubric (≥ 80% gate) |
+| 6 | [docs/06-brd-cheat-sheet.md](docs/06-brd-cheat-sheet.md) | One-page BRD cheat sheet |
+| 7 | [docs/07-servicenow-jira-intake-mapping.md](docs/07-servicenow-jira-intake-mapping.md) | ITSM field mapping |
+| 8 | [docs/08-confluence-structure.md](docs/08-confluence-structure.md) | Confluence space structure |
+| 9 | [docs/09-rollout-plan-8-weeks.md](docs/09-rollout-plan-8-weeks.md) | 8-week rollout plan |
+| 10 | [docs/10-governance-raci.md](docs/10-governance-raci.md) | Governance RACI |
+| 11 | [docs/11-operations-manager-checklist.md](docs/11-operations-manager-checklist.md) | Ops manager checklist |
+| 12 | [docs/12-it-operations-stakeholder-framework.md](docs/12-it-operations-stakeholder-framework.md) | IT Ops stakeholder framework |
+| 13 | [docs/13-service-owner-delivery-control-guide.md](docs/13-service-owner-delivery-control-guide.md) | Service owner guide |
+| 14 | [docs/14-it-operations-runbook.md](docs/14-it-operations-runbook.md) | IT operations runbook |
 
-## Office exports (Word / PowerPoint)
+## AI learning path
 
-Generate with:
+Adaptation guide: [curriculum/project-adaptation.md](curriculum/project-adaptation.md)
+
+Workbook: [curriculum/ai-skills-workbook.md](curriculum/ai-skills-workbook.md)
+
+## Generate office files
 
 ```bash
 python3 scripts/generate_office_files.py
 ```
 
-| File | Description |
-|------|-------------|
-| `exports/Finance-BRD-Template.docx` | Fillable BRD template for Word |
-| `exports/Finance-BRD-Cheat-Sheet.docx` | Printable cheat sheet |
-| `exports/Finance-BRD-Training-Slides.pptx` | Core training slide deck (19 slides) |
-| `exports/Finance-Business-User-BRD-Guide-Slides.pptx` | **Business user guide** — how to write a BRD (29 slides) |
-| `exports/Finance-IT-Delivery-Framework-Slides.pptx` | IT delivery framework — pipeline, **swimlane, dual-track, scrum, org chart** (32 slides) |
-| `exports/Finance-IT-Operations-Guide-Slides.pptx` | **IT Ops guide** — roster, shifts, catalog SR, **triage flowchart, org chart** (34 slides) |
+Outputs to `exports/` (BRD training DOCX/PPTX).
 
-## How to use
+## License
 
-1. Import templates into Confluence ([structure guide](docs/08-confluence-structure.md)) or distribute Word export.
-2. Configure ServiceNow/Jira using [field mapping](docs/07-servicenow-jira-intake-mapping.md).
-3. Run training per [8-week rollout](docs/09-rollout-plan-8-weeks.md) with slides + [speaker notes](training/04-trainer-speaker-notes.md).
-4. Share sample BRDs as gold-standard references during workshops.
-5. Enforce quality gate: BRD score ≥ 80% per [checklist](docs/05-brd-quality-checklist.md) and [governance](docs/10-governance-raci.md).
-6. Operations Managers: use [intake & deployment checklist](docs/11-operations-manager-checklist.md) and [stakeholder framework](docs/12-it-operations-stakeholder-framework.md).
-7. Service Owners / Managers: use [delivery control & resourcing guide](docs/13-service-owner-delivery-control-guide.md) for pipeline KPIs and team sizing.
-8. IT Operations / Service Desk: use [operations runbook](docs/14-it-operations-runbook.md) for SR bucket allocation, BOD/EOD/EOM/BOM, and incidents.
-9. Train Ops / Service Desk with [IT Operations slides](exports/Finance-IT-Operations-Guide-Slides.pptx) (~90 min).
-
-## Suggested rollout
-
-See full plan: [docs/09-rollout-plan-8-weeks.md](docs/09-rollout-plan-8-weeks.md)
-
-- Week 1–2: Publish templates; train BAs; configure ITSM form
-- Week 3–6: Training Sessions 1–4 by business unit
-- Week 7: Soft gate (form required)
-- Week 8: Hard gate (no FRD without accepted BRD)
+Internal training use.

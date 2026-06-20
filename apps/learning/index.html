@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Learning — 52 Weeks</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app" id="app">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <button type="button" class="btn-icon menu-toggle" id="menuToggle" aria-label="Toggle week list">☰</button>
+        <div class="brand">
+          <span class="brand-dot"></span>
+          <div>
+            <h1>Learning</h1>
+            <p class="tagline">52-week path · Banking → AI Engineer · 10 hrs/week</p>
+          </div>
+        </div>
+        <div class="topbar-stats">
+          <div class="progress-pill" id="progressPill" title="Weeks completed">0 / 52</div>
+          <a class="btn btn-ghost" href="brd/" title="Learning BRD Intake">BRD App</a>
+          <button type="button" class="btn btn-primary" id="continueBtn">Continue →</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="layout">
+      <aside class="sidebar" id="sidebar">
+        <div class="sidebar-head">
+          <h2>Weeks</h2>
+          <select id="phaseFilter" aria-label="Filter by phase">
+            <option value="all">All phases</option>
+          </select>
+        </div>
+        <nav class="week-list" id="weekList" aria-label="Week navigation"></nav>
+        <section class="checkpoints-mini card" id="checkpointsMini">
+          <h3>Checkpoints</h3>
+          <ul id="checkpointList"></ul>
+        </section>
+      </aside>
+
+      <main class="main" id="main">
+        <!-- Home dashboard -->
+        <section class="view view-home" id="viewHome" hidden>
+          <div class="hero card">
+            <p class="eyebrow">Your learning cockpit</p>
+            <h2 id="homeGreeting">Welcome back</h2>
+            <p class="lead" id="homeLead">Pick up where you left off or browse the full 52-week path.</p>
+            <div class="hero-actions">
+              <button type="button" class="btn btn-primary btn-lg" id="homeContinue">Continue learning</button>
+              <button type="button" class="btn btn-ghost btn-lg" id="homeWeek1">Start at Week 1</button>
+            </div>
+          </div>
+
+          <div class="grid-3">
+            <article class="card stat-card">
+              <span class="stat-label">Progress</span>
+              <span class="stat-value" id="statProgress">0%</span>
+              <div class="bar"><div class="bar-fill" id="barProgress"></div></div>
+            </article>
+            <article class="card stat-card">
+              <span class="stat-label">Current week</span>
+              <span class="stat-value" id="statCurrent">Week 1</span>
+              <span class="stat-sub" id="statCurrentTitle">—</span>
+            </article>
+            <article class="card stat-card">
+              <span class="stat-label">Next checkpoint</span>
+              <span class="stat-value" id="statCheckpoint">CP0</span>
+              <span class="stat-sub" id="statCheckpointLabel">—</span>
+            </article>
+          </div>
+
+          <section class="card">
+            <h3>Six phases</h3>
+            <div class="phase-grid" id="phaseGrid"></div>
+          </section>
+        </section>
+
+        <!-- Week detail -->
+        <section class="view view-week" id="viewWeek" hidden>
+          <header class="week-header">
+            <div class="week-meta">
+              <span class="week-badge" id="weekBadge">W01</span>
+              <span class="phase-chip" id="phaseChip">Foundation</span>
+              <span class="month-chip" id="monthChip">Month 1</span>
+            </div>
+            <h2 id="weekTitle">—</h2>
+            <p class="skill-line" id="skillLine">—</p>
+          </header>
+
+          <div class="tabs" role="tablist">
+            <button type="button" class="tab active" data-tab="overview" role="tab">Overview</button>
+            <button type="button" class="tab" data-tab="study" role="tab">Study</button>
+            <button type="button" class="tab" data-tab="lab" role="tab">Lab</button>
+            <button type="button" class="tab" data-tab="notes" role="tab">Notes</button>
+          </div>
+
+          <div class="tab-panels">
+            <article class="tab-panel active" id="panelOverview" data-panel="overview">
+              <div class="deliverable-banner" id="deliverableBanner">—</div>
+              <div class="week-bridge card" id="weekBridge" hidden></div>
+              <div class="panel-grid">
+                <div class="panel-block card">
+                  <h4>This week you will</h4>
+                  <ul id="studyBullets"></ul>
+                </div>
+                <div class="panel-block card">
+                  <h4>Skill context</h4>
+                  <p id="skillDefinition">—</p>
+                  <p class="tip" id="phaseTip">—</p>
+                </div>
+              </div>
+              <div class="checkpoint-callout card" id="checkpointCallout" hidden>
+                <strong>Checkpoint</strong>
+                <span id="checkpointText"></span>
+              </div>
+            </article>
+
+            <article class="tab-panel" id="panelStudy" data-panel="study" hidden>
+              <div class="panel-block card">
+                <h4>Read &amp; watch</h4>
+                <p id="studyText">—</p>
+              </div>
+              <div class="panel-grid">
+                <div class="panel-block card">
+                  <h4>Sources</h4>
+                  <p id="skillSources">—</p>
+                </div>
+                <div class="panel-block card">
+                  <h4>Practice habit</h4>
+                  <p id="skillPractice">—</p>
+                </div>
+              </div>
+              <div class="panel-block card">
+                <h4>Resources</h4>
+                <ul class="link-list" id="resourceLinks"></ul>
+              </div>
+            </article>
+
+            <article class="tab-panel" id="panelLab" data-panel="lab" hidden>
+              <div class="panel-block card">
+                <h4>Exercise file</h4>
+                <code class="code-block" id="exercisePath">—</code>
+              </div>
+              <div class="panel-block card">
+                <h4>Run command</h4>
+                <div class="code-row">
+                  <code class="code-block" id="runCommand">—</code>
+                  <button type="button" class="btn btn-ghost btn-sm" id="copyRun">Copy</button>
+                </div>
+                <p class="hint">Run from <code>lab/</code> after <code>pip install -r requirements.txt</code></p>
+              </div>
+              <div class="panel-block card">
+                <h4>Done when</h4>
+                <ol class="done-list" id="doneList"></ol>
+              </div>
+              <div class="panel-block card">
+                <h4>Skill checkpoint</h4>
+                <p id="skillCheckpoint">—</p>
+              </div>
+            </article>
+
+            <article class="tab-panel" id="panelNotes" data-panel="notes" hidden>
+              <div class="panel-block card">
+                <h4>Your notes for this week</h4>
+                <textarea id="weekNotes" rows="8" placeholder="What did you learn? What blocked you?"></textarea>
+                <p class="hint">Saved automatically in your browser.</p>
+              </div>
+            </article>
+          </div>
+
+          <footer class="week-footer">
+            <button type="button" class="btn btn-ghost" id="prevWeek">← Previous</button>
+            <label class="complete-toggle">
+              <input type="checkbox" id="completeWeek" />
+              <span>Mark week complete</span>
+            </label>
+            <button type="button" class="btn btn-primary" id="nextWeek">Next week →</button>
+          </footer>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

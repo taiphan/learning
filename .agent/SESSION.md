@@ -6,22 +6,22 @@
 
 | Field | Value |
 |-------|-------|
-| **Updated** | 2026-06-20 |
+| **Updated** | 2026-06-21 |
 | **Phase** | build |
 | **Tool** | cursor |
 | **Persona** | learner — banking BA → AI engineer |
 
 ## Goal
 
-Use **learning** repo as dual base: (1) Finance BRD domain credibility, (2) **ai-factory/** 12-month path to hire-ready AI engineer (OCB/NAB/VPBank; Anthropic stretch). Zero Python today · 10 hrs/week.
+Use **learning** repo as dual base: (1) Finance BRD domain credibility, (2) **curriculum/** 12-month path to hire-ready AI engineer (OCB/NAB/VPBank; Anthropic stretch). Zero Python today · 10 hrs/week.
 
 ## Done
 
 - Single learning data source: `learning_data.py` → `learning-data.json`
 - **All 52 weeks** — runnable code via `generate_all_weeks.py` (exercises, SQL, projects, notebooks, career templates)
-- Shared libs: `learning-lab/lib/` (brd_utils, loan_utils, rag_simple)
+- Shared libs: `lab/lib/` (brd_utils, loan_utils, rag_simple)
 - **Learning-Master-Slides.pptx** — 164 slides (3 per week + index); clickable W01–W52
-- **exports/weeks/** — 52 individual week decks (4 slides each: title + overview + study + lab)
+- **exports/learning/weeks/** — 52 individual week decks
 - AI skills catalog, workbook, visual decks wired to same data source
 
 ## In progress
@@ -31,13 +31,13 @@ Use **learning** repo as dual base: (1) Finance BRD domain credibility, (2) **ai
 
 ## Next
 
-1. Read [project-adaptation.md](ai-factory/project-adaptation.md) — three-app workflow
+1. Read [project-adaptation.md](curriculum/project-adaptation.md) — three-app workflow
 2. Week 1 loop: learning app → BRD export → `week01_brd_checklist.py`
 3. Mark weeks complete in learning app as you finish labs
 
 ## Decisions
 
-- Corporate Finance materials stay as-is; personal coding in `ai-factory/learning-lab/` + external repos
+- Corporate Finance materials stay as-is; personal coding in `lab/` + external repos
 - BRD app scoring aligned with `docs/05-brd-quality-checklist.md` — exercises mirror same gates
 - SESSION resume = Read this file, not CodeGraph
 
@@ -45,16 +45,16 @@ Use **learning** repo as dual base: (1) Finance BRD domain credibility, (2) **ai
 
 - `.agent/SESSION.md` previously had class-ai-agent maintainer goals — replaced for this project
 - BRD app is static (no backend); drafts in browser localStorage only
-- CodeGraph indexes Python generators + `app/*.js` — run `codegraph sync` after edits
+- CodeGraph indexes Python generators + `apps/brd/*.js` — run `codegraph sync` after edits
 
 ## Pointers
 
 | Item | Location |
 |------|----------|
 | Project map | `.agent/PROJECT.md` |
-| Adaptation guide | `ai-factory/project-adaptation.md` |
-| Workbook | `ai-factory/ai-skills-workbook.md` |
-| Reading order | `ai-factory/reading-path.md` |
-| BRD app | `app/` — `python3 -m http.server 8080` |
-| Exercises | `ai-factory/learning-lab/exercises/` |
+| Adaptation guide | `curriculum/project-adaptation.md` |
+| Workbook | `curriculum/ai-skills-workbook.md` |
+| Reading order | `curriculum/reading-path.md` |
+| BRD app | `apps/brd/` — `python3 -m http.server 8080` |
+| Exercises | `lab/exercises/` |
 | Branch | `main` |
