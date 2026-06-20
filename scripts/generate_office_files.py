@@ -563,6 +563,351 @@ IT_DELIVERY_SLIDES = [
 ]
 
 
+def _add_numbered_steps_slide(prs, title, steps, subtitle=None):
+    """Vertical numbered steps for business user guide."""
+    slide = prs.slides.add_slide(prs.slide_layouts[5])
+    slide.shapes.title.text = title
+    y_start = 1.35 if subtitle else 1.15
+    if subtitle:
+        sub = slide.shapes.add_textbox(PInches(0.5), PInches(1.05), PInches(12.3), PInches(0.35))
+        sub.text_frame.text = subtitle
+        sub.text_frame.paragraphs[0].font.size = PPt(13)
+        sub.text_frame.paragraphs[0].font.color.rgb = RGBColor(0x55, 0x55, 0x55)
+
+    col_w = PInches(5.9)
+    left_x = PInches(0.55)
+    right_x = PInches(6.85)
+    half = (len(steps) + 1) // 2
+
+    for i, (num, text) in enumerate(steps):
+        col = 0 if i < half else 1
+        row = i if i < half else i - half
+        x = left_x if col == 0 else right_x
+        y = PInches(y_start + row * 0.72)
+
+        circle = slide.shapes.add_shape(MSO_SHAPE.OVAL, x, y, PInches(0.38), PInches(0.38))
+        circle.fill.solid()
+        circle.fill.fore_color.rgb = RGBColor(0x00, 0xA6, 0x51)
+        circle.line.fill.background()
+        circle.text_frame.text = str(num)
+        circle.text_frame.paragraphs[0].font.size = PPt(11)
+        circle.text_frame.paragraphs[0].font.bold = True
+        circle.text_frame.paragraphs[0].font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
+        circle.text_frame.paragraphs[0].alignment = 1
+
+        tb = slide.shapes.add_textbox(x + PInches(0.48), y - PInches(0.02), col_w, PInches(0.55))
+        tb.text_frame.word_wrap = True
+        tb.text_frame.text = text
+        tb.text_frame.paragraphs[0].font.size = PPt(12)
+
+    return slide
+
+
+BUSINESS_USER_BRD_SLIDES = [
+    (
+        "How to Write a BRD at FE Credit",
+        "A practical guide for business users\n"
+        "Hướng dẫn viết BRD cho nhân viên nghiệp vụ\n\n"
+        "Your BRD is the contract for what IT will deliver.",
+    ),
+    (
+        "What You Will Learn",
+        "• What a BRD is — and what it is NOT\n"
+        "• The 8 steps to write a good BRD\n"
+        "• Each template section (A → M) with examples\n"
+        "• How to pass the quality gate (score ≥ 80%)\n"
+        "• Where and how to submit",
+    ),
+    (
+        "Why Your BRD Matters",
+        "• IT cannot build what you have not defined\n"
+        "• Poor BRD = delay, rework, UAT failure, compliance risk\n"
+        "• Good BRD = faster triage, predictable delivery\n\n"
+        "You own the business rules. IT owns the build.",
+    ),
+    (
+        "What Is a BRD?",
+        "A BRD describes:\n"
+        "  ✓ Business problem and impact\n"
+        "  ✓ Who is affected and business rules\n"
+        "  ✓ Scope, data, compliance, acceptance criteria\n\n"
+        "A BRD is NOT:\n"
+        "  ✗ Technical design (API, database, Kafka)\n"
+        "  ✗ Vendor selection or project plan\n"
+        "  ✗ An email saying \"please do it ASAP\"",
+    ),
+    (
+        "BRD vs Other Documents",
+        "YOU write → BRD (business need)\n"
+        "BA + IT write → FSD / FRD (functional spec)\n"
+        "IT writes → Technical design & code\n"
+        "YOU sign → UAT (did it meet your criteria?)\n\n"
+        "No BRD → no IT build. No UAT sign-off → no go-live.",
+    ),
+    (
+        "Your Journey After Submit",
+        "1. You draft BRD + get Sponsor (Director+) to sign\n"
+        "2. BA quality review (2 days) — score must be ≥ 80%\n"
+        "3. Compliance routing if needed (Risk, Legal, IT-Security)\n"
+        "4. IT triage & prioritization (5 days)\n"
+        "5. BA creates FSD → Dev builds → You run UAT\n"
+        "6. Go-live after your UAT sign-off\n\n"
+        "Tip: Strong acceptance criteria in your BRD become your UAT tests.",
+    ),
+    (
+        "The Golden Rule",
+        "Write the PROBLEM and BUSINESS RULES,\n"
+        "not the SYSTEM DESIGN.\n\n"
+        "Viết VẤN ĐỀ và QUY TẮC NGHIỆP VỤ,\n"
+        "không viết THIẾT KẾ HỆ THỐNG.",
+    ),
+    (
+        "Good vs Bad Request",
+        "BAD:\n"
+        "  \"Build Kafka API to Finacle for real-time sync\"\n"
+        "  \"Need new screen ASAP\"\n\n"
+        "GOOD:\n"
+        "  \"POS staff cannot see approved loan status during customer visit,\n"
+        "   causing 18% drop-off on pre-approved applications\"\n\n"
+        "BAD = IT solution.  GOOD = business problem + impact.",
+    ),
+    (
+        "Problem Statement Formula",
+        "[Role] cannot [task] because [constraint], causing [impact].\n\n"
+        "[Vai trò] không thể [làm gì] vì [rào cản], gây [ảnh hưởng].\n\n"
+        "Example / Ví dụ:\n"
+        "Collections agent cannot see payment promise history on one screen,\n"
+        "causing 12 min average call time and repeat contacts.",
+    ),
+    (
+        "Section A — Request Information",
+        "Fill in first:\n"
+        "• BRD title (clear, specific)\n"
+        "• Business unit (Sales/POS, Digital, Collections…)\n"
+        "• Your name and email\n"
+        "• Business Sponsor — must be Director grade or above\n"
+        "• Target go-live date (realistic: ≥ 15 business days from submit)\n"
+        "• Priority: Regulatory | Revenue | CX | Efficiency | Risk\n\n"
+        "Common mistake: no Sponsor → BRD returned immediately.",
+    ),
+    (
+        "Section B — Executive Summary",
+        "Answer in plain language:\n"
+        "• What is the business problem?\n"
+        "• Who is impacted? (role, count, location)\n"
+        "• What happens if we do nothing?\n"
+        "• Desired outcome in one sentence\n\n"
+        "Use the problem formula. Min 50 characters for problem statement.",
+    ),
+    (
+        "Section C — Objectives & KPIs",
+        "Every objective needs THREE parts:\n"
+        "  Baseline (today) → Target (goal) → How measured\n\n"
+        "WEAK: \"Improve customer experience\"\n"
+        "STRONG: \"Reduce POS disbursement TAT from 24h to 4h;\n"
+        "         measured weekly from LOS report R-1042\"",
+    ),
+    (
+        "Section D — Current State",
+        "Describe TODAY before IT changes anything:\n"
+        "• Step-by-step current process\n"
+        "• Which FE Credit systems are involved\n"
+        "   (FE ONLINE, $NAP, Finacle, POS/LOS, Collections…)\n"
+        "• How many users and transactions per month\n\n"
+        "IT uses this to understand where you are now.",
+    ),
+    (
+        "Section E & F — To-Be & Scope",
+        "Section E — Future process (business view only):\n"
+        "  What should users be able to do differently?\n"
+        "  Do NOT name APIs, databases, or vendors.\n\n"
+        "Section F — Scope (write BOTH):\n"
+        "  In scope: what this change delivers\n"
+        "  Out of scope: what is NOT included (prevents scope creep)",
+    ),
+    (
+        "Section G & H — Users & Business Rules",
+        "Section G — Who uses it:\n"
+        "  Role | Department | # users | Location (POS/HQ/field)\n\n"
+        "Section H — Rules IT must NOT guess:\n"
+        "  • Who approves? What authority level?\n"
+        "  • Cut-off times (e.g. disbursement before 17:00)\n"
+        "  • Exceptions and edge cases\n"
+        "  • Customer communication rules",
+    ),
+    (
+        "Section I — Data & Security",
+        "Classify your data honestly:\n"
+        "  Public | Internal | Confidential | Restricted\n\n"
+        "Check data types: PII, CIC, payment, financial\n"
+        "Remote access: None | Managed device | VDI | Exception\n\n"
+        "Restricted data or exceptions → IT-Security review (adds time).\n"
+        "Never request: disable MFA, personal Gmail, BYOD for customer data.",
+    ),
+    (
+        "Section N — Compliance Screening",
+        "Answer Yes / No / N/A honestly for all 7 questions:\n"
+        "• Loan origination / approval / disbursement change?\n"
+        "• Interest, fees, or contract terms?\n"
+        "• Customer SMS / email / push notifications?\n"
+        "• Third-party data sharing?\n"
+        "• Collections or legal process?\n"
+        "• Audit trail required?\n"
+        "• Customer data on POS or field devices?\n\n"
+        "\"Yes\" routes to Risk, Legal, or IT-Security — plan extra time.",
+    ),
+    (
+        "Section M — Acceptance Criteria (UAT)",
+        "Minimum 5 testable criteria using Given / When / Then:\n\n"
+        "Given a pre-approved POS loan application\n"
+        "When the agent opens the customer record during visit\n"
+        "Then approved amount and status display within 3 seconds\n\n"
+        "These become YOUR UAT tests. IT does not accept for you.",
+    ),
+    (
+        "Section L & K — Risks & Rollout",
+        "Section L — What goes wrong if built incorrectly?\n"
+        "  Operational, customer, financial, compliance risks\n\n"
+        "Section K — Rollout:\n"
+        "  Pilot vs phased vs big bang\n"
+        "  Training needed? Vietnamese / English?\n"
+        "  Business continuity fallback if system unavailable",
+    ),
+    (
+        "Section O — Sponsor Approval",
+        "Before you submit:\n"
+        "☐ Business Sponsor (Director+) has reviewed the full BRD\n"
+        "☐ Sponsor signature or approval email attached\n"
+        "☐ Sponsor cannot be the only approver for Critical changes\n\n"
+        "Sponsor accountability = business owns the decision.",
+    ),
+    (
+        "Top 10 Mistakes to Avoid",
+        "1. Writing a solution instead of a need\n"
+        "2. No KPI baseline or target\n"
+        "3. Missing business rules (IT would have to guess)\n"
+        "4. No out-of-scope section\n"
+        "5. Multiple unrelated projects in one BRD\n"
+        "6. Fewer than 5 acceptance criteria\n"
+        "7. No Sponsor sign-off\n"
+        "8. Ignoring POS / field training impact\n"
+        "9. Wrong or missing data classification\n"
+        "10. Copy-paste from vendor marketing material",
+    ),
+    (
+        "Self-Check Before Submit",
+        "☐ Can IT build without guessing my business rules?\n"
+        "☐ Can UAT verify success using my acceptance criteria?\n"
+        "☐ Can Risk/Audit understand control impact?\n"
+        "☐ Sponsor (Director+) signed?\n"
+        "☐ In-scope AND out-of-scope written?\n"
+        "☐ Compliance Section N complete?\n"
+        "☐ Quality preview ≥ 80% (use BRD Intake App)",
+    ),
+    (
+        "Quality Gate — What BA Checks",
+        "Pass requirements:\n"
+        "• All mandatory sections complete\n"
+        "• Quality score ≥ 80%\n"
+        "• Sponsor sign-off on file\n\n"
+        "Scoring tip: Business rules (Section H) weighted 20%.\n"
+        "Score 0 on business rules → BRD usually fails.\n\n"
+        "If returned: BA lists specific gaps — fix and resubmit within 10 days.",
+    ),
+    (
+        "Compliance Quick Reference",
+        "Loan approval / disbursement → Risk + Credit Policy\n"
+        "Interest / fees / contract → Legal + Finance\n"
+        "Customer SMS / email → Legal (approved template)\n"
+        "Third-party data → Vendor Risk + Legal\n"
+        "Collections / legal process → Compliance\n"
+        "Data on POS / home device → IT-Security",
+    ),
+    (
+        "Tools & Resources",
+        "BRD Intake App (wizard + score preview):\n"
+        "  app/ — run local server, export Markdown\n\n"
+        "Templates & samples:\n"
+        "  docs/01-brd-template-en.md\n"
+        "  docs/02-brd-template-bilingual-vi-en.md\n"
+        "  examples/04a-brd-pos-lending.md (gold standard)\n\n"
+        "Submit via: ServiceNow / Jira BRD catalog (not email)",
+    ),
+    (
+        "What NOT to Put in Your BRD",
+        "✗ API names, Kafka, database, microservices\n"
+        "✗ \"ASAP\" without business reason\n"
+        "✗ Request to disable MFA or DLP\n"
+        "✗ Personal device / Gmail / Dropbox for customer data\n"
+        "✗ IT headcount or sprint planning\n\n"
+        "If you need access or password reset → Service Desk, not BRD.",
+    ),
+    (
+        "Summary — 8 Steps",
+        "See visual on previous slide. Remember:\n"
+        "1 Problem  2 Quantify  3 Who uses  4 Business rules\n"
+        "5 Scope in/out  6 Data & compliance  7 Acceptance criteria  8 Sponsor sign\n\n"
+        "Badge: BRD Ready — FE Credit (after training + 1 BRD ≥ 80%)",
+    ),
+    (
+        "Next Steps",
+        "1. Open BRD template or Intake App\n"
+        "2. Draft using this guide — start with problem, not system\n"
+        "3. Self-check and aim for ≥ 80% quality score\n"
+        "4. Get Sponsor sign-off\n"
+        "5. Submit via ServiceNow / Jira BRD form\n"
+        "6. Attend BA office hours if you need coaching\n\n"
+        "Questions: BA team | Confluence: FECBRD space",
+    ),
+]
+
+
+def generate_business_user_brd_pptx():
+    prs = Presentation()
+    prs.slide_width = PInches(13.333)
+    prs.slide_height = PInches(7.5)
+
+    _add_content_slide(prs, *BUSINESS_USER_BRD_SLIDES[0])
+    _add_content_slide(prs, *BUSINESS_USER_BRD_SLIDES[1])
+    _add_content_slide(prs, *BUSINESS_USER_BRD_SLIDES[2])
+
+    _add_pipeline_slide(
+        prs,
+        "Your BRD in the IT Delivery Pipeline",
+        ["You write\nBRD", "BA review\n≥80%", "IT\ntriage", "FSD\nbuilt", "You test\nUAT", "Go-\nlive"],
+        subtitle="Business users own BRD and UAT — IT owns build and deploy",
+    )
+
+    for item in BUSINESS_USER_BRD_SLIDES[3:7]:
+        _add_content_slide(prs, *item)
+
+    _add_numbered_steps_slide(
+        prs,
+        "8 Steps to a Good BRD",
+        [
+            (1, "Start with the problem — not \"we need system X\""),
+            (2, "Quantify impact — %, hours, customers, VND"),
+            (3, "Define who uses it — role, count, location"),
+            (4, "Document business rules — approval, cut-off, exceptions"),
+            (5, "Write in-scope AND out-of-scope"),
+            (6, "Complete data & compliance honestly"),
+            (7, "Add acceptance criteria — Given/When/Then (min 5)"),
+            (8, "Get Sponsor (Director+) sign-off before IT intake"),
+        ],
+        subtitle="8 bước viết BRD tốt | Same steps in Vietnamese cheat sheet",
+    )
+
+    for item in BUSINESS_USER_BRD_SLIDES[7:]:
+        if item[0] == "Summary — 8 Steps":
+            continue  # covered by numbered steps slide
+        _add_content_slide(prs, *item)
+
+    out = OUTPUT / "FE-Credit-Business-User-BRD-Guide-Slides.pptx"
+    prs.save(out)
+    print(f"Created {out}")
+    return out
+
+
 def generate_it_delivery_framework_pptx():
     prs = Presentation()
     prs.slide_width = PInches(13.333)
@@ -652,5 +997,6 @@ if __name__ == "__main__":
     generate_brd_template_docx()
     generate_cheat_sheet_docx()
     generate_pptx()
+    generate_business_user_brd_pptx()
     generate_it_delivery_framework_pptx()
     print("Done.")

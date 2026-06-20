@@ -47,6 +47,7 @@ FECBRD (Home)
 │   ├── BRD Workflow (diagram)
 │   ├── RACI — Who approves what
 │   ├── IT Ops Manager — Stakeholder framework ← 12-it-operations-stakeholder-framework.md
+│   ├── Service Owner — Delivery control & resourcing ← 13-service-owner-delivery-control-guide.md
 │   ├── IT Ops Manager — Intake & deployment checklist ← 11-operations-manager-checklist.md
 │   ├── SLA and escalation
 │   ├── ServiceNow/Jira field mapping

@@ -30,6 +30,8 @@ See [app/README.md](app/README.md).
 | 8 | [docs/10-governance-raci.md](docs/10-governance-raci.md) | RACI, approval matrix, escalation |
 | 9 | [docs/11-operations-manager-checklist.md](docs/11-operations-manager-checklist.md) | **Ops Manager checklist** — intake, deployment gates, risk control |
 | 10 | [docs/12-it-operations-stakeholder-framework.md](docs/12-it-operations-stakeholder-framework.md) | **Stakeholder framework** — dev, business, IT-Governance, IT-Security, GRC, audit, BOD |
+| 11 | [docs/13-service-owner-delivery-control-guide.md](docs/13-service-owner-delivery-control-guide.md) | **SO/Manager guide** — pipeline control, evaluation, BA/Dev/QC/Ops sizing |
+| — | [training/06-business-user-brd-writing-slides-outline.md](training/06-business-user-brd-writing-slides-outline.md) | Business user BRD writing guide — slide outline |
 | — | [training/05-it-delivery-agile-slide-outline.md](training/05-it-delivery-agile-slide-outline.md) | IT delivery + Agile/Scrum slide outline |
 | — | [training/04-trainer-speaker-notes.md](training/04-trainer-speaker-notes.md) | Detailed facilitator speaker notes |
 | — | [app/](app/) | **BRD intake web app** (VI/EN, routing, export) |
@@ -47,6 +49,7 @@ python3 scripts/generate_office_files.py
 | `exports/FE-Credit-BRD-Template.docx` | Fillable BRD template for Word |
 | `exports/FE-Credit-BRD-Cheat-Sheet.docx` | Printable cheat sheet |
 | `exports/FE-Credit-BRD-Training-Slides.pptx` | Core training slide deck (19 slides) |
+| `exports/FE-Credit-Business-User-BRD-Guide-Slides.pptx` | **Business user guide** — how to write a BRD (28 slides) |
 | `exports/FE-Credit-IT-Delivery-Framework-Slides.pptx` | IT delivery pipeline + Agile/Scrum framework (28 slides) |
 
 ## How to use
@@ -57,6 +60,7 @@ python3 scripts/generate_office_files.py
 4. Share sample BRDs as gold-standard references during workshops.
 5. Enforce quality gate: BRD score ≥ 80% per [checklist](docs/05-brd-quality-checklist.md) and [governance](docs/10-governance-raci.md).
 6. Operations Managers: use [intake & deployment checklist](docs/11-operations-manager-checklist.md) and [stakeholder framework](docs/12-it-operations-stakeholder-framework.md).
+7. Service Owners / Managers: use [delivery control & resourcing guide](docs/13-service-owner-delivery-control-guide.md) for pipeline KPIs and team sizing.
 
 ## Suggested rollout
 

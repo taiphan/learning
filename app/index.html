@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FE Credit — BRD Intake</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="header">
+    <div class="header-inner">
+      <div class="brand">
+        <span class="brand-mark">FE</span>
+        <div>
+          <h1>FE Credit BRD Intake</h1>
+          <p class="subtitle" data-i18n="subtitle">Business Requirements Document — submit for BA review</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button type="button" id="langToggle" class="btn btn-ghost" aria-label="Toggle language">VI / EN</button>
+        <span class="score-badge" id="scoreBadge" title="Quality preview">—%</span>
+      </div>
+    </div>
+    <nav class="steps" id="stepNav" aria-label="Form steps"></nav>
+  </header>
+
+  <main class="main">
+    <aside class="sidebar">
+      <section class="card pipeline-card" id="pipelineCard">
+        <h2 data-i18n="pipelineTitle">Delivery pipeline</h2>
+        <p class="muted small" data-i18n="pipelineHint">You are here: BRD gate. IT delivers via Agile/Scrum after acceptance.</p>
+        <ol class="pipeline" id="pipelineList"></ol>
+      </section>
+      <section class="card routing-card" id="routingCard">
+        <h2 data-i18n="routingTitle">Review routing</h2>
+        <p class="muted" data-i18n="routingHint">IT-Governance, IT-Security, and GRC/Legal — updates as you complete the form.</p>
+        <div id="routingGroups"></div>
+      </section>
+      <section class="card gates-card">
+        <h2 data-i18n="gatesTitle">Hard gates</h2>
+        <ul class="gates-list" id="gatesList"></ul>
+      </section>
+      <section class="card tips-card">
+        <h2 data-i18n="tipsTitle">Golden rule</h2>
+        <p data-i18n="goldenRule">Write the <strong>problem and business rules</strong> — not the system design.</p>
+        <p class="muted small" data-i18n="frameworkLink">See <a href="../docs/12-it-operations-stakeholder-framework.md">IT Ops Framework</a> and <a href="../docs/00-fe-credit-application-landscape.md">Application Landscape</a>.</p>
+      </section>
+    </aside>
+
+    <form class="form card" id="brdForm" novalidate>
+      <!-- Step panels injected by app.js -->
+    </form>
+  </main>
+
+  <footer class="footer">
+    <p>FE Credit BRD Training Package · BRD → FSD → UAT → Ship · Gate ≥ 80% · <a href="../docs/11-operations-manager-checklist.md">Ops checklist</a></p>
+  </footer>
+
+  <dialog id="exportDialog" class="dialog">
+    <form method="dialog">
+      <h2 data-i18n="exportTitle">Export BRD</h2>
+      <p data-i18n="exportDesc">Copy markdown or download for Confluence / Word.</p>
+      <textarea id="exportOutput" rows="16" readonly></textarea>
+      <div class="dialog-actions">
+        <button type="button" class="btn btn-ghost" id="copyExport" data-i18n="copy">Copy</button>
+        <button type="button" class="btn btn-primary" id="downloadExport" data-i18n="download">Download .md</button>
+        <button type="submit" class="btn btn-ghost" data-i18n="close">Close</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
