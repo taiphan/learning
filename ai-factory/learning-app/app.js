@@ -271,7 +271,7 @@
       bridge.hidden = false;
       bridge.innerHTML =
         `<strong>Week 2 bridge:</strong> Loan rules in Python mirror Section H of ` +
-        `<a href="https://github.com/taiphan/finance-brd-training/blob/main/examples/04a-brd-pos-lending.md" target="_blank" rel="noopener">examples/04a-brd-pos-lending.md</a>.`;
+        `<a href="https://github.com/taiphan/learning/blob/main/examples/04a-brd-pos-lending.md" target="_blank" rel="noopener">examples/04a-brd-pos-lending.md</a>.`;
     } else if (n >= 25 && n <= 33) {
       bridge.hidden = false;
       bridge.innerHTML =

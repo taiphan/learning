@@ -1,8 +1,8 @@
-# Finance BRD Training Package
+# Learning — 52-Week Banking → AI Engineer Path
 
-Local folder: `~/Projects/finance` · GitHub repo: [finance-brd-training](https://github.com/taiphan/finance-brd-training)
+Local folder: `~/Projects/learning` · GitHub: [learning](https://github.com/taiphan/learning)
 
-Training materials and **BRD intake web app** for business users (consumer finance — FE ONLINE 2.0, Finacle on AWS, nationwide POS).
+Training materials, **learning app**, and **Finance BRD intake app** for business users (consumer finance — FE ONLINE 2.0, Finacle on AWS, nationwide POS).
 
 ## Quick start — BRD Intake App
 
@@ -26,7 +26,7 @@ cd ai-factory/learning-app && python3 -m http.server 8081
 | Lab exercises | [ai-factory/learning-lab](ai-factory/learning-lab/) |
 | Curriculum source | [ai-factory/learning_data.py](ai-factory/learning_data.py) |
 
-**Live site:** https://taiphan.github.io/finance-brd-training/ — learning app at `/`, BRD intake at `/brd/`.
+**Live site:** https://taiphan.github.io/learning/ — learning app at `/`, BRD intake at `/brd/`.
 
 ## Contents
 

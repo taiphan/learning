@@ -46,7 +46,7 @@
 |------|------------|
 | **BRD Intake App** | `cd app && python3 -m http.server 8080` → http://localhost:8080 |
 | **Learning app (52 weeks)** | `cd ai-factory/learning-app && python3 -m http.server 8081` |
-| **Live site** | https://taiphan.github.io/finance-brd-training/ (learning) · `/brd/` (BRD) |
+| **Live site** | https://taiphan.github.io/learning/ (learning) · `/brd/` (BRD) |
 | **Regenerate curriculum** | `python3 ai-factory/generate_all_learning.py` |
 | **AI skills slides** | `python3 ai-factory/generate_ai_skills_slides.py` |
 | **AI visual slides** | `python3 ai-factory/generate_ai_skills_visual_slides.py` |
@@ -82,10 +82,10 @@
 
 | Item | Status |
 |------|--------|
-| CodeGraph index | Present — `/Users/phantuantai/Projects/finance/.codegraph/` |
+| CodeGraph index | Present — `/Users/phantuantai/Projects/learning/.codegraph/` |
 | Indexed | 22 files · 555 nodes · Python generators + `app/app.js`, `finance.js` |
-| Workspace root | `/Users/phantuantai/Projects/finance` |
-| OntoSight | `npx @royalsolution/ontosight@0.2.0 "/Users/phantuantai/Projects/finance" --symbol init --path app` |
+| Workspace root | `/Users/phantuantai/Projects/learning` |
+| OntoSight | `npx @royalsolution/ontosight@0.2.0 "/Users/phantuantai/Projects/learning" --symbol init --path app` |
 
 ## Notes
 

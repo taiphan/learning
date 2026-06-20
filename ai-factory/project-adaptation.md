@@ -1,7 +1,7 @@
 # Project Adaptation — Understand the Apps & Your Learning Path
 
 **For:** Banking domain expert · zero Python · target: AI engineer / Senior BA (OCB, NAB, VPBank)  
-**Map:** [.agent/PROJECT.md](../.agent/PROJECT.md) · **Live:** [Learning app](https://taiphan.github.io/finance-brd-training/) · [BRD app](https://taiphan.github.io/finance-brd-training/brd/)
+**Map:** [.agent/PROJECT.md](../.agent/PROJECT.md) · **Live:** [Learning app](https://taiphan.github.io/learning/) · [BRD app](https://taiphan.github.io/learning/brd/)
 
 ---
 
@@ -36,7 +36,7 @@ flowchart LR
 | **BRD Intake app** | `app/` | Practice BRD writing; export markdown for Python + RAG |
 | **Learning lab** | `ai-factory/learning-lab/` | Run exercises in Cursor terminal |
 
-**Live (GitHub Pages):** Learning `/` · BRD `/brd/` · Repo [github.com/taiphan/finance-brd-training](https://github.com/taiphan/finance-brd-training)
+**Live (GitHub Pages):** Learning `/` · BRD `/brd/` · Repo [github.com/taiphan/learning](https://github.com/taiphan/learning)
 
 **Local:**
 
@@ -133,8 +133,8 @@ Shared libs: `lib/brd_utils.py`, `lib/loan_utils.py`, `lib/rag_simple.py`
 
 ### Adaptation A — Week 1 loop (do this first)
 
-1. Open [learning app](https://taiphan.github.io/finance-brd-training/) → Week 1 → **Lab**
-2. Open [BRD app](https://taiphan.github.io/finance-brd-training/brd/) → fill minimal BRD → **Export .md**
+1. Open [learning app](https://taiphan.github.io/learning/) → Week 1 → **Lab**
+2. Open [BRD app](https://taiphan.github.io/learning/brd/) → fill minimal BRD → **Export .md**
 3. From `ai-factory/learning-lab`:
    ```bash
    python3 exercises/week01_brd_checklist.py ~/Downloads/your-export.md
