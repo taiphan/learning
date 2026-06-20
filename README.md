@@ -1,6 +1,6 @@
 # FE Credit BRD Training Package
 
-Training materials and **BRD intake web app** for business users at FE Credit (consumer finance — FE ONLINE 2.0, $NAP, Finacle on AWS, nationwide POS).
+Training materials and **BRD intake web app** for business users at FE Credit (consumer finance — FE ONLINE 2.0, Finacle on AWS, nationwide POS).
 
 ## Quick start — BRD Intake App
 
@@ -10,6 +10,21 @@ cd app && python3 -m http.server 8080
 ```
 
 See [app/README.md](app/README.md).
+
+## AI learning path (52 weeks)
+
+```bash
+cd ai-factory/learning-app && python3 -m http.server 8081
+# Open http://localhost:8081
+```
+
+| Resource | Path |
+|----------|------|
+| Learning app | [ai-factory/learning-app](ai-factory/learning-app/) |
+| Lab exercises | [ai-factory/learning-lab](ai-factory/learning-lab/) |
+| Curriculum source | [ai-factory/learning_data.py](ai-factory/learning_data.py) |
+
+**Live site** (after deploy): GitHub Pages — learning app at `/`, BRD intake at `/brd/`.
 
 ## Contents
 

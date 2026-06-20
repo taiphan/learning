@@ -52,7 +52,7 @@ flowchart TD
 | 11 | Desired Business Outcome | Single line | Yes | B | One sentence |
 | 12 | Objectives & KPIs | Multi-line / repeating | Yes | C | Min 1 objective with baseline + target |
 | 13 | Current Process | Multi-line | Yes | D | Step-by-step |
-| 14 | Current Systems | Multi-select | Yes | D | FE ONLINE 2.0, $NAP, SHIELD, POS/LOS, Finacle LMS, Finacle CIF, Finacle Assure, FirstVision, Collections, CRM, Chatbot, eSign, Workflow, BI, SMS gateway, Other — see [landscape](00-fe-credit-application-landscape.md) |
+| 14 | Current Systems | Multi-select | Yes | D | FE ONLINE 2.0, POS/LOS, Finacle LMS, Finacle CIF, Finacle Assure, FirstVision, Collections, CRM, Chatbot, eSign, Workflow, BI, SMS gateway, Other — see [landscape](00-fe-credit-application-landscape.md) |
 | 15 | Volume — Users affected | Number | Yes | D | > 0 |
 | 16 | Volume — Transactions/month | Number | No | D | |
 | 17 | To-Be Process Description | Multi-line | Yes | E | Block technical keywords* |

@@ -12,8 +12,6 @@ Reference for business users writing BRDs. Use **application names** and **busin
 flowchart TB
   subgraph CH[Customer-facing channels]
     FEO[FE ONLINE 2.0]
-    NAP[$NAP]
-    SHD[SHIELD]
     POS[Partner POS / LOS]
     WEB[Website / landing]
   end
@@ -49,8 +47,6 @@ Hosting: core Finacle suite and mission-critical apps run on **AWS**; PII reside
 | Application | Primary users | Business purpose | Typical BRD topics |
 |-------------|---------------|------------------|-------------------|
 | **FE ONLINE 2.0** | Customers | Multifunction mobile app: cash loans, cards, loan management, digital banking features | eKYC, upload docs, UX, notifications, loan tracking |
-| **$NAP** | Customers | End-to-end digital lending: apply, near-instant approval, credit management | Onboarding, OCR, scoring UX, disbursement journey |
-| **SHIELD** | Customers | Consumer loan, credit card, insurance products (mobile) | Product features, cross-sell, self-service |
 | **Partner POS / LOS tablet** | POS sales agents, partner staff | In-store origination for motorbike, phone, durable goods | Approval visibility, contract signing, partner workflow |
 | **Website / landing** | Prospects | Campaigns, product info, lead capture | Forms, tracking, consent |
 
@@ -90,10 +86,10 @@ Hosting: core Finacle suite and mission-critical apps run on **AWS**; PII reside
 
 | Product | Origination channel | Core servicing | Collections |
 |---------|--------------------|----------------|-------------|
-| Personal cash loan | FE ONLINE, $NAP, branches | Finacle LMS | Collections platform |
+| Personal cash loan | FE ONLINE 2.0, branches | Finacle LMS | Collections platform |
 | Two-wheeler installment | Partner POS / LOS | Finacle LMS | Collections platform |
 | Consumer durable (phone, electronics) | Partner POS | Finacle LMS | Collections platform |
-| Credit card | FE ONLINE, $NAP, SHIELD | FirstVision + Finacle | Collections platform |
+| Credit card | FE ONLINE 2.0 | FirstVision + Finacle | Collections platform |
 
 ---
 
@@ -101,11 +97,11 @@ Hosting: core Finacle suite and mission-critical apps run on **AWS**; PII reside
 
 | Business unit | Typical requesters | Common systems touched |
 |---------------|-------------------|------------------------|
-| **Digital & CX** | Product owners, app owners | FE ONLINE, $NAP, SHIELD, chatbot |
+| **Digital & CX** | Product owners, app owners | FE ONLINE 2.0, chatbot |
 | **Sales / Partner (POS)** | Regional sales, partner ops | POS LOS, Finacle LMS |
 | **Credit & Risk** | Policy, underwriting | Finacle LMS, CIF, bureau |
 | **Collections & Recovery** | Collections strategy, ops | Collections, SMS, Finacle LMS |
-| **Cards** | Card product team | FirstVision, SHIELD, FE ONLINE |
+| **Cards** | Card product team | FirstVision, FE ONLINE 2.0 |
 | **Customer Service** | Call center, CX ops | CRM, chatbot, FE ONLINE |
 | **Operations** | Back-office, disbursement | Finacle LMS, workflow |
 | **Finance** | Accounting, reconciliation | Finacle, BI |
@@ -141,7 +137,7 @@ Hosting: core Finacle suite and mission-critical apps run on **AWS**; PII reside
 
 ## 8. BRD writing rules per application
 
-### FE ONLINE 2.0 / $NAP / SHIELD
+### FE ONLINE 2.0
 - State **customer journey step** (e.g., "after eKYC", "at disbursement")
 - Specify **consent** and **notification** needs
 - Do not specify React, AWS, OCR engine — say "automated document capture"
@@ -175,7 +171,7 @@ Hosting: core Finacle suite and mission-critical apps run on **AWS**; PII reside
 
 ## 10. Integration partners (reference only)
 
-Documented ecosystem includes Infosys Finacle, ITC ($NAP/OCR), Fiserv (cards), AWS. New vendors require **Vendor Risk Assessment** — note in BRD Section N Q4.
+Documented ecosystem includes Infosys Finacle, ITC (digital lending / OCR), Fiserv (cards), AWS. New vendors require **Vendor Risk Assessment** — note in BRD Section N Q4.
 
 ---
 

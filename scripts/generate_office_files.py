@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 """Generate Word and PowerPoint deliverables from FE Credit BRD training package."""
 
+import math
+import re
+import sys
 from pathlib import Path
 
 from docx import Document
@@ -8,27 +11,384 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH
 from docx.shared import Inches, Pt
 from pptx import Presentation
 from pptx.enum.shapes import MSO_SHAPE, MSO_CONNECTOR
+from pptx.enum.text import PP_ALIGN, MSO_ANCHOR
 from pptx.util import Inches as PInches, Pt as PPt
-from pptx.dml.color import RGBColor
 
 ROOT = Path(__file__).resolve().parent.parent
 OUTPUT = ROOT / "exports"
 OUTPUT.mkdir(exist_ok=True)
 
+sys.path.insert(0, str(ROOT / "ai-factory"))
+from anthropic_theme import (  # noqa: E402
+    SW, SH, ACCENTS, SLATE, CREAM, CLAY, SKY, OLIVE, FIG, CACTUS,
+    NAVY, BLUE, GREEN, ORANGE, PURPLE, TEAL, RED, WHITE, INK, GREY, LIGHT,
+    BORDER, LINK, ON_DARK_MUTED, SLATE_SOFT, CARD_FILL, MID_GRAY,
+    blank as _blank, rect as _rect, text as _text, set_shape_text as _set_shape_text,
+    header as _header_base, footer as _footer_base, card as _card,
+    title_slide, slide_bg,
+)
+from anthropic_docx import (  # noqa: E402
+    new_branded_document,
+    add_cover,
+    add_section_heading,
+    add_field,
+    add_body,
+    add_numbered_items,
+    add_callout_box,
+    style_table,
+)
+
+# ======================================================================
+# Shared visual-first slide library — Anthropic brand theme
+# Colors: slate #141413 · cream #faf9f5 · accents clay/sky/olive
+# Fonts: Poppins headings · Lora body (Arial/Georgia fallback)
+# ======================================================================
+
+FOOTER_TEXT = "FE Credit  ·  Internal use only"
+DECK_KICKER = "FE Credit"
+
+
+def _idx(prs):
+    return len(prs.slides._sldIdLst)
+
+
+def _header(slide, title, kicker=None):
+    return _header_base(slide, title, kicker=kicker)
+
+
+def _footer(slide, idx):
+    _footer_base(slide, idx, FOOTER_TEXT)
+
+
+def _frame(prs, title, kicker=None):
+    """Standard content slide frame: blank + header + footer."""
+    s = _blank(prs)
+    y = _header(s, title, kicker=kicker)
+    _footer(s, _idx(prs))
+    return s, y
+
+
+# ---------- text utilities ----------
+
+_MARK = re.compile(r"^\s*([•◦\-▪☐✓✗]|\d+[.)])\s+")
+
+
+def _strip_marker(line):
+    return _MARK.sub("", line).strip()
+
+
+def _split_kv(text):
+    """Split 'Head — detail' / 'Head: detail' into (head, sub)."""
+    t = text.strip()
+    for sep in (" — ", " – ", " - ", ": "):
+        if sep in t:
+            a, b = t.split(sep, 1)
+            a, b = a.strip(), b.strip()
+            if a and b and len(a) <= 44:
+                return a, b
+    if len(t) > 60 and ", " in t:
+        a, b = t.split(", ", 1)
+        return a.strip(), b.strip()
+    return t, None
+
+
+def _ne(body):
+    return [ln.rstrip() for ln in body.split("\n") if ln.strip()]
+
+
+# ---------- hero / divider ----------
+
+def _hero(prs, title, body):
+    s = _blank(prs)
+    title_slide(
+        s,
+        DECK_KICKER,
+        title,
+        _ne(body)[:4],
+    )
+    return s
+
+
+# ---------- auto content renderers ----------
+
+def _cards(s, y, items, cols, accents=None):
+    """items: list of (head, sub). Renders a responsive numbered card grid."""
+    n = len(items)
+    rows = math.ceil(n / cols)
+    gx, gy = 0.3, 0.28
+    cw = (SW - 1.1 - gx * (cols - 1)) / cols
+    region_h = 6.85 - y
+    ch = (region_h - gy * (rows - 1)) / rows
+    ch = min(ch, 2.4)
+    x0 = (SW - (cw * cols + gx * (cols - 1))) / 2
+    compact = ch < 1.15
+    for i, (head, sub) in enumerate(items):
+        r, c = divmod(i, cols)
+        x = x0 + c * (cw + gx)
+        yy = y + r * (ch + gy)
+        acc = (accents or ACCENTS)[i % len(accents or ACCENTS)]
+        _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, yy, cw, ch, fill=CARD_FILL, line=BORDER, line_w=1)
+        _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, yy, 0.1, ch, fill=acc)
+        badge = _rect(s, MSO_SHAPE.OVAL, x + 0.22, yy + 0.2, 0.42, 0.42, fill=acc)
+        _set_shape_text(badge, [(str(i + 1), 13, True, CREAM)])
+        if compact or not sub:
+            _text(s, x + 0.78, yy, cw - 0.95, ch, [(head, 12, True, INK)],
+                  anchor=MSO_ANCHOR.MIDDLE)
+        else:
+            _text(s, x + 0.78, yy + 0.18, cw - 0.95, 0.7, [(head, 13, True, INK)])
+            _text(s, x + 0.28, yy + 0.78, cw - 0.5, ch - 0.9, [(sub, 10.5, False, GREY)])
+
+
+def _checks(s, y, items, cols=2):
+    n = len(items)
+    rows = math.ceil(n / cols)
+    gx, gy = 0.4, 0.22
+    cw = (SW - 1.1 - gx * (cols - 1)) / cols
+    region_h = 6.85 - y
+    ch = (region_h - gy * (rows - 1)) / rows
+    ch = min(ch, 1.1)
+    x0 = (SW - (cw * cols + gx * (cols - 1))) / 2
+    for i, text in enumerate(items):
+        r, c = divmod(i, cols)
+        x = x0 + c * (cw + gx)
+        yy = y + r * (ch + gy)
+        acc = ACCENTS[i % len(ACCENTS)]
+        _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, yy, cw, ch, fill=CARD_FILL, line=BORDER, line_w=1)
+        chk = _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, x + 0.18, yy + (ch - 0.4) / 2, 0.4, 0.4, fill=acc)
+        _set_shape_text(chk, [("✓", 14, True, CREAM)])
+        _text(s, x + 0.74, yy, cw - 0.9, ch, [(text, 11.5, False, INK)], anchor=MSO_ANCHOR.MIDDLE)
+
+
+def _rows(s, y, pairs):
+    """pairs: list of (left, right). Left navy pill -> arrow -> light box."""
+    n = len(pairs)
+    region_h = 6.85 - y
+    gy = 0.14
+    rh = (region_h - gy * (n - 1)) / n
+    rh = min(rh, 0.82)
+    x = 0.7
+    total_w = SW - 1.4
+    lw = total_w * 0.42
+    rw = total_w - lw - 0.55
+    for i, (left, right) in enumerate(pairs):
+        yy = y + i * (rh + gy)
+        acc = ACCENTS[i % len(ACCENTS)]
+        lb = _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, yy, lw, rh, fill=acc)
+        _set_shape_text(lb, [(left, 11.5, True, CREAM)], align=PP_ALIGN.LEFT)
+        lb.text_frame.margin_left = PInches(0.18)
+        _rect(s, MSO_SHAPE.RIGHT_ARROW, x + lw + 0.06, yy + rh / 2 - 0.13, 0.4, 0.26, fill=LINK)
+        rb = _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, x + lw + 0.55, yy, rw, rh, fill=LIGHT, line=BORDER, line_w=1)
+        _set_shape_text(rb, [(right, 11, False, INK)], align=PP_ALIGN.LEFT)
+        rb.text_frame.margin_left = PInches(0.18)
+
+
+def _two_col(s, y, left_title, left_items, left_acc, right_title, right_items, right_acc):
+    cw = (SW - 1.4 - 0.4) / 2
+    x0 = 0.7
+    ch = 6.7 - y
+    for col, (htitle, items, acc, x) in enumerate([
+        (left_title, left_items, left_acc, x0),
+        (right_title, right_items, right_acc, x0 + cw + 0.4),
+    ]):
+        _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, y, cw, ch, fill=CARD_FILL, line=BORDER, line_w=1)
+        _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, y, cw, 0.66, fill=acc)
+        _set_shape_text(_rect(s, MSO_SHAPE.RECTANGLE, x, y, cw, 0.66, fill=acc),
+                        [(htitle, 15, True, CREAM)])
+        iy = y + 0.95
+        for it in items:
+            dot = _rect(s, MSO_SHAPE.OVAL, x + 0.3, iy + 0.06, 0.16, 0.16, fill=acc)
+            _text(s, x + 0.62, iy, cw - 0.85, 0.6, [(it, 11.5, False, INK)])
+            iy += max(0.5, 0.42 + 0.18 * (len(it) // 46))
+
+
+def _callout(prs, s, y, title, body):
+    lines = _ne(body)
+    box_y = y + 0.4
+    box_h = 6.6 - box_y
+    _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, 1.4, box_y, SW - 2.8, box_h, fill=LIGHT, line=SLATE, line_w=1.5)
+    _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, 1.4, box_y, 0.14, box_h, fill=CLAY)
+    yy = box_y + (box_h - len(lines) * 0.62) / 2
+    for ln in lines:
+        emph = any(tok in ln for tok in ("[", "]")) or ln.isupper()
+        size = 22 if (len(ln) < 60 and emph) else 17
+        _text(s, 1.9, yy, SW - 3.8, 0.7, [(ln, size, emph, SLATE if emph else INK)],
+              align=PP_ALIGN.CENTER)
+        yy += 0.62
+
+
+def _chevrons(s, y, steps, note=None):
+    n = len(steps)
+    gap = 0.12
+    cw = (SW - 1.0 - gap * (n - 1)) / n
+    ch = 1.7
+    x0 = 0.5
+    yy = y + 0.7
+    for i, label in enumerate(steps):
+        acc = ACCENTS[i % len(ACCENTS)]
+        sp = _rect(s, MSO_SHAPE.CHEVRON, x0 + i * (cw + gap), yy, cw, ch, fill=acc, line=CREAM, line_w=1.5)
+        _set_shape_text(sp, [(str(i + 1), 16, True, CREAM), (label, 11.5, True, CREAM)])
+    if note:
+        _text(s, 0.55, yy + ch + 0.5, 12.2, 0.8, [(note, 13, False, GREY)], align=PP_ALIGN.CENTER)
+
+
+def _line_tiles(s, y, lines):
+    items = [(_split_kv(ln)) for ln in lines]
+    cols = 1 if len(items) <= 3 else 2
+    _cards(s, y, items, cols)
+
+
+# ---------- dispatcher ----------
+
+def _looks_mapping(lines):
+    hits = 0
+    for ln in lines:
+        if "→" in ln and ln.count("→") == 1:
+            hits += 1
+        elif re.search(r"\S\s{2,}\S", ln) and "•" not in ln:
+            hits += 1
+    return hits >= max(2, int(len(lines) * 0.6))
+
+
+def _to_pair(ln):
+    if "→" in ln:
+        a, b = ln.split("→", 1)
+    else:
+        a, b = re.split(r"\s{2,}", ln.strip(), maxsplit=1)
+    return a.strip(), b.strip()
+
+
+def _render_visual(prs, title, body):
+    """Convert a (title, body) content tuple into a visual slide."""
+    if _idx(prs) == 0:
+        return _hero(prs, title, body)
+
+    lines = _ne(body)
+    raw = [ln for ln in lines]
+    flat = "\n".join(lines)
+
+    # 1) Multi-arrow single flow -> chevrons
+    arrow_lines = [ln for ln in lines if "→" in ln]
+    total_arrows = flat.count("→")
+    if total_arrows >= 2 and len(arrow_lines) <= 2 and len(lines) <= 3:
+        seq = re.split(r"→|\n", flat)
+        steps = [s.strip() for s in seq if s.strip()]
+        if 3 <= len(steps) <= 8:
+            s, y = _frame(prs, title)
+            _chevrons(s, y, steps)
+            return s
+
+    # 2) Comparison (good vs bad / weak vs strong / do vs don't)
+    up = flat.upper()
+    cmp_pairs = [("BAD", "GOOD"), ("WEAK", "STRONG"), ("DON'T", "DO")]
+    for neg, pos in cmp_pairs:
+        if neg in up and pos in up:
+            s, y = _frame(prs, title)
+            neg_items, pos_items, bucket = [], [], None
+            for ln in lines:
+                u = ln.upper().strip(' :"')
+                if u.startswith(neg):
+                    bucket = "neg"
+                    rest = ln.split(":", 1)[1].strip() if ":" in ln else ""
+                    if rest:
+                        neg_items.append(rest.strip('"'))
+                    continue
+                if u.startswith(pos):
+                    bucket = "pos"
+                    rest = ln.split(":", 1)[1].strip() if ":" in ln else ""
+                    if rest:
+                        pos_items.append(rest.strip('"'))
+                    continue
+                t = _strip_marker(ln).strip('"')
+                if bucket == "neg":
+                    neg_items.append(t)
+                elif bucket == "pos":
+                    pos_items.append(t)
+            if neg_items and pos_items:
+                _two_col(s, y, f"✗  {neg.title()}", neg_items, RED,
+                         f"✓  {pos.title()}", pos_items, GREEN)
+                return s
+
+    # ✓ / ✗ comparison
+    do_items = [_strip_marker(ln) for ln in lines if ln.lstrip().startswith("✓")]
+    dont_items = [_strip_marker(ln) for ln in lines if ln.lstrip().startswith("✗")]
+    if do_items and dont_items:
+        s, y = _frame(prs, title)
+        _two_col(s, y, "✓  Do include", do_items, GREEN, "✗  Do NOT include", dont_items, RED)
+        return s
+
+    # 3) Checklist
+    check_lines = [ln for ln in lines if ln.lstrip().startswith("☐")]
+    if len(check_lines) >= 3 and len(check_lines) >= len(lines) - 2:
+        s, y = _frame(prs, title)
+        caption = next((ln for ln in lines if not ln.lstrip().startswith("☐")), None)
+        if caption and len(caption) <= 90:
+            _text(s, 0.7, y, 12.0, 0.4, [(caption, 13, False, GREY)])
+            y += 0.55
+        items = [_strip_marker(ln) for ln in check_lines]
+        _checks(s, y, items, cols=2 if len(items) <= 10 else 2)
+        return s
+
+    # 4) Numbered list
+    num_lines = [ln for ln in lines if re.match(r"^\s*\d+[.)]\s", ln)]
+    if len(num_lines) >= 3 and len(num_lines) >= len(lines) - 2:
+        s, y = _frame(prs, title)
+        items = [_split_kv(_strip_marker(ln)) for ln in num_lines]
+        n = len(items)
+        cols = 2 if n <= 6 else (3 if n <= 9 else 2)
+        _cards(s, y, items, cols)
+        return s
+
+    # 5) Mapping rows
+    map_candidates = [ln for ln in lines if "•" not in ln and not ln.lstrip().startswith("☐")]
+    if len(map_candidates) >= 3 and _looks_mapping(map_candidates):
+        s, y = _frame(prs, title)
+        pairs = [_to_pair(ln) for ln in map_candidates if "→" in ln or re.search(r"\S\s{2,}\S", ln)]
+        if len(pairs) >= 3:
+            _rows(s, y, pairs[:8])
+            return s
+
+    # 6) Bullet cards
+    bullets = [ln for ln in lines if ln.lstrip().startswith(("•", "◦", "▪", "-"))]
+    if len(bullets) >= 2:
+        s, y = _frame(prs, title)
+        lead = lines[0] if not lines[0].lstrip().startswith(("•", "◦", "▪", "-")) else None
+        if lead and len(lead) <= 90:
+            _text(s, 0.7, y, 12.0, 0.4, [(lead, 13, False, GREY)])
+            y += 0.5
+        items = [_split_kv(_strip_marker(ln)) for ln in bullets]
+        n = len(items)
+        cols = 1 if n <= 2 else (2 if n <= 6 else (3 if n <= 9 else 2))
+        _cards(s, y, items, cols)
+        return s
+
+    # 7) Short callout (formula / golden rule / definition)
+    if len(lines) <= 6:
+        s, y = _frame(prs, title)
+        _callout(prs, s, y, title, body)
+        return s
+
+    # 8) Fallback: line tiles
+    s, y = _frame(prs, title)
+    _line_tiles(s, y, [_strip_marker(ln) for ln in lines[:8]])
+    return s
+
 
 def add_heading(doc, text, level=1):
-    doc.add_heading(text, level=level)
+    """Legacy wrapper — use add_section_heading for new code."""
+    add_section_heading(doc, text, accent_index=max(0, level - 1))
 
 
 def generate_brd_template_docx():
-    src = ROOT / "docs" / "01-brd-template-en.md"
-    doc = Document()
-    doc.add_heading("FE CREDIT — BUSINESS REQUIREMENTS DOCUMENT (BRD)", 0)
-    p = doc.add_paragraph()
-    p.add_run("Template v1.0 | Internal use only").italic = True
-    doc.add_paragraph(
+    doc = new_branded_document()
+    add_cover(
+        doc,
+        "FE Credit — Business Requirements Document (BRD)",
+        meta="Template v1.0 · Internal use only",
+    )
+    add_callout_box(
+        doc,
         "Instructions: Complete all mandatory sections. Write what the business needs and why — "
-        "not how IT should build it. Obtain Business Sponsor sign-off before IT/BA intake."
+        "not how IT should build it. Obtain Business Sponsor sign-off before IT/BA intake.",
     )
 
     sections = [
@@ -92,11 +452,11 @@ def generate_brd_template_docx():
         ]),
     ]
 
-    for title, fields in sections:
-        add_heading(doc, title, level=1)
+    for i, (title, fields) in enumerate(sections):
+        add_section_heading(doc, title, accent_index=i)
         for field in fields:
-            doc.add_paragraph(field)
-            doc.add_paragraph("_" * 60)
+            label = field if field.endswith(":") else f"{field}:"
+            add_field(doc, label)
 
     out = OUTPUT / "FE-Credit-BRD-Template.docx"
     doc.save(out)
@@ -105,10 +465,20 @@ def generate_brd_template_docx():
 
 
 def generate_cheat_sheet_docx():
-    doc = Document()
-    doc.add_heading("FE Credit BRD Cheat Sheet", 0)
+    doc = new_branded_document()
+    add_cover(
+        doc,
+        "FE Credit BRD Cheat Sheet",
+        subtitle="Quick reference for business authors · POS, HQ, Digital, Collections",
+        meta="Internal use only",
+    )
+    add_callout_box(
+        doc,
+        "Golden rule: write the problem and business rules — not the system design. "
+        "Aim for ≥ 80% on the BRD quality gate before IT intake.",
+    )
 
-    for lang_title, items in [
+    for i, (lang_title, items) in enumerate([
         ("Tiếng Việt (POS / hiện trường)", [
             "Bắt đầu bằng vấn đề — không bắt đầu bằng hệ thống",
             "Có số liệu: %, giờ, số KH",
@@ -129,17 +499,16 @@ def generate_cheat_sheet_docx():
             "Add acceptance criteria: Given/When/Then (min 5)",
             "Get Sponsor sign-off before IT intake",
         ]),
-    ]:
-        add_heading(doc, lang_title, level=1)
-        for i, item in enumerate(items, 1):
-            doc.add_paragraph(f"{i}. {item}", style="List Number")
+    ]):
+        add_section_heading(doc, lang_title, accent_index=i)
+        add_numbered_items(doc, items)
 
-    add_heading(doc, "Compliance triggers → Route to", level=1)
+    add_section_heading(doc, "Compliance triggers → Route to", accent_index=2)
     table = doc.add_table(rows=1, cols=2)
-    table.style = "Table Grid"
     hdr = table.rows[0].cells
     hdr[0].text = "If BRD includes..."
     hdr[1].text = "Route to"
+    style_table(table, ["If BRD includes...", "Route to"])
     rows = [
         ("Loan approval / disbursement change", "Risk + Credit Policy"),
         ("Interest / fees / contract change", "Legal + Finance"),
@@ -165,7 +534,7 @@ SLIDES = [
     ("Why We Are Here", "• High volume of IT requests from business\n• Rework costs: delay, UAT defects, compliance risk\n• Goal: faster triage, predictable delivery"),
     ("What Is a BRD?", "Document describing:\n• Business problem\n• Outcomes and KPIs\n• Business rules and scope\n\nNOT: technical design, vendor selection, project plan"),
     ("BRD vs Other Documents", "BRD → Business owns\nFRD → BA + IT\nTechnical Design → IT\nUAT → Business + QA"),
-    ("FE Credit Context", "• FE ONLINE 2.0, $NAP, SHIELD (customer apps)\n• Finacle LMS, CIF, Assure on AWS\n• POS/LOS, FirstVision cards, Collections\n• ~13k POS, SBV compliance expectations"),
+    ("FE Credit Context", "• FE ONLINE 2.0 (customer mobile app)\n• Finacle LMS, CIF, Assure on AWS\n• POS/LOS, FirstVision cards, Collections\n• ~13k POS, SBV compliance expectations"),
     ("Request Journey", "Business BRD → BA review → IT triage → Risk (if needed)\n→ FRD → Build → UAT → Go-live"),
     ("Good vs Bad Request", "BAD: 'Build Kafka API to Finacle'\nGOOD: 'POS needs same-day approval visibility during customer visit'"),
     ("The Golden Rule", "Write the PROBLEM and RULES,\nnot the SYSTEM DESIGN."),
@@ -183,154 +552,102 @@ SLIDES = [
 
 
 def _add_content_slide(prs, title, body):
-    slide = prs.slides.add_slide(prs.slide_layouts[1])
-    slide.shapes.title.text = title
-    slide.placeholders[1].text = body
-    return slide
+    return _render_visual(prs, title, body)
 
 
 def _add_pipeline_slide(prs, title, stages, subtitle=None):
-    """Horizontal pipeline diagram with rounded boxes."""
-    slide = prs.slides.add_slide(prs.slide_layouts[5])  # Title Only
-    slide.shapes.title.text = title
+    """Horizontal pipeline diagram with rounded boxes (restyled)."""
+    s, y = _frame(prs, title)
     if subtitle:
-        box = slide.shapes.add_textbox(PInches(0.5), PInches(1.15), PInches(12.3), PInches(0.4))
-        box.text_frame.text = subtitle
-        box.text_frame.paragraphs[0].font.size = PPt(14)
-        box.text_frame.paragraphs[0].font.color.rgb = RGBColor(0x55, 0x55, 0x55)
+        _text(s, 0.7, y, 12.0, 0.4, [(subtitle, 13, False, GREY)])
 
     n = len(stages)
-    total_w = 12.0
-    box_w = min(1.55, (total_w - 0.3 * (n - 1)) / n)
+    total_w = SW - 1.0
+    box_w = min(1.7, (total_w - 0.3 * (n - 1)) / n)
     gap = 0.3
-    start_x = (13.333 - (box_w * n + gap * (n - 1))) / 2
-    y = PInches(3.0)
-    h = PInches(0.95)
-    colors = [
-        RGBColor(0x1F, 0x4E, 0x79),
-        RGBColor(0x2E, 0x75, 0xB6),
-        RGBColor(0x5B, 0x9B, 0xD5),
-        RGBColor(0x70, 0xAD, 0x47),
-        RGBColor(0xED, 0x7D, 0x31),
-        RGBColor(0xA5, 0xA5, 0xA5),
-        RGBColor(0x44, 0x72, 0xC4),
-        RGBColor(0x70, 0x30, 0xA0),
-    ]
-
+    start_x = (SW - (box_w * n + gap * (n - 1))) / 2
+    yb = 3.4
+    h = 1.05
     for i, label in enumerate(stages):
-        x = PInches(start_x + i * (box_w + gap))
-        shape = slide.shapes.add_shape(
-            MSO_SHAPE.ROUNDED_RECTANGLE, x, y, PInches(box_w), h
-        )
-        shape.fill.solid()
-        shape.fill.fore_color.rgb = colors[i % len(colors)]
-        shape.line.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
-        tf = shape.text_frame
-        tf.text = label
-        p = tf.paragraphs[0]
-        p.font.size = PPt(11)
-        p.font.bold = True
-        p.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
-        p.alignment = 1  # center
-        tf.word_wrap = True
-
+        x = start_x + i * (box_w + gap)
+        acc = ACCENTS[i % len(ACCENTS)]
+        box = _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, yb, box_w, h, fill=acc, line=CREAM, line_w=1.5)
+        _set_shape_text(box, [(label, 11, True, CREAM)])
         if i < n - 1:
-            ax = x + PInches(box_w)
-            arrow = slide.shapes.add_shape(
-                MSO_SHAPE.RIGHT_ARROW, ax, PInches(3.25), PInches(gap), PInches(0.35)
-            )
-            arrow.fill.solid()
-            arrow.fill.fore_color.rgb = RGBColor(0xBF, 0xBF, 0xBF)
-            arrow.line.fill.background()
-
-    return slide
+            _rect(s, MSO_SHAPE.RIGHT_ARROW, x + box_w + 0.02, yb + h / 2 - 0.16, gap - 0.02, 0.32, fill=LINK)
+    return s
 
 
 def _add_dual_track_slide(prs):
-    """Governance track (top) + Agile delivery track (bottom)."""
-    slide = prs.slides.add_slide(prs.slide_layouts[5])
-    slide.shapes.title.text = "Dual-Track: Governance + Agile Delivery"
+    """Governance track (top) + Agile delivery track (bottom), restyled."""
+    s, y = _frame(prs, "Dual-Track: Governance + Agile Delivery")
 
     tracks = [
-        ("Governance & assurance (parallel)", [
+        ("Governance & assurance — runs in parallel", [
             "BRD gate", "GRC / Legal", "IT-Security", "ARB", "CAB", "Audit evidence",
-        ], 1.8, RGBColor(0xC0, 0x00, 0x00)),
-        ("Agile delivery (Scrum)", [
+        ], 2.1, FIG),
+        ("Agile delivery — Scrum (2-week sprints)", [
             "FSD", "Sprint plan", "Build", "SIT", "UAT", "Ship", "Hypercare",
-        ], 3.6, RGBColor(0x00, 0x70, 0x50)),
+        ], 4.0, OLIVE),
     ]
     n_boxes = 7
     box_w = 1.55
     gap = 0.22
-    start_x = (13.333 - (box_w * n_boxes + gap * (n_boxes - 1))) / 2
+    start_x = (SW - (box_w * n_boxes + gap * (n_boxes - 1))) / 2
 
     for track_name, stages, y_in, accent in tracks:
-        lbl = slide.shapes.add_textbox(PInches(0.4), PInches(y_in - 0.35), PInches(4), PInches(0.3))
-        lbl.text_frame.text = track_name
-        lbl.text_frame.paragraphs[0].font.bold = True
-        lbl.text_frame.paragraphs[0].font.size = PPt(13)
-        lbl.text_frame.paragraphs[0].font.color.rgb = accent
-
+        _text(s, 0.5, y_in - 0.42, 9.0, 0.35, [(track_name, 13, True, accent)])
         for i, label in enumerate(stages):
-            x = PInches(start_x + i * (box_w + gap))
-            shape = slide.shapes.add_shape(
-                MSO_SHAPE.ROUNDED_RECTANGLE,
-                x, PInches(y_in), PInches(box_w), PInches(0.75),
-            )
-            shape.fill.solid()
-            shape.fill.fore_color.rgb = accent
-            shape.line.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
-            tf = shape.text_frame
-            tf.text = label
-            p = tf.paragraphs[0]
-            p.font.size = PPt(10)
-            p.font.bold = True
-            p.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
-            p.alignment = 1
+            x = start_x + i * (box_w + gap)
+            box = _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, y_in, box_w, 0.78, fill=accent, line=CREAM, line_w=1.5)
+            _set_shape_text(box, [(label, 10, True, CREAM)])
 
-    note = slide.shapes.add_textbox(PInches(0.5), PInches(5.0), PInches(12.3), PInches(1.2))
-    note.text_frame.text = (
-        "Governance track can run in parallel — it does not wait for sprint end.\n"
-        "Delivery track runs in 2-week sprints; Ship only when BOTH tracks are green."
-    )
-    note.text_frame.paragraphs[0].font.size = PPt(14)
-    return slide
+    _text(s, 0.7, 5.35, 12.0, 0.5,
+          [("Governance runs in parallel — it does not wait for sprint end.", 12.5, False, INK)])
+    _text(s, 0.7, 5.8, 12.0, 0.5,
+          [("Ship only when BOTH tracks are green.", 12.5, True, NAVY)])
+    return s
 
 
 def _add_scrum_cycle_slide(prs):
-    """Scrum ceremony ring mapped to delivery phases."""
-    slide = prs.slides.add_slide(prs.slide_layouts[1])
-    slide.shapes.title.text = "Scrum Ceremonies Inside Delivery"
-    slide.placeholders[1].text = (
-        "SPRINT N (typically 2 weeks)\n"
-        "──────────────────────────────────────────────────\n"
-        "Mon     Sprint Planning     Pull stories from FSD → sprint backlog\n"
-        "        Gate: BRD accepted, FSD linked, flags clear\n"
-        "Daily   Stand-up (15 min)   Dev + SM + Ops (deploy blockers)\n"
-        "        Wed   Mid-sprint      BA clarification; no new scope without change\n"
-        "Fri     Code complete       Unit tests + SIT entry\n"
-        "──────────────────────────────────────────────────\n"
-        "SPRINT N+1 or Release sprint\n"
-        "Mon     SIT / QA regression QA exit criteria\n"
-        "Wed     UAT window          Business tests BRD acceptance criteria\n"
-        "Thu     Sprint Review       Demo to Sponsor delegate\n"
-        "Fri     Retrospective       Process improvement\n"
-        "──────────────────────────────────────────────────\n"
-        "RELEASE WEEK (may align with sprint boundary)\n"
-        "        Release readiness   Ops checklist + CAB (IT-Governance)\n"
-        "        Ship to production  Deploy + verify + hypercare handover"
-    )
-    return slide
-
-
-_LANE_COLORS = [
-    RGBColor(0x1F, 0x4E, 0x79),
-    RGBColor(0x2E, 0x75, 0xB6),
-    RGBColor(0x70, 0xAD, 0x47),
-    RGBColor(0xED, 0x7D, 0x31),
-    RGBColor(0x70, 0x30, 0xA0),
-    RGBColor(0xC0, 0x00, 0x00),
-]
+    """Scrum ceremonies mapped to delivery phases — three styled phase columns."""
+    s, y = _frame(prs, "Scrum Ceremonies Inside Delivery")
+    phases = [
+        (BLUE, "Sprint N", "≈ 2 weeks", [
+            ("Mon", "Sprint Planning", "Pull stories from FSD"),
+            ("Gate", "Entry check", "BRD + FSD linked, flags clear"),
+            ("Daily", "Stand-up 15 min", "Dev + SM + Ops"),
+            ("Wed", "Mid-sprint", "BA clarification, no scope creep"),
+            ("Fri", "Code complete", "Unit tests + SIT entry"),
+        ]),
+        (ORANGE, "Sprint N+1", "Release sprint", [
+            ("Mon", "SIT / QA", "Regression, exit criteria"),
+            ("Wed", "UAT window", "Business tests BRD AC"),
+            ("Thu", "Sprint Review", "Demo to Sponsor delegate"),
+            ("Fri", "Retrospective", "Process improvement"),
+        ]),
+        (GREEN, "Release week", "Sprint boundary", [
+            ("Prep", "Release readiness", "Ops checklist + CAB"),
+            ("Go", "Ship to prod", "Deploy + verify"),
+            ("T+1", "Hypercare", "Handover to support"),
+        ]),
+    ]
+    cw, gap = 4.0, 0.3
+    x0 = (SW - (cw * 3 + gap * 2)) / 2
+    ch = 4.9
+    for i, (acc, name, when, rows) in enumerate(phases):
+        x = x0 + i * (cw + gap)
+        _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, y + 0.2, cw, ch, fill=CARD_FILL, line=BORDER, line_w=1)
+        _set_shape_text(_rect(s, MSO_SHAPE.RECTANGLE, x, y + 0.2, cw, 0.75, fill=acc),
+                        [(name, 15, True, CREAM), (when, 10, False, ON_DARK_MUTED)])
+        ry = y + 1.15
+        for tag, head, detail in rows:
+            pill = _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, x + 0.2, ry, 0.85, 0.5, fill=LIGHT, line=acc, line_w=1)
+            _set_shape_text(pill, [(tag, 9.5, True, acc)])
+            _text(s, x + 1.15, ry - 0.04, cw - 1.3, 0.3, [(head, 11, True, INK)])
+            _text(s, x + 1.15, ry + 0.26, cw - 1.3, 0.3, [(detail, 9, False, GREY)])
+            ry += 0.72
+    return s
 
 
 def _add_swimlane_slide(prs, title, columns, lanes, subtitle=None):
@@ -338,87 +655,38 @@ def _add_swimlane_slide(prs, title, columns, lanes, subtitle=None):
 
     lanes: list of (lane_name, [cell_text_or_None per column]).
     """
-    slide = prs.slides.add_slide(prs.slide_layouts[5])
-    slide.shapes.title.text = title
-
-    top = 1.45
+    s, top = _frame(prs, title)
     if subtitle:
-        sub = slide.shapes.add_textbox(PInches(0.4), PInches(1.05), PInches(12.5), PInches(0.35))
-        sub.text_frame.text = subtitle
-        sub.text_frame.paragraphs[0].font.size = PPt(13)
-        sub.text_frame.paragraphs[0].font.color.rgb = RGBColor(0x55, 0x55, 0x55)
-        top = 1.65
+        _text(s, 0.7, top, 12.0, 0.35, [(subtitle, 13, False, GREY)])
+        top += 0.5
 
     label_w = 1.7
     grid_x = 0.4 + label_w
-    grid_w = 13.333 - grid_x - 0.25
+    grid_w = SW - grid_x - 0.25
     n_cols = len(columns)
     col_w = grid_w / n_cols
 
-    # column headers
     for j, col in enumerate(columns):
-        hx = PInches(grid_x + j * col_w)
-        hdr = slide.shapes.add_textbox(hx, PInches(top), PInches(col_w), PInches(0.4))
-        hdr.text_frame.word_wrap = True
-        hdr.text_frame.text = col
-        p = hdr.text_frame.paragraphs[0]
-        p.font.size = PPt(11)
-        p.font.bold = True
-        p.font.color.rgb = RGBColor(0x33, 0x33, 0x33)
-        p.alignment = 1
+        _text(s, grid_x + j * col_w, top, col_w, 0.4, [(col, 11, True, NAVY)], align=PP_ALIGN.CENTER)
 
     lane_top = top + 0.45
-    lane_h = (7.1 - lane_top) / len(lanes)
+    lane_h = (6.9 - lane_top) / len(lanes)
     pad = 0.06
 
     for i, (lane_name, cells) in enumerate(lanes):
-        accent = _LANE_COLORS[i % len(_LANE_COLORS)]
+        accent = ACCENTS[i % len(ACCENTS)]
         y = lane_top + i * lane_h
-
-        # lane label
-        lbl = slide.shapes.add_shape(
-            MSO_SHAPE.RECTANGLE, PInches(0.4), PInches(y), PInches(label_w), PInches(lane_h - pad)
-        )
-        lbl.fill.solid()
-        lbl.fill.fore_color.rgb = accent
-        lbl.line.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
-        lbl.text_frame.word_wrap = True
-        lp = lbl.text_frame.paragraphs[0]
-        lp.text = lane_name
-        lp.font.size = PPt(11)
-        lp.font.bold = True
-        lp.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
-        lp.alignment = 1
-
-        # lane band background
-        band = slide.shapes.add_shape(
-            MSO_SHAPE.RECTANGLE, PInches(grid_x), PInches(y), PInches(grid_w), PInches(lane_h - pad)
-        )
-        band.fill.solid()
-        band.fill.fore_color.rgb = RGBColor(0xF2, 0xF2, 0xF2)
-        band.line.color.rgb = RGBColor(0xD9, 0xD9, 0xD9)
-        band.shadow.inherit = False
-
+        lbl = _rect(s, MSO_SHAPE.RECTANGLE, 0.4, y, label_w, lane_h - pad, fill=accent, line=CREAM, line_w=1)
+        _set_shape_text(lbl, [(lane_name, 10.5, True, CREAM)])
+        _rect(s, MSO_SHAPE.RECTANGLE, grid_x, y, grid_w, lane_h - pad, fill=LIGHT, line=BORDER, line_w=1)
         for j, cell in enumerate(cells):
             if not cell:
                 continue
-            cx = PInches(grid_x + j * col_w + pad)
-            box = slide.shapes.add_shape(
-                MSO_SHAPE.ROUNDED_RECTANGLE,
-                cx, PInches(y + pad), PInches(col_w - 2 * pad), PInches(lane_h - pad - 2 * pad),
-            )
-            box.fill.solid()
-            box.fill.fore_color.rgb = accent
-            box.line.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
-            box.text_frame.word_wrap = True
-            cp = box.text_frame.paragraphs[0]
-            cp.text = cell
-            cp.font.size = PPt(9)
-            cp.font.bold = True
-            cp.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
-            cp.alignment = 1
+            box = _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, grid_x + j * col_w + pad, y + pad,
+                        col_w - 2 * pad, lane_h - pad - 2 * pad, fill=accent, line=CREAM, line_w=1)
+            _set_shape_text(box, [(cell, 9, True, CREAM)])
 
-    return slide
+    return s
 
 
 def _add_flowchart_slide(prs, title, steps, subtitle=None):
@@ -429,32 +697,21 @@ def _add_flowchart_slide(prs, title, steps, subtitle=None):
       text: label
       branch: optional (label, outcome_text) drawn to the right (decision only)
     """
-    slide = prs.slides.add_slide(prs.slide_layouts[5])
-    slide.shapes.title.text = title
-
-    top = 1.4
+    s, top = _frame(prs, title)
     if subtitle:
-        sub = slide.shapes.add_textbox(PInches(0.4), PInches(1.05), PInches(12.5), PInches(0.35))
-        sub.text_frame.text = subtitle
-        sub.text_frame.paragraphs[0].font.size = PPt(13)
-        sub.text_frame.paragraphs[0].font.color.rgb = RGBColor(0x55, 0x55, 0x55)
-        top = 1.55
+        _text(s, 0.7, top, 12.0, 0.35, [(subtitle, 13, False, GREY)])
+        top += 0.45
 
     n = len(steps)
-    avail = 7.1 - top
+    avail = 6.9 - top
     row_h = avail / n
-    node_h = min(0.8, row_h - 0.18)
+    node_h = min(0.85, row_h - 0.18)
     main_x = 1.0
     main_w = 4.6
     out_x = 6.6
     out_w = 6.0
 
-    kind_color = {
-        "start": RGBColor(0x70, 0xAD, 0x47),
-        "process": RGBColor(0x2E, 0x75, 0xB6),
-        "decision": RGBColor(0xED, 0x7D, 0x31),
-        "end": RGBColor(0xC0, 0x00, 0x00),
-    }
+    kind_color = {"start": OLIVE, "process": SKY, "decision": CLAY, "end": FIG}
     kind_shape = {
         "start": MSO_SHAPE.ROUNDED_RECTANGLE,
         "process": MSO_SHAPE.RECTANGLE,
@@ -462,74 +719,39 @@ def _add_flowchart_slide(prs, title, steps, subtitle=None):
         "end": MSO_SHAPE.ROUNDED_RECTANGLE,
     }
 
-    centers = []
     for i, step in enumerate(steps):
         y = top + i * row_h
         kind = step["kind"]
-        shape = slide.shapes.add_shape(
-            kind_shape[kind], PInches(main_x), PInches(y), PInches(main_w), PInches(node_h)
-        )
-        shape.fill.solid()
-        shape.fill.fore_color.rgb = kind_color[kind]
-        shape.line.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
-        shape.text_frame.word_wrap = True
-        sp = shape.text_frame.paragraphs[0]
-        sp.text = step["text"]
-        sp.font.size = PPt(10)
-        sp.font.bold = True
-        sp.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
-        sp.alignment = 1
-        centers.append(y + node_h / 2)
+        shape = _rect(s, kind_shape[kind], main_x, y, main_w, node_h,
+                      fill=kind_color[kind], line=CREAM, line_w=1.5)
+        _set_shape_text(shape, [(step["text"], 10, True, CREAM)])
 
-        # vertical connector to next node
         if i < n - 1:
-            conn = slide.shapes.add_connector(
+            conn = s.shapes.add_connector(
                 MSO_CONNECTOR.STRAIGHT,
                 PInches(main_x + main_w / 2), PInches(y + node_h),
                 PInches(main_x + main_w / 2), PInches(top + (i + 1) * row_h),
             )
-            conn.line.color.rgb = RGBColor(0x80, 0x80, 0x80)
+            conn.line.color.rgb = LINK
             conn.line.width = PPt(1.5)
 
-        # branch outcome to the right (for decisions)
         branch = step.get("branch")
         if branch:
             blabel, btext = branch
-            ob = slide.shapes.add_shape(
-                MSO_SHAPE.ROUNDED_RECTANGLE,
-                PInches(out_x), PInches(y + (node_h - 0.55) / 2), PInches(out_w), PInches(0.55),
-            )
-            ob.fill.solid()
-            ob.fill.fore_color.rgb = RGBColor(0x44, 0x72, 0xC4)
-            ob.line.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
-            ob.text_frame.word_wrap = True
-            obp = ob.text_frame.paragraphs[0]
-            obp.text = btext
-            obp.font.size = PPt(9)
-            obp.font.bold = True
-            obp.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
-            obp.alignment = 1
-
-            conn = slide.shapes.add_connector(
+            ob = _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, out_x, y + (node_h - 0.6) / 2, out_w, 0.6,
+                       fill=SKY, line=CREAM, line_w=1.5)
+            _set_shape_text(ob, [(btext, 9.5, True, CREAM)])
+            conn = s.shapes.add_connector(
                 MSO_CONNECTOR.STRAIGHT,
                 PInches(main_x + main_w), PInches(y + node_h / 2),
                 PInches(out_x), PInches(y + node_h / 2),
             )
-            conn.line.color.rgb = RGBColor(0x80, 0x80, 0x80)
+            conn.line.color.rgb = LINK
             conn.line.width = PPt(1.5)
+            _text(s, main_x + main_w + 0.05, y + node_h / 2 - 0.34,
+                  out_x - main_x - main_w, 0.3, [(blabel, 9, True, GREEN)], align=PP_ALIGN.CENTER)
 
-            tag = slide.shapes.add_textbox(
-                PInches(main_x + main_w + 0.05), PInches(y + node_h / 2 - 0.32),
-                PInches(out_x - main_x - main_w), PInches(0.3),
-            )
-            tag.text_frame.text = blabel
-            tp = tag.text_frame.paragraphs[0]
-            tp.font.size = PPt(9)
-            tp.font.bold = True
-            tp.font.color.rgb = RGBColor(0x00, 0x70, 0x00)
-            tp.alignment = 1
-
-    return slide
+    return s
 
 
 def _add_org_chart_slide(prs, title, root, groups, subtitle=None):
@@ -537,96 +759,45 @@ def _add_org_chart_slide(prs, title, root, groups, subtitle=None):
 
     groups: list of (manager_label, [report_labels]).
     """
-    slide = prs.slides.add_slide(prs.slide_layouts[5])
-    slide.shapes.title.text = title
-
-    top = 1.5
+    s, top = _frame(prs, title)
     if subtitle:
-        sub = slide.shapes.add_textbox(PInches(0.4), PInches(1.05), PInches(12.5), PInches(0.35))
-        sub.text_frame.text = subtitle
-        sub.text_frame.paragraphs[0].font.size = PPt(13)
-        sub.text_frame.paragraphs[0].font.color.rgb = RGBColor(0x55, 0x55, 0x55)
-        top = 1.7
+        _text(s, 0.7, top, 12.0, 0.35, [(subtitle, 12.5, False, GREY)])
+        top += 0.5
 
-    # root box centered
-    root_w, root_h = 5.0, 0.7
-    root_x = (13.333 - root_w) / 2
-    rb = slide.shapes.add_shape(
-        MSO_SHAPE.ROUNDED_RECTANGLE, PInches(root_x), PInches(top), PInches(root_w), PInches(root_h)
-    )
-    rb.fill.solid()
-    rb.fill.fore_color.rgb = RGBColor(0x1F, 0x4E, 0x79)
-    rb.line.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
-    rb.text_frame.word_wrap = True
-    rp = rb.text_frame.paragraphs[0]
-    rp.text = root
-    rp.font.size = PPt(12)
-    rp.font.bold = True
-    rp.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
-    rp.alignment = 1
+    root_w, root_h = 5.0, 0.72
+    root_x = (SW - root_w) / 2
+    rb = _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, root_x, top, root_w, root_h, fill=SLATE, line=CREAM, line_w=1.5)
+    _set_shape_text(rb, [(root, 13, True, CREAM)])
 
     n = len(groups)
     col_gap = 0.3
-    col_w = (13.333 - 0.6 - col_gap * (n - 1)) / n
+    col_w = (SW - 0.6 - col_gap * (n - 1)) / n
     start_x = 0.3
     mgr_top = top + root_h + 0.6
-    mgr_h = 0.65
-    report_h = 0.55
-    report_gap = 0.12
+    mgr_h = 0.68
+    report_h = 0.58
+    report_gap = 0.18
 
     for i, (mgr, reports) in enumerate(groups):
-        accent = _LANE_COLORS[i % len(_LANE_COLORS)]
+        accent = ACCENTS[i % len(ACCENTS)]
         cx = start_x + i * (col_w + col_gap)
         mgr_cx = cx + col_w / 2
-
-        # connector root -> manager
-        conn = slide.shapes.add_connector(
+        conn = s.shapes.add_connector(
             MSO_CONNECTOR.STRAIGHT,
             PInches(root_x + root_w / 2), PInches(top + root_h),
             PInches(mgr_cx), PInches(mgr_top),
         )
-        conn.line.color.rgb = RGBColor(0x80, 0x80, 0x80)
+        conn.line.color.rgb = LINK
         conn.line.width = PPt(1.5)
-
-        mb = slide.shapes.add_shape(
-            MSO_SHAPE.ROUNDED_RECTANGLE, PInches(cx), PInches(mgr_top), PInches(col_w), PInches(mgr_h)
-        )
-        mb.fill.solid()
-        mb.fill.fore_color.rgb = accent
-        mb.line.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
-        mb.text_frame.word_wrap = True
-        mp = mb.text_frame.paragraphs[0]
-        mp.text = mgr
-        mp.font.size = PPt(10)
-        mp.font.bold = True
-        mp.font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
-        mp.alignment = 1
-
+        mb = _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, cx, mgr_top, col_w, mgr_h, fill=accent, line=CREAM, line_w=1.5)
+        _set_shape_text(mb, [(mgr, 11, True, CREAM)])
         ry = mgr_top + mgr_h + 0.35
         for report in reports:
-            conn2 = slide.shapes.add_connector(
-                MSO_CONNECTOR.STRAIGHT,
-                PInches(mgr_cx), PInches(ry - report_gap),
-                PInches(mgr_cx), PInches(ry),
-            )
-            conn2.line.color.rgb = RGBColor(0xB0, 0xB0, 0xB0)
-            conn2.line.width = PPt(1.0)
+            rbx = _rect(s, MSO_SHAPE.RECTANGLE, cx + 0.2, ry, col_w - 0.4, report_h, fill=LIGHT, line=accent, line_w=1)
+            _set_shape_text(rbx, [(report, 9.5, False, INK)])
+            ry += report_h + report_gap
 
-            rbx = slide.shapes.add_shape(
-                MSO_SHAPE.RECTANGLE, PInches(cx + 0.2), PInches(ry), PInches(col_w - 0.4), PInches(report_h)
-            )
-            rbx.fill.solid()
-            rbx.fill.fore_color.rgb = RGBColor(0xF2, 0xF2, 0xF2)
-            rbx.line.color.rgb = accent
-            rbx.text_frame.word_wrap = True
-            rbp = rbx.text_frame.paragraphs[0]
-            rbp.text = report
-            rbp.font.size = PPt(9)
-            rbp.font.color.rgb = RGBColor(0x33, 0x33, 0x33)
-            rbp.alignment = 1
-            ry += report_h + report_gap + 0.1
-
-    return slide
+    return s
 
 
 IT_DELIVERY_SLIDES = [
@@ -870,43 +1041,29 @@ IT_DELIVERY_SLIDES = [
 
 
 def _add_numbered_steps_slide(prs, title, steps, subtitle=None):
-    """Vertical numbered steps for business user guide."""
-    slide = prs.slides.add_slide(prs.slide_layouts[5])
-    slide.shapes.title.text = title
-    y_start = 1.35 if subtitle else 1.15
+    """Two-column numbered step tiles for guides, restyled."""
+    s, y_start = _frame(prs, title)
     if subtitle:
-        sub = slide.shapes.add_textbox(PInches(0.5), PInches(1.05), PInches(12.3), PInches(0.35))
-        sub.text_frame.text = subtitle
-        sub.text_frame.paragraphs[0].font.size = PPt(13)
-        sub.text_frame.paragraphs[0].font.color.rgb = RGBColor(0x55, 0x55, 0x55)
+        _text(s, 0.7, y_start, 12.0, 0.35, [(subtitle, 12.5, False, GREY)])
+        y_start += 0.5
 
-    col_w = PInches(5.9)
-    left_x = PInches(0.55)
-    right_x = PInches(6.85)
     half = (len(steps) + 1) // 2
-
+    col_w = 5.9
+    left_x, right_x = 0.55, 6.85
+    region_h = 6.85 - y_start
+    rh = min(0.92, (region_h - 0.12 * (half - 1)) / half)
     for i, (num, text) in enumerate(steps):
         col = 0 if i < half else 1
         row = i if i < half else i - half
         x = left_x if col == 0 else right_x
-        y = PInches(y_start + row * 0.72)
+        yy = y_start + row * (rh + 0.12)
+        acc = ACCENTS[i % len(ACCENTS)]
+        _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, yy, col_w, rh, fill=CARD_FILL, line=BORDER, line_w=1)
+        circle = _rect(s, MSO_SHAPE.OVAL, x + 0.18, yy + (rh - 0.46) / 2, 0.46, 0.46, fill=acc)
+        _set_shape_text(circle, [(str(num), 13, True, CREAM)])
+        _text(s, x + 0.8, yy, col_w - 1.0, rh, [(text, 11.5, False, INK)], anchor=MSO_ANCHOR.MIDDLE)
 
-        circle = slide.shapes.add_shape(MSO_SHAPE.OVAL, x, y, PInches(0.38), PInches(0.38))
-        circle.fill.solid()
-        circle.fill.fore_color.rgb = RGBColor(0x00, 0xA6, 0x51)
-        circle.line.fill.background()
-        circle.text_frame.text = str(num)
-        circle.text_frame.paragraphs[0].font.size = PPt(11)
-        circle.text_frame.paragraphs[0].font.bold = True
-        circle.text_frame.paragraphs[0].font.color.rgb = RGBColor(0xFF, 0xFF, 0xFF)
-        circle.text_frame.paragraphs[0].alignment = 1
-
-        tb = slide.shapes.add_textbox(x + PInches(0.48), y - PInches(0.02), col_w, PInches(0.55))
-        tb.text_frame.word_wrap = True
-        tb.text_frame.text = text
-        tb.text_frame.paragraphs[0].font.size = PPt(12)
-
-    return slide
+    return s
 
 
 BUSINESS_USER_BRD_SLIDES = [
@@ -1018,7 +1175,7 @@ BUSINESS_USER_BRD_SLIDES = [
         "Describe TODAY before IT changes anything:\n"
         "• Step-by-step current process\n"
         "• Which FE Credit systems are involved\n"
-        "   (FE ONLINE, $NAP, Finacle, POS/LOS, Collections…)\n"
+        "   (FE ONLINE 2.0, Finacle, POS/LOS, Collections…)\n"
         "• How many users and transactions per month\n\n"
         "IT uses this to understand where you are now.",
     ),
@@ -1169,6 +1326,9 @@ BUSINESS_USER_BRD_SLIDES = [
 
 
 def generate_business_user_brd_pptx():
+    global FOOTER_TEXT, DECK_KICKER
+    FOOTER_TEXT = "How to Write a BRD  ·  Business User Guide"
+    DECK_KICKER = "FE Credit · Business User Guide"
     prs = Presentation()
     prs.slide_width = PInches(13.333)
     prs.slide_height = PInches(7.5)
@@ -1424,7 +1584,7 @@ IT_OPS_SLIDES = [
         "☐ Production health dashboard (green / amber / red)\n"
         "☐ Alert queue — no unacknowledged critical alerts > 15 min\n"
         "☐ Batch / EOD jobs — lending, collections, GL cut-offs\n"
-        "☐ Integration queues — Finacle, FE ONLINE, POS, $NAP\n"
+        "☐ Integration queues — Finacle, FE ONLINE 2.0, POS\n"
         "☐ Hypercare releases — daily Sponsor check (T+1 to T+14)\n"
         "☐ Capacity — CPU, disk, connection pools on critical paths\n"
         "☐ Security — failed login spikes, WAF blocks (escalate IT-Security)\n\n"
@@ -1509,6 +1669,9 @@ IT_OPS_SLIDES = [
 
 
 def generate_it_operations_pptx():
+    global FOOTER_TEXT, DECK_KICKER
+    FOOTER_TEXT = "IT Operations Guide  ·  Internal use only"
+    DECK_KICKER = "FE Credit · IT Operations"
     prs = Presentation()
     prs.slide_width = PInches(13.333)
     prs.slide_height = PInches(7.5)
@@ -1629,6 +1792,9 @@ def generate_it_operations_pptx():
 
 
 def generate_it_delivery_framework_pptx():
+    global FOOTER_TEXT, DECK_KICKER
+    FOOTER_TEXT = "IT Delivery Framework  ·  Internal use only"
+    DECK_KICKER = "FE Credit · IT Delivery Framework"
     prs = Presentation()
     prs.slide_width = PInches(13.333)
     prs.slide_height = PInches(7.5)
@@ -1727,14 +1893,15 @@ def generate_it_delivery_framework_pptx():
 
 
 def generate_pptx():
+    global FOOTER_TEXT, DECK_KICKER
+    FOOTER_TEXT = "FE Credit BRD Training  ·  Internal use only"
+    DECK_KICKER = "FE Credit BRD Training"
     prs = Presentation()
     prs.slide_width = PInches(13.333)
     prs.slide_height = PInches(7.5)
 
     for title, body in SLIDES:
-        slide = prs.slides.add_slide(prs.slide_layouts[1])  # Title and Content
-        slide.shapes.title.text = title
-        slide.placeholders[1].text = body
+        _add_content_slide(prs, title, body)
 
     out = OUTPUT / "FE-Credit-BRD-Training-Slides.pptx"
     prs.save(out)

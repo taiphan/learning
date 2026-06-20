@@ -1,0 +1,5 @@
+[
+  {"id": "q01", "question": "Max DTI for POS motorbike loan?", "expected_contains": ["40"]},
+  {"id": "q02", "question": "Who approves loans over 100M?", "expected_contains": ["regional", "director"]},
+  {"id": "q03", "question": "Minimum employment months?", "expected_contains": ["12"]}
+]

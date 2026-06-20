@@ -24,7 +24,7 @@ export const FECREDIT = {
     { id: 'twowheeler', label: { en: 'Two-wheeler installment', vi: 'Vay mua xe máy' } },
     { id: 'durable', label: { en: 'Consumer durable (phone, electronics)', vi: 'Vay tiêu dùng (điện thoại, điện máy)' } },
     { id: 'card', label: { en: 'Credit card', vi: 'Thẻ tín dụng' } },
-    { id: 'insurance', label: { en: 'Insurance (SHIELD)', vi: 'Bảo hiểm (SHIELD)' } },
+    { id: 'insurance', label: { en: 'Insurance', vi: 'Bảo hiểm' } },
     { id: 'na', label: { en: 'Not product-specific', vi: 'Không gắn sản phẩm cụ thể' } },
   ],
 
@@ -34,18 +34,6 @@ export const FECREDIT = {
       group: 'customer',
       label: { en: 'FE ONLINE 2.0', vi: 'FE ONLINE 2.0' },
       desc: { en: 'Customer mobile app — loans, cards, loan management', vi: 'App khách hàng — vay, thẻ, quản lý khoản vay' },
-    },
-    {
-      id: 'nap',
-      group: 'customer',
-      label: { en: '$NAP', vi: '$NAP' },
-      desc: { en: 'Digital lending — apply, approval, credit tools', vi: 'Cho vay số — đăng ký, duyệt, công cụ tín dụng' },
-    },
-    {
-      id: 'shield',
-      group: 'customer',
-      label: { en: 'SHIELD', vi: 'SHIELD' },
-      desc: { en: 'Loan, card, insurance mobile', vi: 'App vay, thẻ, bảo hiểm' },
     },
     {
       id: 'pos_los',

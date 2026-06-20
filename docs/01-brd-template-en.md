@@ -91,8 +91,6 @@ Select from [FE Credit Application Landscape](00-fe-credit-application-landscape
 | System | Purpose in current process |
 |--------|--------------------------|
 | FE ONLINE 2.0 | Customer mobile app — loans, cards, loan management |
-| $NAP | Digital lending — apply, approval, credit tools |
-| SHIELD | Loan, card, insurance mobile |
 | Partner POS / LOS tablet | In-store origination at partner points |
 | Finacle LMS | Loan accounts, disbursement, repayment |
 | Finacle CIF | Customer master / KYC |

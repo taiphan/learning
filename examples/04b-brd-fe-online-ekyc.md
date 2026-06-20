@@ -64,7 +64,6 @@ Allow customers to upload income proof via photo (JPG/PNG) and PDF up to 10MB wi
 
 ### D.2 Systems
 - FE ONLINE 2.0 mobile app (Android/iOS) — primary channel
-- $NAP digital lending (where journey overlaps)
 - Digital origination services behind app
 - Document storage per FE Credit data policy
 

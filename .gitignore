@@ -1,0 +1,13 @@
+.codegraph/
+node_modules/
+.DS_Store
+*.pyc
+__pycache__/
+.env
+.env.*
+*.local
+
+# Learning lab runtime artifacts
+ai-factory/learning-lab/loans.db
+ai-factory/learning-lab/outputs/
+ai-factory/learning-lab/projects/credit-pd-model/model.pkl

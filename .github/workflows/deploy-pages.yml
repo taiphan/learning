@@ -1,0 +1,57 @@
+name: Deploy GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Sync curriculum JSON
+        run: |
+          cd ai-factory
+          python3 -c "from learning_loader import export_json; export_json()"
+
+      - name: Build static site
+        run: |
+          mkdir -p _site
+          cp -r ai-factory/learning-app/* _site/
+          mkdir -p _site/brd
+          cp -r app/* _site/brd/
+          cat > _site/brd-index.html <<'HTML'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8" />
+            <meta http-equiv="refresh" content="0; url=./brd/" />
+            <title>BRD Intake</title>
+          </head>
+          <body><p><a href="./brd/">FE Credit BRD Intake</a></p></body>
+          </html>
+          HTML
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
