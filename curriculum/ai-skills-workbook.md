@@ -1,7 +1,7 @@
 # AI Skills Workbook — Links, Exercises, Answers, Steps
 
-**Companion:** [ai-skills-catalog.md](ai-skills-catalog.md) · [AI-Skills-Learning-Slides.pptx](exports/AI-Skills-Learning-Slides.pptx)  
-**Visual deck:** [AI-Skills-Visual-Slides.pptx](exports/AI-Skills-Visual-Slides.pptx) · **Master deck:** [Learning-Master-Slides.pptx](exports/Learning-Master-Slides.pptx) (click W##)  
+**Companion:** [learning_data.py](learning_data.py) · [Learning-Master-Slides.pptx](exports/Learning-Master-Slides.pptx)  
+**Visual deck:** [Learning-Master-Slides.pptx](exports/Learning-Master-Slides.pptx) · **Master deck:** [Learning-Master-Slides.pptx](exports/Learning-Master-Slides.pptx) (click W##)  
 **Data source:** [learning_data.py](learning_data.py) · [lab/WEEKS.md](lab/WEEKS.md)  
 **Solutions folder:** [lab/exercises/solutions/](lab/exercises/solutions/)
 
@@ -1058,7 +1058,7 @@ Your domain edge — BAs who quantify value get hired over pure coders.
 |------|------|
 | ★ BRD | [examples/04a-brd-pos-lending.md](../examples/04a-brd-pos-lending.md) |
 | Jobs | [job-skills-adaptation.md](job-skills-adaptation.md) |
-| Strategy | [strategy-and-roadmap.md](strategy-and-roadmap.md) |
+| Strategy | [job-skills-adaptation.md](job-skills-adaptation.md) |
 
 ## Exercise — One-page value case
 
@@ -1107,10 +1107,10 @@ Hiring managers hire **proof of work** — not certificates.
 
 | Type | Link |
 |------|------|
-| ★ CV | [cv-cover-letter.md](cv-cover-letter.md) |
-| ★ Interview | [interview-kit.md](interview-kit.md) |
+| ★ CV | [cv-templates.md](cv-templates.md) |
+| ★ Interview | [job-skills-adaptation.md](job-skills-adaptation.md) |
 | Anthropic | [anthropic-career-adaptation.md](anthropic-career-adaptation.md) |
-| Mindmap | [career-learning-mindmap.md](career-learning-mindmap.md) |
+| Mindmap | [zero-to-ai-expert-syllabus.md](zero-to-ai-expert-syllabus.md) |
 
 ## Exercise — Hire checklist
 
@@ -1158,7 +1158,7 @@ Hiring managers hire **proof of work** — not certificates.
 | 16 Guardrails | [governance-mlops.md](governance-mlops.md) |
 | 17 CI/CD | [GitHub Actions Python](https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python) |
 | 18 Banking | [04a BRD](../examples/04a-brd-pos-lending.md) · [jobs](job-skills-adaptation.md) |
-| 19 Portfolio | [CV](cv-cover-letter.md) · [interview](interview-kit.md) |
+| 19 Portfolio | [CV](cv-templates.md) · [interview](job-skills-adaptation.md) |
 
 ---
 

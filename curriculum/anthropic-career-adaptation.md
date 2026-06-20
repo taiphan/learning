@@ -6,7 +6,7 @@
 
 **Official apply:** [anthropic.com/careers/jobs](https://www.anthropic.com/careers/jobs) · verify `@anthropic.com` only
 
-**Companion docs:** [zero-to-ai-expert-syllabus.md](zero-to-ai-expert-syllabus.md) · [job-skills-adaptation.md](job-skills-adaptation.md) · [reading-path.md](reading-path.md) · [cv-cover-letter.md](cv-cover-letter.md#5-applied-ai-architect-anthropic--cv-outline)
+**Companion docs:** [zero-to-ai-expert-syllabus.md](zero-to-ai-expert-syllabus.md) · [job-skills-adaptation.md](job-skills-adaptation.md) · [reading-path.md](reading-path.md) · [cv-templates.md](cv-templates.md#1-applied-ai-architect-anthropic--cv-outline)
 
 ---
 
@@ -219,7 +219,7 @@
 |---|---|
 | **Now → Month 12** | Execute [zero-to-ai-expert-syllabus.md](zero-to-ai-expert-syllabus.md); apply **OCB/NAB** per [job-skills-adaptation.md](job-skills-adaptation.md) rank 1–5 |
 | **Month 10** | Rebuild flagship on **Claude API**; start **`claude-code-banking-lab`** |
-| **Month 12** | Draft Anthropic CV (§5 in cv-cover-letter.md); 200–400 word “Why Anthropic?” |
+| **Month 12** | Draft Anthropic CV (§5 in cv-templates.md); 200–400 word “Why Anthropic?” |
 | **Month 12–18** | VN bank role; 1 internal Claude/agent pilot if possible |
 | **Month 18** | Apply **Technical Specialist, Claude Code** (Tier 2) |
 | **Month 24** | Apply **Applied AI Architect, Commercial** (Tier 1) with bank production story |

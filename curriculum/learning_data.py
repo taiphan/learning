@@ -191,7 +191,7 @@ SKILLS = [
         "weeks": "45–52",
         "color": "FIG",
         "definition": "CV, demo video, STAR stories, apply.",
-        "sources": "★ cv-cover-letter.md · interview-kit.md",
+        "sources": "★ cv-templates.md · job-skills-adaptation.md",
         "practice": "5-min demo · 5 STAR stories.",
         "exercise": "week45_portfolio_checklist.md",
         "checkpoint": "✓ 2 repos · mock interview done",
@@ -448,7 +448,7 @@ def _build_weeks() -> list[dict]:
 
     # Months 11–12 — Career
     add(41, "Second use case BRD", "career", 13,
-        "examples/04a; strategy-and-roadmap.md",
+        "examples/04a; job-skills-adaptation.md",
         "lab/exercises/week41_value_case.md",
         "Fill value case template",
         "1-page quantified metric")
@@ -468,22 +468,22 @@ def _build_weeks() -> list[dict]:
         "Copilot architecture diagram",
         "Diagram in README")
     add(45, "CV update", "career", 14,
-        "cv-cover-letter.md",
-        "curriculum/cv-cover-letter.md",
+        "cv-templates.md",
+        "curriculum/cv-templates.md",
         "Fill real project metrics",
         "CV draft v1")
     add(46, "Apply OCB / NAB / VPBank", "career", 14,
         "job-skills-adaptation.md",
-        "curriculum/interview-kit.md",
+        "curriculum/job-skills-adaptation.md",
         "Submit 3 applications",
         "Application tracker")
     add(47, "STAR stories ×5", "career", 14,
-        "interview-kit.md",
+        "cv-templates.md §3",
         "lab/exercises/week47_star_stories.md",
         "Write 5 STAR stories",
         "Stories reviewed aloud")
     add(48, "Mock interview", "career", 14,
-        "interview-kit.md",
+        "job-skills-adaptation.md",
         "lab/exercises/week47_star_stories.md",
         "45-min mock with peer",
         "Feedback notes", checkpoint="CP6")

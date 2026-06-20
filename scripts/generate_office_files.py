@@ -458,7 +458,7 @@ def generate_brd_template_docx():
             label = field if field.endswith(":") else f"{field}:"
             add_field(doc, label)
 
-    out = OUTPUT / "Finance-BRD-Template.docx"
+    out = OUTPUT / "Learning-BRD-Template.docx"
     doc.save(out)
     print(f"Created {out}")
     return out
@@ -522,7 +522,7 @@ def generate_cheat_sheet_docx():
         row[0].text = a
         row[1].text = b
 
-    out = OUTPUT / "Finance-BRD-Cheat-Sheet.docx"
+    out = OUTPUT / "Learning-BRD-Cheat-Sheet.docx"
     doc.save(out)
     print(f"Created {out}")
     return out
@@ -1368,7 +1368,7 @@ def generate_business_user_brd_pptx():
             continue  # covered by numbered steps slide
         _add_content_slide(prs, *item)
 
-    out = OUTPUT / "Finance-Business-User-BRD-Guide-Slides.pptx"
+    out = OUTPUT / "Learning-BRD-Business-User-Guide-Slides.pptx"
     prs.save(out)
     print(f"Created {out}")
     return out
@@ -1785,7 +1785,7 @@ def generate_it_operations_pptx():
     for item in IT_OPS_SLIDES[19:]:
         _add_content_slide(prs, *item)
 
-    out = OUTPUT / "Finance-IT-Operations-Guide-Slides.pptx"
+    out = OUTPUT / "Learning-BRD-IT-Operations-Guide-Slides.pptx"
     prs.save(out)
     print(f"Created {out}")
     return out
@@ -1886,7 +1886,7 @@ def generate_it_delivery_framework_pptx():
     for item in IT_DELIVERY_SLIDES[20:]:
         _add_content_slide(prs, *item)
 
-    out = OUTPUT / "Finance-IT-Delivery-Framework-Slides.pptx"
+    out = OUTPUT / "Learning-BRD-IT-Delivery-Framework-Slides.pptx"
     prs.save(out)
     print(f"Created {out}")
     return out
@@ -1894,7 +1894,7 @@ def generate_it_delivery_framework_pptx():
 
 def generate_pptx():
     global FOOTER_TEXT, DECK_KICKER
-    FOOTER_TEXT = "Finance BRD Training  ·  Internal use only"
+    FOOTER_TEXT = "Learning BRD Training  ·  Internal use only"
     DECK_KICKER = "Finance BRD Training"
     prs = Presentation()
     prs.slide_width = PInches(13.333)
@@ -1903,7 +1903,7 @@ def generate_pptx():
     for title, body in SLIDES:
         _add_content_slide(prs, title, body)
 
-    out = OUTPUT / "Finance-BRD-Training-Slides.pptx"
+    out = OUTPUT / "Learning-BRD-Training-Slides.pptx"
     prs.save(out)
     print(f"Created {out}")
     return out

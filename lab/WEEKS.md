@@ -48,8 +48,8 @@ Edit `curriculum/learning_data.py` — regenerate with scaffold.
 | 42 | career | AML triage OR doc OCR story | `lab/projects/use-case-2/README.md` | `Pick and scope use case` |
 | 43 | career | Portfolio README | `lab/projects/PORTFOLIO.md` | `Link all repos + metrics` |
 | 44 | career | Architecture diagram | `lab/projects/PORTFOLIO.md` | `Copilot architecture diagram` |
-| 45 | career | CV update | `curriculum/cv-cover-letter.md` | `Fill real project metrics` |
-| 46 | career | Apply OCB / NAB / VPBank | `curriculum/interview-kit.md` | `Submit 3 applications` |
+| 45 | career | CV update | `curriculum/cv-templates.md` | `Fill real project metrics` |
+| 46 | career | Apply OCB / NAB / VPBank | `curriculum/job-skills-adaptation.md` | `Submit 3 applications` |
 | 47 | career | STAR stories ×5 | `lab/exercises/week47_star_stories.md` | `Write 5 STAR stories` |
 | 48 | career | Mock interview | `lab/exercises/week47_star_stories.md` | `45-min mock with peer` |
 | 49 | career | Demo video 5 min | `lab/projects/PORTFOLIO.md` | `English demo of copilot` |

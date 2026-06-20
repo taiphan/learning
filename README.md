@@ -17,7 +17,7 @@ learning/
 ├── examples/         # Sample BRDs
 ├── training/         # Trainer slide outlines
 ├── exports/
-│   ├── learning/     # AI learning slide decks + weeks/
+│   ├── learning/     # Master + roadmap slide decks
 │   └── *.pptx        # BRD training exports (Word/PPTX)
 └── scripts/          # Office file generator for BRD package
 ```

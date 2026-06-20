@@ -134,7 +134,7 @@ git init && git add . && git commit -m "chore: day 1 setup"
 | Material | Type | Use for |
 |---|---|---|
 | `job-skills-adaptation.md` | Target roles OCB/NAB/VPBank | Interview focus |
-| `interview-kit.md` | STAR / technical prompts | Mock interviews |
+| `job-skills-adaptation.md` | STAR / technical prompts | Mock interviews |
 | `examples/04a-brd-pos-lending.md` | Gold BRD sample | Domain stories |
 
 ---
@@ -268,7 +268,7 @@ from sklearn.metrics import roc_auc_score
 |---|---|
 | **41–42** | Second use case: AML triage **OR** propensity model |
 | **43–44** | Single GitHub portfolio README linking all projects |
-| **45–46** | CV (`cv-cover-letter.md`), apply NAB BA data + OCB AI |
+| **45–46** | CV (`cv-templates.md`), apply NAB BA data + OCB AI |
 | **47–48** | Mock interviews; refine STAR stories |
 
 ---

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate all learning assets from learning_data.py (single source)."""
+"""Generate lean learning assets from learning_data.py (single source)."""
 
 import subprocess
 import sys
@@ -21,24 +21,20 @@ def main():
     subprocess.run([sys.executable, str(ROOT / "generate_all_weeks.py")], check=True)
 
     print("2b. Update WEEKS.md index")
-    from scaffold_learning_lab import scaffold
-
     scaffold()
 
     scripts = [
         "generate_learning_master_slides.py",
-        "generate_week_slides.py",
-        "generate_ai_skills_slides.py",
-        "generate_ai_skills_visual_slides.py",
         "generate_ai_roadmap_slides.py",
     ]
     for name in scripts:
         print(f"3. Run {name}")
         subprocess.run([sys.executable, str(ROOT / name)], check=True)
 
-    print("\nDone. Open exports/learning/Learning-Master-Slides.pptx — click W## on index.")
-    print("Individual week decks: exports/learning/weeks/Week-NN-*.pptx")
-    print("Learning app: cd apps/learning && python3 -m http.server 8081")
+    print("\nDone.")
+    print("  Master deck: exports/learning/Learning-Master-Slides.pptx")
+    print("  Roadmap:     exports/learning/Zero-to-AI-Expert-Roadmap-Slides.pptx")
+    print("  App:         cd apps/learning && python3 -m http.server 8081")
 
 
 if __name__ == "__main__":

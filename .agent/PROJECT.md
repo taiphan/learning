@@ -34,8 +34,9 @@
 | `docs/` | BRD templates, governance, IT ops, ServiceNow mapping (00–14) |
 | `examples/` | Gold-standard sample BRDs |
 | `training/` | Trainer slide outlines and speaker notes |
-| `exports/learning/` | AI learning slide decks + `weeks/` |
-| `exports/` | BRD training DOCX/PPTX (FE-Credit exports) |
+| `exports/learning/` | **2 slide decks** — Master (52 weeks) + Roadmap |
+| `exports/` | BRD training DOCX/PPTX (`Learning-BRD-*`) |
+| `archive/` | HoAI pack, superseded docs, optional generators |
 | `scripts/generate_office_files.py` | Master generator for BRD Word/PowerPoint |
 | `.agent/` | Session handoff (`SESSION.md`), this map |
 

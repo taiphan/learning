@@ -50,8 +50,8 @@ def s_nav_help(prs, idx):
     tips = [
         (CLAY, "Index slides", "Click any W## box → jump to that week's overview (3 slides each)"),
         (SKY, "Week slides", "Overview → Study → Lab — use Prev/Next within the week"),
-        (OLIVE, "Individual decks", "exports/learning/weeks/Week-NN-*.pptx — one file per week"),
-        (FIG, "Workbook", "ai-skills-workbook.md — steps, answers, what/why/when"),
+        (OLIVE, "Workbook", "ai-skills-workbook.md — steps, answers, what/why/when"),
+        (FIG, "Lab", "lab/ — run commands from the learning app Lab tab"),
     ]
     for i, (acc, head, sub) in enumerate(tips):
         yy = y + 0.35 + i * 0.85

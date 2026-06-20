@@ -825,8 +825,8 @@ function applyI18n() {
     } else if (key === 'frameworkLink') {
       el.innerHTML =
         lang === 'vi'
-          ? 'Xem <a href="../../docs/12-it-operations-stakeholder-framework.md">IT Ops Framework</a>, <a href="../../docs/13-service-owner-delivery-control-guide.md">SO Guide</a> và <a href="../../exports/Finance-Business-User-BRD-Guide-Slides.pptx">slide viết BRD</a>.'
-          : 'See <a href="../../docs/12-it-operations-stakeholder-framework.md">IT Ops Framework</a>, <a href="../../docs/13-service-owner-delivery-control-guide.md">SO Guide</a>, and <a href="../../exports/Finance-Business-User-BRD-Guide-Slides.pptx">BRD writing slides</a>.';
+          ? 'Xem <a href="../../docs/12-it-operations-stakeholder-framework.md">IT Ops Framework</a>, <a href="../../docs/13-service-owner-delivery-control-guide.md">SO Guide</a> và <a href="../../exports/Learning-BRD-Business-User-Guide-Slides.pptx">slide viết BRD</a>.'
+          : 'See <a href="../../docs/12-it-operations-stakeholder-framework.md">IT Ops Framework</a>, <a href="../../docs/13-service-owner-delivery-control-guide.md">SO Guide</a>, and <a href="../../exports/Learning-BRD-Business-User-Guide-Slides.pptx">BRD writing slides</a>.';
     } else {
       el.textContent = t(key);
     }

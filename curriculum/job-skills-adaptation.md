@@ -424,7 +424,7 @@ Search Workday: `?q=MLOps` OR `Data Integration` OR `Data Engineer`.
    - BRD sample + quality rubric (≥80%) from this repo
    - One **data-focused** BRD section (objectives with baseline/target/measurement, data classification)
    - Optional: LangGraph policy copilot demo (for AIOps/MLOps or to differentiate BA applications)
-3. **Language:** NAB Vietnam is **English-heavy** — prepare CV, cover letter, and interview stories in English (`cv-cover-letter.md` template).
+3. **Language:** NAB Vietnam is **English-heavy** — prepare CV, cover letter, and interview stories in English (`cv-templates.md` template).
 4. **Stack signals:** Mention **AWS, microservices, Agile/Scrum** even in BA applications — NICV engineers work closely with AU teams on cloud-native delivery.
 5. **Apply path:** Workday first (official) → ITviec as mirror; set Workday job alert for Vietnam + keywords `Business Analyst`, `MLOps`, `Data`.
 
@@ -489,7 +489,7 @@ Apply: https://nab.wd3.myworkdayjobs.com/en-US/nab_careers?q=StarCamp
 1. **Same flagship as §A:** LangGraph policy copilot + FastAPI + Docker + eval harness — **one repo, three employers** (OCB, NAB, Anthropic).
 2. **Anthropic-specific adds (months 10–12):** Claude API migration · FS case study · 5-min English demo · reusable blueprint README.
 3. **Experience gap:** Count intensive portfolio + VN production role toward "3+ yrs SWE"; lead CV with **shipped artifacts**, not job titles alone.
-4. **Cover letter angle:** Banking governance + responsible AI + eval discipline = Anthropic mission fit ([cv-cover-letter.md §5](cv-cover-letter.md#5-applied-ai-architect-anthropic--cv-outline)).
+4. **Cover letter angle:** Banking governance + responsible AI + eval discipline = Anthropic mission fit ([cv-templates.md §5](cv-templates.md#1-applied-ai-architect-anthropic--cv-outline)).
 5. **Tier 2 earlier option:** If Claude Code enablement repo is strong (`hooks`, MCP, eval CI), apply Technical Specialist before Tier 1.
 
 ### I.5 Syllabus week map (summary)
@@ -691,7 +691,7 @@ Pick **two** use cases: one **GenAI** (Phase 3–4 artifact) + one **Predictive 
 | **Three governance gates** (intake, pre-deploy, in-life) | Differentiator vs pure coders | `governance-mlops.md` |
 | **Model cards, risk tiers** | Regulator / CISO questions | `governance-mlops.md` |
 | **BRD → AI use-case intake** | BA + AI hybrid story | `docs/01-brd-template-en.md`, quality gate |
-| **STAR stories** (embed, ship, metric) | OCB "forward-deployed" signal | `interview-kit.md` dimensions |
+| **STAR stories** (embed, ship, metric) | OCB "forward-deployed" signal | `job-skills-adaptation.md` dimensions |
 
 **Exit check:** 5-minute exec pitch: problem → solution → metric → governance → 90-day plan.
 
@@ -748,7 +748,7 @@ Check off before applying to **AI Engineer / Data Scientist**:
 | LLMs & RAG | DeepLearning.AI short courses, LangChain/LangGraph docs |
 | MLOps | Made With ML, MLflow tutorials |
 | Banking context | Your repo `docs/`, SBV circulars summaries, Finacle/LOS overviews |
-| Interview | `curriculum/interview-kit.md`, `cv-cover-letter.md` |
+| Interview | [cv-templates.md](cv-templates.md), [anthropic-career-adaptation.md](anthropic-career-adaptation.md) |
 
 ---
 
@@ -766,7 +766,7 @@ Apply to **Senior BA** in month 2–3 while finishing AI artifact — dual pipel
 
 ### Next actions in this repo
 
-1. Fill placeholders in `cv-cover-letter.md` with your real metrics.
+1. Fill placeholders in [cv-templates.md](cv-templates.md) with your real metrics.
 2. Add a `curriculum/portfolio/` folder with links to GitHub projects as you build them.
-3. Extend `interview-kit.md` with banking AI STAR prompts (AML triage, policy RAG, doc OCR).
+3. Extend `job-skills-adaptation.md` with banking AI STAR prompts (AML triage, policy RAG, doc OCR).
 4. Tell me your **years of experience + current stack** and I'll tailor the roadmap to a 12-week or 24-week calendar.

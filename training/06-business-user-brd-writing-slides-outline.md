@@ -2,7 +2,7 @@
 
 **Audience:** Business users (Sales/POS, Digital, Collections, Operations)  
 **Duration:** ~60–90 minutes (self-serve or facilitated)  
-**Deck:** `exports/Finance-Business-User-BRD-Guide-Slides.pptx`
+**Deck:** `exports/Learning-BRD-Business-User-Guide-Slides.pptx`
 
 ---
 

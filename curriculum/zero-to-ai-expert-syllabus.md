@@ -201,7 +201,7 @@ Pick **one** to show breadth:
 | Task | Output |
 |---|---|
 | Consolidate GitHub README (architecture, metrics, governance) | 1 portfolio page |
-| Update `cv-cover-letter.md` with real projects | English CV |
+| Update `cv-templates.md` with real projects | English CV |
 | 5 STAR stories (embed, ship, metric) | Interview doc |
 | Apply: NAB BA data focus + OCB AI Engineer + VPBank AI | 3 applications/week |
 | Mock interviews | LangGraph + ML + banking domain |

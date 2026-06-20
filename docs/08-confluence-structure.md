@@ -36,7 +36,7 @@ FECBRD (Home)
 │   ├── Training Program Overview (8-week rollout)
 │   ├── Session 1–4 Materials
 │   ├── Slide Deck — Core BRD (exports/Finance-BRD-Training-Slides.pptx)
-│   ├── Slide Deck — Business User BRD Guide (exports/Finance-Business-User-BRD-Guide-Slides.pptx)
+│   ├── Slide Deck — Business User BRD Guide (exports/Learning-BRD-Business-User-Guide-Slides.pptx)
 │   ├── Slide Deck — IT Delivery Framework (exports/Finance-IT-Delivery-Framework-Slides.pptx)
 │   ├── Slide Deck — IT Operations Guide (exports/Finance-IT-Operations-Guide-Slides.pptx)
 │   └── Certification — BRD Ready

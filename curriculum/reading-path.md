@@ -183,7 +183,7 @@ Books are ordered. **Do not buy everything at once** — one phase at a time.
 | Resource | Why |
 |---|---|
 | `job-skills-adaptation.md` → OCB AI Engineer, NAB AIOps | Align project to JD language |
-| `strategy-and-roadmap.md` → use-case portfolio | Pick policy copilot / AML triage |
+| `job-skills-adaptation.md` → use-case portfolio | Pick policy copilot / AML triage |
 
 📦 **After Step 6:** `policy-copilot-agent/` — LangGraph + eval JSON (30 Q&A) + architecture diagram
 
@@ -223,8 +223,8 @@ Books are ordered. **Do not buy everything at once** — one phase at a time.
 |---|---|---|
 | 1 ★ | [learning-lab-guide.md](learning-lab-guide.md) Part 4–5 | Finish exercise catalog |
 | 2 ★ | [job-skills-adaptation.md](job-skills-adaptation.md) | Pick 3 target roles (NAB BA data, OCB AI, etc.) |
-| 3 ★ | [cv-cover-letter.md](cv-cover-letter.md) | Fill with real project metrics |
-| 4 ★ | [interview-kit.md](interview-kit.md) | Prepare 5 STAR stories |
+| 3 ★ | [cv-templates.md](cv-templates.md) | Fill with real project metrics |
+| 4 ★ | [job-skills-adaptation.md](job-skills-adaptation.md) | Prepare 5 STAR stories |
 | 5 ○ | Target bank JD pages | Mirror keywords in CV |
 
 ### Books

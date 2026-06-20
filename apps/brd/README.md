@@ -32,7 +32,7 @@ Edit `config/learning.js`:
 
 ## Related docs
 
-- [Business user BRD slides](../../exports/FE-Credit-Business-User-BRD-Guide-Slides.pptx)
+- [Business user BRD slides](../../exports/Learning-BRD-Business-User-Guide-Slides.pptx)
 - [BRD quality checklist](../../docs/05-brd-quality-checklist.md)
 - [IT Ops framework](../../docs/12-it-operations-stakeholder-framework.md)
 - [ServiceNow/Jira mapping](../../docs/07-servicenow-jira-intake-mapping.md)
