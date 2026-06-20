@@ -82,10 +82,10 @@
 
 | Item | Status |
 |------|--------|
-| CodeGraph index | Present — `/Users/phantuantai/Projects/fe-credit-brd-training/.codegraph/` |
+| CodeGraph index | Present — `/Users/phantuantai/Projects/finance/.codegraph/` |
 | Indexed | 22 files · 555 nodes · Python generators + `app/app.js`, `finance.js` |
-| Workspace root | `/Users/phantuantai/Projects/fe-credit-brd-training` |
-| OntoSight | `npx @royalsolution/ontosight@0.2.0 "/Users/phantuantai/Projects/fe-credit-brd-training" --symbol init --path app` |
+| Workspace root | `/Users/phantuantai/Projects/finance` |
+| OntoSight | `npx @royalsolution/ontosight@0.2.0 "/Users/phantuantai/Projects/finance" --symbol init --path app` |
 
 ## Notes
 

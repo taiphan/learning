@@ -1,5 +1,7 @@
 # Finance BRD Training Package
 
+Local folder: `~/Projects/finance` · GitHub repo: [finance-brd-training](https://github.com/taiphan/finance-brd-training)
+
 Training materials and **BRD intake web app** for business users (consumer finance — FE ONLINE 2.0, Finacle on AWS, nationwide POS).
 
 ## Quick start — BRD Intake App

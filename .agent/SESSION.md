@@ -13,7 +13,7 @@
 
 ## Goal
 
-Use **finance-brd-training** as dual base: (1) Finance BRD domain credibility, (2) **ai-factory/** 12-month path to hire-ready AI engineer (OCB/NAB/VPBank; Anthropic stretch). Zero Python today · 10 hrs/week.
+Use **finance** repo as dual base: (1) Finance BRD domain credibility, (2) **ai-factory/** 12-month path to hire-ready AI engineer (OCB/NAB/VPBank; Anthropic stretch). Zero Python today · 10 hrs/week.
 
 ## Done
 

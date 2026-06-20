@@ -36,7 +36,7 @@ flowchart LR
 | **BRD Intake app** | `app/` | Practice BRD writing; export markdown for Python + RAG |
 | **Learning lab** | `ai-factory/learning-lab/` | Run exercises in Cursor terminal |
 
-**Live (GitHub Pages):** Learning `/` · BRD `/brd/` · Repo [github.com/taiphan/finance-brd-training](https://github.com/taiphan/finance-brd-training) *(branding: Finance; repo slug unchanged until renamed)*
+**Live (GitHub Pages):** Learning `/` · BRD `/brd/` · Repo [github.com/taiphan/finance-brd-training](https://github.com/taiphan/finance-brd-training)
 
 **Local:**
 

@@ -39,7 +39,7 @@ pip install --upgrade pip
 pip install jupyter pandas matplotlib
 
 # Clone or copy exercises from this repo
-cp -r /path/to/finance-brd-training/ai-factory/learning-lab ./lab
+cp -r /path/to/finance/ai-factory/learning-lab ./lab
 git init && git add . && git commit -m "chore: day 1 setup"
 ```
 

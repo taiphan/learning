@@ -1,5 +1,5 @@
 {
-  "name": "finance-brd-training",
+  "name": "finance",
   "dependencies": {
     "class-ai-agent": "^1.6.5"
   }
