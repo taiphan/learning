@@ -50,7 +50,7 @@ cd app && python3 -m http.server 8080
 
 ---
 
-## Layer 1 — Finance BRD Intake (`app/`)
+## Layer 1 — Learning BRD Intake (`app/`)
 
 ### What it does
 
@@ -62,7 +62,7 @@ Request → Summary → Objectives → Current → To-be → Rules → Complianc
 
 | Feature | Where | Business meaning |
 |---------|-------|------------------|
-| Quality score 0–100% | `app.js` → `computeScore` | Weights from `finance.js` · gate ≥ 80% |
+| Quality score 0–100% | `app.js` → `computeScore` | Weights from `learning.js` · gate ≥ 80% |
 | Risk badge | `computeRiskLevel` | Low → Critical from compliance flags |
 | Request classifier | `getRequestTypeMeta` | Access/incidents → Service Desk, not BRD |
 | Stakeholder routing | `computeRouting` | IT-Governance, IT-Security, GRC/Legal |
@@ -81,7 +81,7 @@ Request → Summary → Objectives → Current → To-be → Rules → Complianc
 
 The web app scores **more** sections (A–O); Week 1 exercise checks the **five mandatory** gates above.
 
-### Configuration — edit `app/config/finance.js` only
+### Configuration — edit `app/config/learning.js` only
 
 | Config block | Change when |
 |--------------|-------------|
@@ -173,7 +173,7 @@ Run `week02_loan_rules.py` — same thresholds as `examples/04a-brd-pos-lending.
 |-------|------------|
 | Rewrite `app.js` before Week 4 Python | Complete week01–02 first |
 | Change score weights without updating `docs/05` | Keep config and checklist aligned |
-| Put API keys in `finance.js` | `.env` in separate AI repos only |
+| Put API keys in `learning.js` | `.env` in separate AI repos only |
 | Skip the 80% export gate in the app | Same discipline as real BA intake |
 
 ---

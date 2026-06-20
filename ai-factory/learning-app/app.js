@@ -266,7 +266,7 @@
     if (n === 1) {
       bridge.hidden = false;
       bridge.innerHTML =
-        `<strong>Week 1 bridge:</strong> Draft a BRD in the <a href="${brdHref}">Finance BRD app</a>, export `.md`, then run ` +
+        `<strong>Week 1 bridge:</strong> Draft a BRD in the <a href="${brdHref}">Learning BRD app</a>, export `.md`, then run ` +
         `<code>python3 exercises/week01_brd_checklist.py your-export.md</code> from learning-lab.`;
     } else if (n === 2) {
       bridge.hidden = false;

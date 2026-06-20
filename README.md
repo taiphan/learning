@@ -2,7 +2,7 @@
 
 Local folder: `~/Projects/learning` · GitHub: [learning](https://github.com/taiphan/learning)
 
-Training materials, **learning app**, and **Finance BRD intake app** for business users (consumer finance — FE ONLINE 2.0, Finacle on AWS, nationwide POS).
+Training materials, **learning app**, and **Learning BRD intake app** for business users (consumer finance scenario — FE ONLINE 2.0, Finacle on AWS, nationwide POS).
 
 ## Quick start — BRD Intake App
 

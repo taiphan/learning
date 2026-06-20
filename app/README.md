@@ -1,6 +1,6 @@
-# Finance BRD Intake App
+# Learning BRD Intake App
 
-Interactive web form for **business users** to draft BRDs aligned with Finance governance and the IT delivery pipeline.
+Interactive web form for **business users** to draft BRDs aligned with the learning lab governance model and the IT delivery pipeline.
 
 ## Features
 
@@ -24,7 +24,7 @@ python3 -m http.server 8080
 
 ## Configuration
 
-Edit `config/finance.js`:
+Edit `config/learning.js`:
 
 - Business units, applications, compliance questions
 - Request types, delivery phases, score weights

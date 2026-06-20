@@ -1,4 +1,4 @@
-import { FINANCE } from './config/finance.js';
+import { LEARNING } from './config/learning.js';
 
 const STORAGE_KEY = 'learning-brd-draft';
 let lang = 'en';
@@ -45,10 +45,10 @@ const i18n = {
       0: 'Classify request type, identify unit, sponsor, and timeline.',
       1: 'State the business problem and impact — not the IT solution.',
       2: 'Define measurable KPIs with baseline and target.',
-      3: 'Document today’s process and which Finance systems are involved.',
+      3: 'Document today’s process and which systems are involved.',
       4: 'Describe the future process and clear scope boundaries.',
       5: 'Stakeholders, business rules, and data classification — IT must not guess these.',
-      6: 'Finance compliance screening — routes to IT-Security, GRC, or Legal.',
+      6: 'Compliance screening — routes to IT-Security, GRC, or Legal.',
       7: 'Testable Given/When/Then criteria — become UAT scripts after FSD delivery.',
     },
   },
@@ -92,7 +92,7 @@ const i18n = {
       0: 'Phân loại yêu cầu, đơn vị, sponsor và thời hạn.',
       1: 'Vấn đề nghiệp vụ và tác động — không phải giải pháp IT.',
       2: 'KPI đo lường được với hiện trạng và mục tiêu.',
-      3: 'Quy trình hiện tại và hệ thống Finance liên quan.',
+      3: 'Quy trình hiện tại và hệ thống liên quan.',
       4: 'Quy trình tương lai và ranh giới phạm vi.',
       5: 'Stakeholder, quy tắc nghiệp vụ và phân loại dữ liệu.',
       6: 'Sàng lọc tuân thủ — route IT-Security, GRC, Pháp chế.',
@@ -126,7 +126,7 @@ function getFormData() {
 
 function computeRouting(data) {
   const routes = new Set();
-  FINANCE.complianceQuestions.forEach((q) => {
+  LEARNING.complianceQuestions.forEach((q) => {
     if (data[q.id] === 'yes') q.routes.forEach((r) => routes.add(r));
   });
   if (data.dataClass === 'restricted') routes.add('it_security');
@@ -137,13 +137,13 @@ function computeRouting(data) {
 }
 
 function getRequestTypeMeta(id) {
-  return FINANCE.requestTypes.find((r) => r.id === id);
+  return LEARNING.requestTypes.find((r) => r.id === id);
 }
 
 function renderPipeline() {
   const list = document.getElementById('pipelineList');
   if (!list) return;
-  list.innerHTML = FINANCE.deliveryPhases
+  list.innerHTML = LEARNING.deliveryPhases
     .map((phase) => {
       const active = phase.id === 'brd' ? ' active' : '';
       const label = phase.label[lang] || phase.label.en;
@@ -156,7 +156,7 @@ function renderPipeline() {
 function renderGates() {
   const list = document.getElementById('gatesList');
   if (!list) return;
-  list.innerHTML = FINANCE.hardGates
+  list.innerHTML = LEARNING.hardGates
     .map((g) => `<li>${g[lang] || g.en}</li>`)
     .join('');
 }
@@ -172,15 +172,15 @@ function renderRoutingGroups(routes) {
 
   const grouped = { it_governance: [], it_security: [], compliance: [] };
   routes.forEach((r) => {
-    const cat = FINANCE.routeCategoryMap[r] || 'compliance';
-    const label = FINANCE.routeLabels[r]?.[lang] || r;
+    const cat = LEARNING.routeCategoryMap[r] || 'compliance';
+    const label = LEARNING.routeLabels[r]?.[lang] || r;
     grouped[cat].push(label);
   });
 
   container.innerHTML = Object.entries(grouped)
     .filter(([, items]) => items.length > 0)
     .map(([catId, items]) => {
-      const cat = FINANCE.routeCategories[catId];
+      const cat = LEARNING.routeCategories[catId];
       const title = cat[lang] || cat.en;
       const lis = items.map((l) => `<li>${l}</li>`).join('');
       return `<div class="route-group" data-cat="${catId}"><h3>${title}</h3><ul class="routing-list">${lis}</ul></div>`;
@@ -215,7 +215,7 @@ function updateBucketWarning(data) {
 function sectionScore(data, section) {
   const text = (v) => (v || '').trim();
   const hasTech = (v) =>
-    FINANCE.technicalKeywords.some((k) => (v || '').toLowerCase().includes(k));
+    LEARNING.technicalKeywords.some((k) => (v || '').toLowerCase().includes(k));
 
   switch (section.id) {
     case 'executive':
@@ -254,7 +254,7 @@ function sectionScore(data, section) {
 
 function computeScore(data) {
   let total = 0;
-  FINANCE.scoreSections.forEach((sec) => {
+  LEARNING.scoreSections.forEach((sec) => {
     const raw = sectionScore(data, sec);
     total += (raw / 2) * sec.weight * 100;
   });
@@ -282,12 +282,12 @@ function computeRiskLevel(data) {
 function selfCheckStatus(data) {
   const text = (v) => (v || '').trim();
   return {
-    problem: text(data.problem).length >= 50 && !FINANCE.technicalKeywords.some((k) => text(data.problem).toLowerCase().startsWith(k)),
+    problem: text(data.problem).length >= 50 && !LEARNING.technicalKeywords.some((k) => text(data.problem).toLowerCase().startsWith(k)),
     metrics: /baseline|target|hiện trạng|mục tiêu|→|->/i.test(data.objectives || ''),
     users: text(data.stakeholders) || (Number(data.userCount) > 0),
     rules: !!text(data.businessRules),
     scope: text(data.inScope) && text(data.outScope),
-    compliance: FINANCE.complianceQuestions.every((q) => data[q.id]),
+    compliance: LEARNING.complianceQuestions.every((q) => data[q.id]),
     ac: (data.acceptance?.filter((a) => text(a)).length ?? 0) >= 5,
     sponsor: !!text(data.sponsor),
   };
@@ -297,7 +297,7 @@ function renderSelfCheck(data) {
   const list = document.getElementById('selfCheckList');
   if (!list) return;
   const status = selfCheckStatus(data);
-  list.innerHTML = FINANCE.selfCheckItems
+  list.innerHTML = LEARNING.selfCheckItems
     .map((item) => {
       const ok = status[item.id];
       return `<li class="${ok ? 'ok' : 'pending'}"><span class="check-icon">${ok ? '✓' : '○'}</span>${item[lang] || item.en}</li>`;
@@ -309,7 +309,7 @@ function renderRiskBadge(data) {
   const el = document.getElementById('riskBadge');
   if (!el) return;
   const id = computeRiskLevel(data);
-  const meta = FINANCE.riskLevels.find((r) => r.id === id);
+  const meta = LEARNING.riskLevels.find((r) => r.id === id);
   el.textContent = meta ? lbl(meta) : id;
   el.style.background = meta?.color || 'transparent';
   el.style.display = data.requestType ? 'inline-block' : 'none';
@@ -333,7 +333,7 @@ function updateUI() {
   const toBe = (data.toBe || '').toLowerCase();
   const coach = document.getElementById('coachWarn');
   if (coach) {
-    const hit = FINANCE.technicalKeywords.some((k) => toBe.includes(k));
+    const hit = LEARNING.technicalKeywords.some((k) => toBe.includes(k));
     coach.classList.toggle('visible', hit);
   }
 
@@ -389,13 +389,13 @@ function loadDraft() {
 
 function renderSystemsCheckboxes() {
   const groups = {};
-  FINANCE.applications.forEach((app) => {
+  LEARNING.applications.forEach((app) => {
     if (!groups[app.group]) groups[app.group] = [];
     groups[app.group].push(app);
   });
   return Object.entries(groups)
     .map(([groupId, apps]) => {
-      const gTitle = FINANCE.appGroups[groupId]?.[lang] || groupId;
+      const gTitle = LEARNING.appGroups[groupId]?.[lang] || groupId;
       const items = apps
         .map(
           (app) => `
@@ -411,7 +411,7 @@ function renderSystemsCheckboxes() {
 }
 
 function renderComplianceRadios() {
-  return FINANCE.complianceQuestions
+  return LEARNING.complianceQuestions
     .map(
       (q) => `
     <div class="field required">
@@ -427,16 +427,16 @@ function renderComplianceRadios() {
 }
 
 function renderForm() {
-  const buOptions = FINANCE.businessUnits
+  const buOptions = LEARNING.businessUnits
     .map((u) => `<option value="${u.id}">${lbl(u)}</option>`)
     .join('');
-  const priOptions = FINANCE.priorityCategories
+  const priOptions = LEARNING.priorityCategories
     .map((p) => `<option value="${p.id}">${lbl(p)}</option>`)
     .join('');
-  const prodChecks = FINANCE.products
+  const prodChecks = LEARNING.products
     .map((p) => `<label><input type="checkbox" name="products" value="${p.id}" /> ${lbl(p)}</label>`)
     .join('');
-  const dataChecks = FINANCE.dataTypes
+  const dataChecks = LEARNING.dataTypes
     .map((d) => `<label><input type="checkbox" name="dataTypes" value="${d.id}" /> ${lbl(d)}</label>`)
     .join('');
 
@@ -450,11 +450,11 @@ function renderForm() {
     )
     .join('');
 
-  const rolloutOptions = FINANCE.rolloutOptions
+  const rolloutOptions = LEARNING.rolloutOptions
     .map((o) => `<option value="${o.id}">${lbl(o)}</option>`)
     .join('');
 
-  const reqTypeOptions = FINANCE.requestTypes
+  const reqTypeOptions = LEARNING.requestTypes
     .map((r) => `<option value="${r.id}">${lbl(r)}</option>`)
     .join('');
 
@@ -502,7 +502,7 @@ function renderForm() {
       <h2>${t('steps')[3]}</h2>
       <p class="panel-desc">${t('panelDesc')[3]}</p>
       <div class="field required"><label>${lang === 'vi' ? 'Quy trình hiện tại' : 'Current process'}</label><textarea name="currentProcess"></textarea></div>
-      <div class="field required"><label>${lang === 'vi' ? 'Hệ thống Finance' : 'Finance systems involved'}</label>${renderSystemsCheckboxes()}</div>
+      <div class="field required"><label>${lang === 'vi' ? 'Hệ thống liên quan' : 'Systems involved'}</label>${renderSystemsCheckboxes()}</div>
       <div class="grid-2">
         <div class="field"><label>${lang === 'vi' ? 'Số người dùng' : 'Users affected'}</label><input name="userCount" type="number" min="1" /></div>
         <div class="field"><label>${lang === 'vi' ? 'Giao dịch/tháng' : 'Transactions/month'}</label><input name="txMonth" type="number" min="0" /></div>
@@ -624,7 +624,7 @@ function goStep(n) {
 
 function systemLabels(ids) {
   return (ids || [])
-    .map((id) => FINANCE.applications.find((a) => a.id === id))
+    .map((id) => LEARNING.applications.find((a) => a.id === id))
     .filter(Boolean)
     .map((a) => lbl(a))
     .join(', ');
@@ -649,7 +649,7 @@ function exportBRD(force = false) {
   const score = computeScore(d);
   const risk = computeRiskLevel(d);
   const routes = computeRouting(d);
-  const bu = FINANCE.businessUnits.find((u) => u.id === d.businessUnit);
+  const bu = LEARNING.businessUnits.find((u) => u.id === d.businessUnit);
   const reqMeta = getRequestTypeMeta(d.requestType);
 
   if (!force) {
@@ -671,14 +671,14 @@ function exportBRD(force = false) {
 
   const routeByCategory = { 'IT-Governance': [], 'IT-Security': [], 'GRC / Legal': [] };
   routes.forEach((r) => {
-    const cat = FINANCE.routeCategoryMap[r] || 'compliance';
-    const label = FINANCE.routeLabels[r]?.en || r;
+    const cat = LEARNING.routeCategoryMap[r] || 'compliance';
+    const label = LEARNING.routeLabels[r]?.en || r;
     if (cat === 'it_governance') routeByCategory['IT-Governance'].push(label);
     else if (cat === 'it_security') routeByCategory['IT-Security'].push(label);
     else routeByCategory['GRC / Legal'].push(label);
   });
 
-  const deliveryPath = FINANCE.deliveryPhases
+  const deliveryPath = LEARNING.deliveryPhases
     .map((p) => `${p.label.en} (${p.owner.en})`)
     .join(' → ');
 
@@ -699,10 +699,10 @@ ${deliveryPath}
 
 | Phase | Owner | This BRD stage |
 |-------|-------|----------------|
-${FINANCE.deliveryPhases.map((p) => `| ${p.label.en} | ${p.owner.en} | ${p.id === 'brd' ? '**YOU ARE HERE**' : '—'} |`).join('\n')}
+${LEARNING.deliveryPhases.map((p) => `| ${p.label.en} | ${p.owner.en} | ${p.id === 'brd' ? '**YOU ARE HERE**' : '—'} |`).join('\n')}
 
 ### Hard gates
-${FINANCE.hardGates.map((g) => `- ${g.en}`).join('\n')}
+${LEARNING.hardGates.map((g) => `- ${g.en}`).join('\n')}
 
 ### Stakeholder routing
 ${Object.entries(routeByCategory)
@@ -780,7 +780,7 @@ ${d.businessRules || ''}
 
 ## N. COMPLIANCE SCREENING
 
-${FINANCE.complianceQuestions.map((q) => `- ${q.label.en}: **${(d[q.id] || '').toUpperCase()}**`).join('\n')}
+${LEARNING.complianceQuestions.map((q) => `- ${q.label.en}: **${(d[q.id] || '').toUpperCase()}**`).join('\n')}
 
 ## K. IMPLEMENTATION & ROLLOUT
 
@@ -806,7 +806,7 @@ ${(d.acceptance || [])
 
 ---
 
-*Exported from Finance BRD Intake App.*
+*Exported from Learning BRD Intake App.*
 *Next steps: Sponsor sign-off → BA quality gate (≥80%) → IT triage → FSD → Scrum → SIT → UAT → CAB ship.*
 *Framework: docs/12-it-operations-stakeholder-framework.md*
 `;

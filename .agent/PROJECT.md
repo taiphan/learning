@@ -27,7 +27,7 @@
 |------|---------|
 | `app/` | **BRD Intake web app** — 8-step wizard, scoring, export (VI/EN) |
 | `ai-factory/learning-app/` | **52-week learning cockpit** — progress, study/lab tabs, localStorage |
-| `app/config/finance.js` | Org, BUs, apps, products, score weights, routing rules |
+| `app/config/learning.js` | Org, BUs, apps, products, score weights, routing rules |
 | `app/app.js` | Form logic, scoring, risk, export, i18n (~860 lines) |
 | `docs/` | BRD templates, governance, IT ops, ServiceNow mapping (00–14) |
 | `examples/` | Gold-standard sample BRDs (POS lending, eKYC, collections) |
@@ -58,7 +58,7 @@
 | Area | Files |
 |------|-------|
 | BRD template (source of truth) | `docs/01-brd-template-en.md`, `docs/05-brd-quality-checklist.md` |
-| App config / scoring | `app/config/finance.js` — `scoreWeights`, `selfCheckItems`, `requestTypes` |
+| App config / scoring | `app/config/learning.js` — `scoreWeights`, `selfCheckItems`, `requestTypes` |
 | App core logic | `app/app.js` — `computeScore`, `exportBRD`, `computeRouting`, `init` |
 | Sample BRD for exercises | `examples/04a-brd-pos-lending.md` |
 | Learning start | `ai-factory/ai-skills-workbook.md`, `ai-factory/reading-path.md` |
@@ -83,7 +83,7 @@
 | Item | Status |
 |------|--------|
 | CodeGraph index | Present — `/Users/phantuantai/Projects/learning/.codegraph/` |
-| Indexed | 22 files · 555 nodes · Python generators + `app/app.js`, `finance.js` |
+| Indexed | 22 files · 555 nodes · Python generators + `app/app.js`, `learning.js` |
 | Workspace root | `/Users/phantuantai/Projects/learning` |
 | OntoSight | `npx @royalsolution/ontosight@0.2.0 "/Users/phantuantai/Projects/learning" --symbol init --path app` |
 

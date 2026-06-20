@@ -42,5 +42,5 @@
 
 ---
 
-*Exported from Finance BRD Intake App.*
+*Exported from Learning BRD Intake App.*
 *Training sample — Section M (acceptance tests) not included yet.*

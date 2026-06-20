@@ -1,9 +1,9 @@
-/** Finance BRD intake — application landscape & form config */
-export const FINANCE = {
+/** Learning BRD intake — application landscape & form config */
+export const LEARNING = {
   org: {
-    name: 'Finance',
-    legalName: 'SMBC Vietnam Prosperity Bank Finance Company Limited',
-    formerName: 'VPBank Finance (legacy consumer finance brand)',
+    name: 'Learning',
+    legalName: 'Learning Lab — BRD Intake Simulator',
+    formerName: 'Consumer finance training scenario (FE ONLINE, Finacle, POS)',
   },
 
   businessUnits: [
