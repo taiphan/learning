@@ -24,7 +24,7 @@ cd ai-factory/learning-app && python3 -m http.server 8081
 | Lab exercises | [ai-factory/learning-lab](ai-factory/learning-lab/) |
 | Curriculum source | [ai-factory/learning_data.py](ai-factory/learning_data.py) |
 
-**Live site** (after deploy): GitHub Pages — learning app at `/`, BRD intake at `/brd/`.
+**Live site:** https://taiphan.github.io/fe-credit-brd-training/ — learning app at `/`, BRD intake at `/brd/`.
 
 ## Contents
 
