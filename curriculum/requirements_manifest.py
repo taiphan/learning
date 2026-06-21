@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 REQUIREMENTS_VERSION = "2.0.0"
-APP_VERSION = "2.6.0"
+APP_VERSION = "2.6.1"
 CURRICULUM_VERSION = "1.3"
 
 DOCS = {

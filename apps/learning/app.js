@@ -306,28 +306,52 @@
     return hash;
   }
 
+  function isViewVisibleForRoute(routeKey) {
+    const weekMatch = routeKey.match(/^week\/(\d+)$/);
+    if (weekMatch) return !$("#viewWeek").hidden;
+    switch (routeKey) {
+      case "landing":
+        return !$("#viewLanding").hidden;
+      case "explore":
+        return !$("#viewExplore").hidden;
+      case "library":
+        return !$("#viewLibrary").hidden;
+      case "auth":
+        return !$("#viewAuth").hidden;
+      default:
+        return false;
+    }
+  }
+
   /** Update URL hash; hashchange → route() → renderForRoute (single render). */
   function setRoute(raw) {
     const normalized = normalizeRoute(raw);
-    if (normalizeRoute(location.hash.slice(1)) === normalized) {
+    const current = normalizeRoute(location.hash.slice(1));
+    if (current === normalized) {
+      if (!isViewVisibleForRoute(normalized)) activeRoute = null;
       renderForRoute(normalized);
       return;
     }
+    activeRoute = null;
     location.hash = normalized;
   }
 
   function route() {
-    let normalized = normalizeRoute(location.hash.slice(1));
-    if (!location.hash.slice(1)) {
+    const raw = location.hash.slice(1);
+    let normalized = normalizeRoute(raw);
+    if (!raw) {
       history.replaceState(null, "", "#landing");
       normalized = "landing";
+      activeRoute = null;
+    } else if (raw !== normalized) {
+      history.replaceState(null, "", `#${normalized}`);
       activeRoute = null;
     }
     renderForRoute(normalized);
   }
 
   function renderForRoute(routeKey) {
-    if (activeRoute === routeKey) return;
+    if (activeRoute === routeKey && isViewVisibleForRoute(routeKey)) return;
     activeRoute = routeKey;
 
     const weekMatch = routeKey.match(/^week\/(\d+)$/);
@@ -462,10 +486,10 @@
 
   function renderWeekView(n) {
     state.currentWeek = n;
-    saveState();
     hideAllViews();
     setLayoutMode("sidebar");
     $("#viewWeek").hidden = false;
+    saveState();
     const w = weekByNum(n);
     renderWeek(n);
     highlightWeekInList(n);
@@ -909,9 +933,14 @@
     document.addEventListener("click", (e) => {
       const btn = e.target.closest("[data-goto]");
       if (!btn) return;
+      e.preventDefault();
       const dest = btn.dataset.goto;
       if (dest === "week") {
         showWeek(parseInt(btn.dataset.week || "1", 10));
+        return;
+      }
+      if (dest === "learn") {
+        showWeek(nextIncompleteWeek());
         return;
       }
       navigateTo(dest);
