@@ -24,7 +24,7 @@ def main():
     from learning_loader import export_json
     from scaffold_learning_lab import scaffold
 
-    print("1. Export learning-data.json")
+    print("1. Export learning-data.json + requirements-manifest.json")
     json_path = export_json()
     print(f"   → {json_path}")
 

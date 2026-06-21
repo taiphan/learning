@@ -4,6 +4,7 @@
 (function () {
   const cfg = window.LEARNING_CONFIG;
   let data = null;
+  let manifest = null;
   let state = loadState();
 
   const $ = (sel) => document.querySelector(sel);
@@ -32,6 +33,21 @@
   function saveState() {
     localStorage.setItem(cfg.STORAGE_KEY, JSON.stringify(state));
     updateProgressUI();
+    if (window.LearningAuth?.syncProgress) {
+      window.LearningAuth.syncProgress(state);
+    }
+  }
+
+  function applyCloudProgress(merged) {
+    state.completedWeeks = merged.completedWeeks || [];
+    state.trackBCompleted = merged.trackBCompleted || [];
+    state.currentWeek = merged.currentWeek || 1;
+    state.notes = merged.notes || {};
+    if (merged.activeTab) state.activeTab = merged.activeTab;
+    localStorage.setItem(cfg.STORAGE_KEY, JSON.stringify(state));
+    updateProgressUI();
+    if (!$("#viewWeek").hidden) renderWeek(state.currentWeek);
+    else renderHome();
   }
 
   function trackBCompletedCount() {
@@ -134,6 +150,83 @@
     return state.completedWeeks.length;
   }
 
+  function quarterProgress(phaseId) {
+    const weeks = data.weeks.filter((w) => w.phase === phaseId);
+    const done = weeks.filter((w) => isComplete(w.week)).length;
+    return { done, total: weeks.length, weeks };
+  }
+
+  function currentQuarterPhase() {
+    const cur = weekByNum(state.currentWeek) || data.weeks[0];
+    return phaseById(cur.phase);
+  }
+
+  function trackBDeliveryPath(hoaiId) {
+    const file = cfg.TRACK_B_DELIVERY?.[hoaiId];
+    if (!file) return null;
+    return `lab/delivery/track-b/${file}`;
+  }
+
+  function updateQuarterProgressUI() {
+    const phase = currentQuarterPhase();
+    if (!phase) return;
+    const qp = quarterProgress(phase.id);
+    const pct = qp.total ? Math.round((qp.done / qp.total) * 100) : 0;
+
+    const qLabel = $("#statQuarter");
+    const qSub = $("#statQuarterLabel");
+    if (qLabel) qLabel.textContent = `Q${phase.career_quarter || "?"}`;
+    if (qSub) {
+      qSub.textContent = `${phase.name.split("—")[1]?.trim() || phase.theme} · W${state.currentWeek} · ${qp.done}/${qp.total}`;
+    }
+    const barQ = $("#barQuarter");
+    if (barQ) barQ.style.width = `${pct}%`;
+
+    const gate = $("#quarterMiniGate");
+    const count = $("#quarterMiniCount");
+    const barSide = $("#barQuarterSidebar");
+    if (gate) gate.textContent = phase.career_gate || phase.theme;
+    if (count) count.textContent = `${qp.done} of ${qp.total} weeks · gate: ${phase.career_gate || "—"}`;
+    if (barSide) barSide.style.width = `${pct}%`;
+  }
+
+  function renderVersionFooter() {
+    const line = $("#versionLine");
+    if (!line) return;
+    const req = manifest?.requirements_version || data?.meta?.requirements_version || cfg.REQUIREMENTS_VERSION;
+    const app = manifest?.app_version || cfg.APP_VERSION;
+    const curr = data?.meta?.curriculum_version || data?.meta?.version || cfg.CURRICULUM_VERSION;
+    const updated = manifest?.updated || data?.meta?.manifest_updated || "";
+    line.textContent = `Req ${req} · App ${app} · Curr ${curr}${updated ? ` · ${updated}` : ""}`;
+    const reqLink = $("#versionRequirements");
+    const clLink = $("#versionChangelog");
+    if (reqLink && manifest?.docs?.primary) {
+      reqLink.href = `${cfg.REPO_BLOB}/${manifest.docs.primary}`;
+    }
+    if (clLink && manifest?.docs?.changelog) {
+      clLink.href = `${cfg.REPO_BLOB}/${manifest.docs.changelog}`;
+    }
+  }
+
+  function checkVersionAlignment() {
+    const banner = $("#versionBanner");
+    if (!banner || !manifest) return;
+    const appMismatch = manifest.app_version && manifest.app_version !== cfg.APP_VERSION;
+    const currMismatch =
+      data?.meta?.curriculum_version &&
+      manifest.curriculum_version &&
+      data.meta.curriculum_version !== manifest.curriculum_version;
+    if (appMismatch || currMismatch) {
+      banner.hidden = false;
+      const exp = $("#versionExpected");
+      const loaded = $("#versionLoaded");
+      if (exp) exp.textContent = `app ${manifest.app_version}, curr ${manifest.curriculum_version}`;
+      if (loaded) loaded.textContent = `app ${cfg.APP_VERSION}, curr ${data?.meta?.curriculum_version || "?"}`;
+    } else {
+      banner.hidden = true;
+    }
+  }
+
   function toast(msg) {
     const el = $("#toast");
     el.textContent = msg;
@@ -199,22 +292,52 @@
     });
     renderCheckpointsMini();
     renderHoaiCheckpointsMini();
+    updateQuarterProgressUI();
+  }
+
+  function renderEnrichment() {
+    const grid = $("#enrichmentGrid");
+    if (!grid || !cfg.ENRICHMENT) return;
+    grid.innerHTML = "";
+    const phase = currentQuarterPhase();
+    const qNum = phase?.career_quarter || 1;
+    cfg.ENRICHMENT.forEach((block, i) => {
+      const el = document.createElement("article");
+      el.className = "enrichment-block" + (i + 1 === qNum ? " active" : "");
+      const ul = document.createElement("ul");
+      block.items.forEach((item) => {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = item.url;
+        a.target = "_blank";
+        a.rel = "noopener";
+        a.textContent = item.label;
+        li.innerHTML = `<span class="enrichment-tag">${item.tag}</span> `;
+        li.appendChild(a);
+        ul.appendChild(li);
+      });
+      el.innerHTML = `<h4>${block.quarter} <span class="enrichment-weeks">W${block.weeks}</span></h4>`;
+      el.appendChild(ul);
+      grid.appendChild(el);
+    });
   }
 
   function renderHome() {
     const cur = weekByNum(state.currentWeek) || data.weeks[0];
+    const phase = phaseById(cur.phase);
     const next = nextIncompleteWeek();
     const nextW = weekByNum(next);
+    const meta = data.meta || {};
 
     $("#homeGreeting").textContent =
-      completedCount() === 0 ? "Welcome — start your 52-week path" : "Welcome back";
+      completedCount() === 0
+        ? "Welcome — Y1 Q1, Week 1"
+        : "Welcome back";
     $("#homeLead").textContent =
       completedCount() === 0
-        ? "Week 1 connects Python to BRD quality — the same gates you use at work."
-        : `You have completed ${completedCount()} weeks. ${nextW ? `Next up: Week ${next} — ${nextW.title}.` : "You finished the path!"}`;
-
-    $("#statCurrent").textContent = `Week ${cur.week}`;
-    $("#statCurrentTitle").textContent = cur.title;
+        ? `Track A (~${meta.hours_track_a || 8}h): Python + BRD bridge. Track B (~${meta.hours_track_b || 2}h): Head of AI milestones at weeks 8, 16, 28, 40, 52. Week 1 → BRD app → checklist script.`
+        : `You have completed ${completedCount()} weeks. ${nextW ? `Next: Week ${next} — ${nextW.title}.` : "You finished Y1!"}` +
+          (phase?.career_gate ? ` Quarter gate: ${phase.career_gate}.` : "");
 
     const cpPending = data.checkpoints.find((cp) => {
       const maxDone = state.completedWeeks.length ? Math.max(...state.completedWeeks) : 0;
@@ -230,8 +353,11 @@
 
     updateProgressUI();
     renderHoaiHome();
+    renderTrackBIdleList();
     renderDeckLinks();
     renderCareerPath();
+    renderEnrichment();
+    if (window.LearningGuide) window.LearningGuide.renderHomeCard();
   }
 
   function renderHoaiHome() {
@@ -354,6 +480,30 @@
     });
   }
 
+  function nextTrackBMilestone(fromWeek) {
+    if (!data?.track_b_checkpoints) return null;
+    const cur = fromWeek ?? state.currentWeek;
+    return data.track_b_checkpoints.find((cp) => cur <= cp.after_week) || null;
+  }
+
+  function renderTrackBIdleList() {
+    const ul = $("#trackBIdleList");
+    if (!ul || !data.track_b_checkpoints) return;
+    ul.innerHTML = "";
+    const next = nextTrackBMilestone();
+    data.track_b_checkpoints.forEach((cp) => {
+      const li = document.createElement("li");
+      const done = isTrackBComplete(cp.after_week);
+      const isNext = next && cp.after_week === next.after_week;
+      li.className = done ? "pass" : isNext ? "next" : "";
+      li.innerHTML =
+        `<strong>${cp.id}</strong> Week ${cp.after_week}: ${done ? "✓ " : isNext ? "→ " : "— "}${cp.label}`;
+      li.addEventListener("click", () => showWeek(cp.after_week));
+      li.style.cursor = "pointer";
+      ul.appendChild(li);
+    });
+  }
+
   function renderLeadershipPanel(w) {
     const tb = w.track_b;
     const active = $("#trackBActive");
@@ -362,7 +512,11 @@
     if (!tb) {
       active.hidden = true;
       idle.hidden = false;
-      banner.textContent = "Track B — Head of AI Factory (2h/week on milestone weeks)";
+      const next = nextTrackBMilestone(w.week);
+      banner.textContent = next
+        ? `Track B — next milestone ${next.id} at Week ${next.after_week}`
+        : "Track B — Head of AI Factory (milestone weeks)";
+      renderTrackBIdleList();
       return;
     }
     active.hidden = false;
@@ -372,6 +526,9 @@
     $("#trackBStudy").textContent = tb.study;
     $("#trackBTemplate").textContent = tb.template;
     $("#trackBAction").textContent = tb.action;
+    const savePath = trackBDeliveryPath(tb.hoai_checkpoint);
+    const saveEl = $("#trackBSavePath");
+    if (saveEl) saveEl.textContent = savePath || "lab/delivery/track-b/";
     $("#trackBDeliverable").textContent = tb.deliverable;
     $("#completeTrackB").checked = isTrackBComplete(w.week);
     renderTrackBLinks(w);
@@ -420,7 +577,15 @@
     });
 
     $("#skillDefinition").textContent = skill.definition;
-    $("#phaseTip").textContent = `Phase tip: ${cfg.PHASE_TIPS[w.phase] || ""}`;
+    $("#phaseTip").textContent = `Quarter tip: ${cfg.PHASE_TIPS[w.phase] || ""}`;
+    const ct = $("#careerTip");
+    if (ct && phase.career_gate) {
+      ct.hidden = false;
+      const apply = phase.apply_target ? ` · Apply target: ${phase.apply_target}` : "";
+      ct.textContent = `Career gate (Y${phase.career_year || 1} Q${phase.career_quarter || "?"}): ${phase.career_gate}${apply}`;
+    } else if (ct) {
+      ct.hidden = true;
+    }
 
     const cpEl = $("#checkpointCallout");
     if (w.checkpoint) {
@@ -435,22 +600,33 @@
     if (n === 1) {
       bridge.hidden = false;
       bridge.innerHTML =
-        `<strong>Week 1 bridge:</strong> Draft a BRD in the <a href="${brdHref}">Learning BRD app</a>, export `.md`, then run ` +
-        `<code>python3 exercises/week01_brd_checklist.py your-export.md</code> from lab.`;
+        `<strong>Week 1 bridge (Y1 Q1):</strong> Draft a BRD in the <a href="${brdHref}">Learning BRD app</a>, export `.md`, then run ` +
+        `<code>python3 exercises/week01_brd_checklist.py your-export.md</code> from <code>lab/</code>.`;
     } else if (n === 2) {
       bridge.hidden = false;
       bridge.innerHTML =
-        `<strong>Week 2 bridge:</strong> Loan rules in Python mirror Section H of ` +
+        `<strong>Week 2 bridge (Y1 Q1):</strong> Loan rules in Python mirror Section H of ` +
         `<a href="https://github.com/taiphan/learning/blob/main/examples/04a-brd-pos-lending.md" target="_blank" rel="noopener">examples/04a-brd-pos-lending.md</a>.`;
-    } else if (n >= 25 && n <= 33) {
+    } else if (phase.id === "y1q2" && n === 13) {
       bridge.hidden = false;
       bridge.innerHTML =
-        `<strong>GenAI phase:</strong> Use BRDs you export from the intake app as RAG corpus (see <code>projects/policy-rag/ask.py</code>).`;
-    } else if ([8, 16, 28, 40, 52].includes(n) && w.track_b) {
+        `<strong>Y1 Q2 start:</strong> Classical ML quarter — portfolio piece 1 is the gate. Review ` +
+        `<a href="https://github.com/taiphan/learning/blob/main/lab/projects/PORTFOLIO.md" target="_blank" rel="noopener">lab/projects/PORTFOLIO.md</a>.`;
+    } else if (phase.id === "y1q3" && n >= 25 && n <= 36) {
       bridge.hidden = false;
       bridge.innerHTML =
-        `<strong>Track B (Head of AI):</strong> ~2h leadership work — open the <em>Leadership</em> tab and fill ` +
-        `<code>${w.track_b.template}</code>.`;
+        `<strong>Y1 Q3 (GenAI production):</strong> Use BRDs from the intake app as RAG corpus (see <code>lab/projects/policy-rag/ask.py</code>).`;
+    } else if (phase.id === "y1q4" && n === 37) {
+      bridge.hidden = false;
+      bridge.innerHTML =
+        `<strong>Y1 Q4 — Apply quarter:</strong> Gate is AI Engineer / Senior BA at OCB, NAB, or VPBank. See ` +
+        `<a href="https://github.com/taiphan/learning/blob/main/curriculum/job-skills-adaptation.md" target="_blank" rel="noopener">job-skills-adaptation.md</a>.`;
+    } else if (w.track_b) {
+      bridge.hidden = false;
+      const save = trackBDeliveryPath(w.track_b.hoai_checkpoint) || "lab/delivery/track-b/";
+      bridge.innerHTML =
+        `<strong>Track B (${w.track_b.hoai_checkpoint}):</strong> ~2h leadership — open the <em>Leadership</em> tab, fill the template, save to ` +
+        `<code>${save}</code>.`;
     } else {
       bridge.hidden = true;
     }
@@ -483,12 +659,21 @@
 
     const done = $("#doneList");
     done.innerHTML = "";
-    [
+    const steps = [
       `Open \`${w.exercise}\` in Cursor`,
       `Run: \`${w.run}\` (from lab/)`,
       `Output matches: ${w.deliverable}`,
       `Skill checkpoint: ${skill.checkpoint}`,
-    ].forEach((step) => {
+    ];
+    if (w.track_b) {
+      const save = trackBDeliveryPath(w.track_b.hoai_checkpoint) || "lab/delivery/track-b/";
+      steps.push(
+        `Track B (~2h): fill \`${w.track_b.template}\``,
+        `Save leadership deliverable to \`${save}\``,
+        `Mark Track B milestone on Leadership tab`
+      );
+    }
+    steps.forEach((step) => {
       const li = document.createElement("li");
       li.textContent = step;
       done.appendChild(li);
@@ -498,6 +683,10 @@
     $("#completeWeek").checked = isComplete(n);
 
     renderLeadershipPanel(w);
+
+    $$(".tab").forEach((tab) => {
+      tab.classList.toggle("milestone", tab.dataset.tab === "leadership" && !!w.track_b);
+    });
 
     $("#prevWeek").disabled = n <= 1;
     $("#nextWeek").textContent = n >= 52 ? "Finish path ✓" : "Next week →";
@@ -575,9 +764,13 @@
 
   async function init() {
     try {
-      const res = await fetch(cfg.DATA_URL);
-      if (!res.ok) throw new Error(res.statusText);
-      data = await res.json();
+      const [dataRes, manifestRes] = await Promise.all([
+        fetch(cfg.DATA_URL),
+        fetch(cfg.MANIFEST_URL).catch(() => null),
+      ]);
+      if (!dataRes.ok) throw new Error(dataRes.statusText);
+      data = await dataRes.json();
+      if (manifestRes?.ok) manifest = await manifestRes.json();
     } catch (err) {
       $("#main").innerHTML = `<div class="card"><h2>Could not load curriculum</h2><p>Run a local server from <code>apps/learning</code> and ensure <code>learning-data.json</code> exists.</p><pre>${err.message}</pre></div>`;
       return;
@@ -588,6 +781,26 @@
     renderPhaseGrid();
     bindEvents();
     route();
+    renderVersionFooter();
+    checkVersionAlignment();
+    if (window.LearningGuide) {
+      window.LearningGuide.initGuide({
+        showHome,
+        showWeek,
+        setActiveTab,
+        toast,
+      });
+    }
+    window.__learningToast = toast;
+    window.__learningAuthGetProgress = () => ({
+      completedWeeks: [...state.completedWeeks],
+      trackBCompleted: [...(state.trackBCompleted || [])],
+      currentWeek: state.currentWeek,
+      notes: { ...state.notes },
+      activeTab: state.activeTab,
+    });
+    window.__learningAuthApplyProgress = applyCloudProgress;
+    window.LearningAuth?.init?.();
   }
 
   init();

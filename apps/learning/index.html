@@ -25,6 +25,20 @@
           <div class="progress-pill track-b-pill" id="trackBPill" title="Track B milestones">B 0/5</div>
           <div class="progress-pill" id="progressPill" title="Weeks completed">0 / 52</div>
           <a class="btn btn-ghost" href="brd/" title="Learning BRD Intake">BRD App</a>
+          <button type="button" class="btn btn-ghost" id="openGuideBtn" title="How to use this app">Guide</button>
+          <div class="auth-wrap" id="authWrap">
+            <span class="auth-local-pill" id="authLocalOnly" title="Progress saved in this browser only">Local</span>
+            <div class="auth-signed-out" id="authSignedOut" hidden>
+              <button type="button" class="btn btn-google" id="googleSignInBtn" title="Sign in with Google to sync progress">
+                <span class="google-g" aria-hidden="true">G</span> Sign in
+              </button>
+            </div>
+            <div class="auth-signed-in" id="authSignedIn" hidden>
+              <img class="auth-photo" id="authPhoto" alt="" width="28" height="28" hidden />
+              <span class="auth-name" id="authName">—</span>
+              <button type="button" class="btn btn-ghost btn-sm" id="authSignOutBtn">Sign out</button>
+            </div>
+          </div>
           <button type="button" class="btn btn-primary" id="continueBtn">Continue →</button>
         </div>
       </div>
@@ -34,10 +48,16 @@
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-head">
           <h2>Weeks</h2>
-          <select id="phaseFilter" aria-label="Filter by phase">
-            <option value="all">All phases</option>
+          <select id="phaseFilter" aria-label="Filter by Y1 quarter">
+            <option value="all">All quarters</option>
           </select>
         </div>
+        <section class="quarter-mini card" id="quarterMini">
+          <h3>Quarter progress</h3>
+          <p class="quarter-mini-gate" id="quarterMiniGate">—</p>
+          <div class="bar"><div class="bar-fill" id="barQuarterSidebar"></div></div>
+          <p class="hint" id="quarterMiniCount">—</p>
+        </section>
         <nav class="week-list" id="weekList" aria-label="Week navigation"></nav>
         <section class="checkpoints-mini card" id="checkpointsMini">
           <h3>Checkpoints</h3>
@@ -62,6 +82,25 @@
             </div>
           </div>
 
+          <section class="card getting-started" id="gettingStartedCard" hidden>
+            <div class="getting-started-head">
+              <h3>How to use this app</h3>
+              <button type="button" class="btn btn-ghost btn-sm" id="dismissHomeCardBtn">Dismiss</button>
+            </div>
+            <ol class="getting-started-steps">
+              <li><strong>Pick a week</strong> — Continue, sidebar, or Y1 quarter cards</li>
+              <li><strong>Overview</strong> — read the deliverable and bridge banner</li>
+              <li><strong>Study</strong> — readings and resources (~2–3h Track A)</li>
+              <li><strong>Lab</strong> — run commands from <code>lab/</code> in Cursor (~4–5h)</li>
+              <li><strong>Leadership</strong> — Track B on weeks 8, 16, 28, 40, 52 only</li>
+              <li><strong>Mark complete</strong> — footer checkbox, then Next week</li>
+            </ol>
+            <div class="getting-started-actions">
+              <button type="button" class="btn btn-primary btn-sm" id="startTourBtn">Take the guided tour</button>
+              <a class="btn btn-ghost btn-sm" href="https://github.com/taiphan/learning/blob/main/docs/learning-requirements/LEARNING-REQUIREMENTS.md" target="_blank" rel="noopener">Requirements v2.0</a>
+            </div>
+          </section>
+
           <div class="grid-3">
             <article class="card stat-card">
               <span class="stat-label">Progress</span>
@@ -69,9 +108,10 @@
               <div class="bar"><div class="bar-fill" id="barProgress"></div></div>
             </article>
             <article class="card stat-card">
-              <span class="stat-label">Current week</span>
-              <span class="stat-value" id="statCurrent">Week 1</span>
-              <span class="stat-sub" id="statCurrentTitle">—</span>
+              <span class="stat-label">Y1 quarter</span>
+              <span class="stat-value" id="statQuarter">Q1</span>
+              <span class="stat-sub" id="statQuarterLabel">—</span>
+              <div class="bar bar-quarter"><div class="bar-fill" id="barQuarter"></div></div>
             </article>
             <article class="card stat-card">
               <span class="stat-label">Next checkpoint</span>
@@ -84,6 +124,15 @@
             <h3>Head of AI track (2h/week)</h3>
             <p class="hint">Leadership milestones at weeks 8, 16, 28, 40, 52 — <a href="https://github.com/taiphan/learning/blob/main/curriculum/head-of-ai-track.md" target="_blank" rel="noopener">guide</a> · <a href="https://github.com/taiphan/learning/blob/main/curriculum/job-skills-adaptation.md#f4-vpbank--head-of-ai-factory-stretch--track-b" target="_blank" rel="noopener">VPBank HoAI JD map</a></p>
             <ul class="hoai-progress" id="hoaiHomeProgress"></ul>
+          </section>
+
+          <section class="card enrichment-card" id="enrichmentCard">
+            <div class="enrichment-head">
+              <h3>Free video learning</h3>
+              <a class="btn btn-ghost btn-sm" href="https://github.com/taiphan/learning/blob/main/curriculum/video-learning-enrichment.md" target="_blank" rel="noopener">Full guide</a>
+            </div>
+            <p class="hint">Coursera · LinkedIn (trial/employer) · YouTube · Microsoft — ~2–3h/week alongside Study tab. Lab deliverables still required.</p>
+            <div class="enrichment-grid" id="enrichmentGrid"></div>
           </section>
 
           <section class="card" id="resourcesCard">
@@ -138,6 +187,7 @@
                   <h4>Skill context</h4>
                   <p id="skillDefinition">—</p>
                   <p class="tip" id="phaseTip">—</p>
+                  <p class="tip career-tip" id="careerTip" hidden></p>
                 </div>
               </div>
               <div class="checkpoint-callout card" id="checkpointCallout" hidden>
@@ -197,6 +247,7 @@
                 <p><strong>Read:</strong> <code id="trackBStudy">—</code></p>
                 <p><strong>Template:</strong> <code id="trackBTemplate">—</code></p>
                 <p><strong>Action:</strong> <span id="trackBAction">—</span></p>
+                <p><strong>Save to:</strong> <code id="trackBSavePath">—</code></p>
                 <p><strong>Done when:</strong> <span id="trackBDeliverable">—</span></p>
                 <p class="hint">Budget ~2 hours this week alongside the Lab tab.</p>
                 <div class="guide-links" id="trackBLinks"></div>
@@ -205,9 +256,10 @@
                   <span>Mark Track B milestone complete</span>
                 </label>
               </div>
-              <div class="panel-block card" id="trackBIdle" hidden>
-                <p>Track B leadership work runs on <strong>weeks 8, 16, 28, 40, and 52</strong> (~2h each).</p>
-                <p>See <a href="https://github.com/taiphan/learning/blob/main/curriculum/head-of-ai-track.md" target="_blank" rel="noopener">head-of-ai-track.md</a> and download <a href="decks/Learning-Track-B-Slides.pptx">Track B slides</a>.</p>
+              <div class="panel-block card" id="trackBIdle">
+                <p><strong>Track B — Head of AI Factory</strong> runs on milestone weeks (~2h each), not every week. Your next deliverable is below.</p>
+                <ul class="hoai-progress track-b-idle-list" id="trackBIdleList"></ul>
+                <p class="hint">Between milestones: skim <a href="https://github.com/taiphan/learning/blob/main/curriculum/head-of-ai-track.md" target="_blank" rel="noopener">head-of-ai-track.md</a> · download <a href="decks/Learning-Track-B-Slides.pptx">Track B slides</a></p>
               </div>
             </article>
 
@@ -233,9 +285,45 @@
     </div>
   </div>
 
+  <footer class="app-footer" id="appFooter">
+    <span id="versionLine">—</span>
+    <a id="versionChangelog" href="https://github.com/taiphan/learning/blob/main/docs/learning-requirements/CHANGELOG.md" target="_blank" rel="noopener">Changelog</a>
+    <a id="versionRequirements" href="https://github.com/taiphan/learning/blob/main/docs/learning-requirements/LEARNING-REQUIREMENTS.md" target="_blank" rel="noopener">Requirements</a>
+  </footer>
+  <div class="version-banner card" id="versionBanner" hidden role="alert">
+    <strong>Version mismatch</strong> — refresh or redeploy. Expected app <span id="versionExpected">—</span>, loaded <span id="versionLoaded">—</span>.
+  </div>
+
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
+  <div class="guide-overlay" id="guideOverlay" hidden role="dialog" aria-modal="true" aria-labelledby="guideTitle">
+    <div class="guide-backdrop" id="guideBackdrop"></div>
+    <div class="guide-spotlight" id="guideSpotlight" hidden aria-hidden="true"></div>
+    <div class="guide-card" id="guideCard">
+      <div class="guide-card-head">
+        <span class="guide-progress" id="guideProgress">1 / 12</span>
+        <button type="button" class="guide-close" id="guideClose" aria-label="Close guide">×</button>
+      </div>
+      <h3 class="guide-title" id="guideTitle">Welcome</h3>
+      <div class="guide-body" id="guideBody"></div>
+      <p class="guide-tip" id="guideTip" hidden></p>
+      <div class="guide-actions">
+        <button type="button" class="btn btn-ghost btn-sm" id="guideSkip">Skip tour</button>
+        <div class="guide-nav">
+          <button type="button" class="btn btn-ghost btn-sm" id="guideBack">Back</button>
+          <button type="button" class="btn btn-primary btn-sm" id="guideNext">Next</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="auth-config.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js" crossorigin="anonymous"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js" crossorigin="anonymous"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js" crossorigin="anonymous"></script>
+  <script src="auth.js"></script>
   <script src="config.js"></script>
+  <script src="guide.js"></script>
   <script src="app.js"></script>
 </body>
 </html>

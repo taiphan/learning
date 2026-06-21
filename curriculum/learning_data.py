@@ -663,7 +663,7 @@ def _build_weeks() -> list[dict]:
 WEEKS = _build_weeks()
 
 META = {
-    "version": "1.2",
+    "version": "1.3",
     "career_timeline": "curriculum/career-timeline.md",
     "hours_per_week": 10,
     "hours_track_a": 8,

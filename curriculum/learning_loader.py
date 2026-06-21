@@ -44,8 +44,20 @@ def phase_for_week(week_num: int) -> dict:
 
 
 def curriculum_dict() -> dict[str, Any]:
+    from requirements_manifest import manifest_dict
+
+    m = manifest_dict()
+    meta = {
+        **META,
+        "app_version": m["app_version"],
+        "requirements_version": m["requirements_version"],
+        "curriculum_version": m["curriculum_version"],
+        "requirements_doc": m["docs"]["primary"],
+        "requirements_changelog": m["docs"]["changelog"],
+        "manifest_updated": m["updated"],
+    }
     return {
-        "meta": META,
+        "meta": meta,
         "phases": PHASES,
         "career_path": CAREER_PATH,
         "skills": SKILLS,
@@ -55,6 +67,16 @@ def curriculum_dict() -> dict[str, Any]:
     }
 
 
+def export_manifest(path: Path | None = None) -> Path:
+    from requirements_manifest import manifest_dict
+
+    path = path or APPS_LEARNING / "requirements-manifest.json"
+    payload = json.dumps(manifest_dict(), indent=2, ensure_ascii=False) + "\n"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(payload, encoding="utf-8")
+    return path
+
+
 def export_json(path: Path | None = None) -> Path:
     path = path or CURRICULUM / "learning-data.json"
     payload = json.dumps(curriculum_dict(), indent=2, ensure_ascii=False) + "\n"
@@ -62,6 +84,7 @@ def export_json(path: Path | None = None) -> Path:
     app_copy = APPS_LEARNING / "learning-data.json"
     app_copy.parent.mkdir(parents=True, exist_ok=True)
     app_copy.write_text(payload, encoding="utf-8")
+    export_manifest()
     return path
 
 

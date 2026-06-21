@@ -1,0 +1,67 @@
+{
+  "requirements_version": "2.0.0",
+  "app_version": "2.1.0",
+  "curriculum_version": "1.3",
+  "updated": "2026-06-21",
+  "docs": {
+    "primary": "docs/learning-requirements/LEARNING-REQUIREMENTS.md",
+    "changelog": "docs/learning-requirements/CHANGELOG.md",
+    "video_enrichment": "curriculum/video-learning-enrichment.md",
+    "career_timeline": "curriculum/career-timeline.md",
+    "app_usage_legacy": "docs/15-learning-app-usage-requirements.md",
+    "auth_setup": "apps/learning/AUTH-SETUP.md"
+  },
+  "repo": "https://github.com/taiphan/learning",
+  "live_url": "https://taiphan.github.io/learning/",
+  "changelog": [
+    {
+      "version": "2.1.0",
+      "date": "2026-06-21",
+      "requirements": "2.0.0",
+      "app": "2.1.0",
+      "curriculum": "1.3",
+      "changes": [
+        "Google sign-in via Firebase Auth (optional)",
+        "Firestore progress sync across devices",
+        "AUTH-SETUP.md + GitHub Actions Firebase secrets"
+      ]
+    },
+    {
+      "version": "2.0.0",
+      "date": "2026-06-21",
+      "requirements": "2.0.0",
+      "app": "2.0.0",
+      "curriculum": "1.3",
+      "changes": [
+        "Consolidated LEARNING-REQUIREMENTS.md (one doc to follow)",
+        "requirements-manifest.json synced to app on generate",
+        "App version footer + manifest mismatch warning",
+        "In-app guide tour + free video enrichment card"
+      ]
+    },
+    {
+      "version": "1.2.0",
+      "date": "2026-06-20",
+      "requirements": "1.0.0",
+      "app": "1.2.0",
+      "curriculum": "1.2",
+      "changes": [
+        "Y1 quarters (y1q1–y1q4) replace six technical phases",
+        "Track B H0–H4 on weeks 8, 16, 28, 40, 52",
+        "Career path Y1–Y4 in app home",
+        "docs/15-learning-app-usage-requirements.md (superseded by 2.0)"
+      ]
+    },
+    {
+      "version": "1.0.0",
+      "date": "2026-06-19",
+      "requirements": "1.0.0",
+      "app": "1.0.0",
+      "curriculum": "1.0",
+      "changes": [
+        "Initial 52-week learning app + learning_data.py",
+        "Six-phase curriculum (foundation → career)"
+      ]
+    }
+  ]
+}
