@@ -32,7 +32,7 @@ flowchart LR
 
 | App | Path | You use it to |
 |-----|------|----------------|
-| **Learning app** | `apps/learning/` | Navigate weeks, track progress, copy run commands |
+| **Learning app** | `apps/learning/` | Navigate weeks, track progress, copy run commands, **Track B leadership milestones** |
 | **BRD Intake app** | `apps/brd/` | Practice BRD writing; export markdown for Python + RAG |
 | **Learning lab** | `lab/` | Run exercises in Cursor terminal |
 
@@ -175,6 +175,24 @@ Run `week02_loan_rules.py` — same thresholds as `examples/04a-brd-pos-lending.
 | Change score weights without updating `docs/05` | Keep config and checklist aligned |
 | Put API keys in `learning.js` | `.env` in separate AI repos only |
 | Skip the 80% export gate in the app | Same discipline as real BA intake |
+
+---
+
+## Track B — Head of AI (2h/week alongside 8h technical)
+
+If your long-term target includes **Head of AI / AI Factory lead**, run Track B in parallel:
+
+| Week | Checkpoint | Template |
+|------|------------|----------|
+| 8 | AI strategy draft | `curriculum/templates/hoai/week08_ai_strategy.md` |
+| 16 | PD value case | `curriculum/templates/hoai/week16_pd_value_case.md` |
+| 28 | Copilot governance | `curriculum/templates/hoai/week28_copilot_governance.md` |
+| 40 | 90-day plan | `curriculum/templates/hoai/week40_ninety_day_plan.md` |
+| 52 | Steering deck | `curriculum/templates/hoai/week52_steering_deck.md` |
+
+**Guide:** [head-of-ai-track.md](head-of-ai-track.md) · **Demo case:** [ai-factory-demo-case.md](ai-factory-demo-case.md)
+
+In the learning app: open weeks 8 / 16 / 28 / 40 / 52 → **Leadership** tab → fill template → check **Track B complete**.
 
 ---
 

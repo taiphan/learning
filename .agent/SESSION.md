@@ -23,15 +23,17 @@ Use **learning** repo as dual base: (1) Finance BRD domain credibility, (2) **cu
 - **Learning-Master-Slides.pptx** — 164 slides (3 per week + index); clickable W01–W52
 - **exports/learning/weeks/** — 52 individual week decks
 - Repo **lean** cleanup: `archive/` (HoAI, duplicate decks/docs); 2 learning PPTX only; `cv-templates.md`
+- **Track B (Head of AI):** 2h/week leadership on W8, 16, 28, 40, 52 — `head-of-ai-track.md`, HoAI templates, learning app Leadership tab + progress
 
 ## In progress
 
 - User learning Skill 1 (Python) — start week 1 exercises
+- Optional: Track B milestone at W8 when technical week 8 reached
 - **Blockers:** none
 
 ## Next
 
-1. Read [project-adaptation.md](curriculum/project-adaptation.md) — three-app workflow
+1. Read [project-adaptation.md](curriculum/project-adaptation.md) — three-app workflow + Track B
 2. Week 1 loop: learning app → BRD export → `week01_brd_checklist.py`
 3. Mark weeks complete in learning app as you finish labs
 
@@ -53,6 +55,8 @@ Use **learning** repo as dual base: (1) Finance BRD domain credibility, (2) **cu
 |------|----------|
 | Project map | `.agent/PROJECT.md` |
 | Adaptation guide | `curriculum/project-adaptation.md` |
+| Track B guide | `curriculum/head-of-ai-track.md` |
+| HoAI templates | `curriculum/templates/hoai/` |
 | Workbook | `curriculum/ai-skills-workbook.md` |
 | Reading order | `curriculum/reading-path.md` |
 | BRD app | `apps/brd/` — `python3 -m http.server 8080` |

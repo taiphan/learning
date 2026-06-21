@@ -14,6 +14,9 @@
 | [anthropic-career-adaptation.md](anthropic-career-adaptation.md) | Anthropic stretch roles |
 | [cv-templates.md](cv-templates.md) | CV & cover letter (Week 45+) |
 | [governance-mlops.md](governance-mlops.md) | Responsible AI / MLOps (Weeks 37–40) |
+| [head-of-ai-track.md](head-of-ai-track.md) | **Track B** — 2h/week Head of AI leadership (W8, 16, 28, 40, 52) |
+| [ai-factory-demo-case.md](ai-factory-demo-case.md) | Demo case for Track B governance & value templates |
+| [templates/hoai/](templates/hoai/) | Fill-in templates at each Track B checkpoint |
 
 ## Generate assets
 

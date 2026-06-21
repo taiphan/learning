@@ -1,8 +1,19 @@
 {
   "meta": {
-    "version": "1.0",
+    "version": "1.1",
     "hours_per_week": 10,
+    "hours_track_a": 8,
+    "hours_track_b": 2,
     "total_weeks": 52,
+    "track_b_weeks": [
+      8,
+      16,
+      28,
+      40,
+      52
+    ],
+    "track_b_guide": "curriculum/head-of-ai-track.md",
+    "track_b_demo_case": "curriculum/ai-factory-demo-case.md",
     "data_source": "curriculum/learning_data.py",
     "workbook": "curriculum/ai-skills-workbook.md",
     "repo_root_docs": "docs/",
@@ -398,7 +409,16 @@
       "run": "jupyter notebook 01_lending_kpis.ipynb",
       "deliverable": "3 KPIs + 1 chart",
       "resource_urls": [],
-      "checkpoint": "CP1"
+      "checkpoint": "CP1",
+      "track_b": {
+        "hours": 2,
+        "title": "AI Factory strategy (1 page)",
+        "study": "archive/head-of-ai-factory/strategy-and-roadmap.md §1–2",
+        "template": "curriculum/templates/hoai/week08_ai_strategy.md",
+        "action": "Complete strategy template for consumer finance scenario",
+        "deliverable": "One-page AI strategy — 5 pillars + operating model sketch",
+        "hoai_checkpoint": "H0"
+      }
     },
     {
       "week": 9,
@@ -502,7 +522,16 @@
       "run": "Document AUC + decision use",
       "deliverable": "Repo public on GitHub",
       "resource_urls": [],
-      "checkpoint": "CP2"
+      "checkpoint": "CP2",
+      "track_b": {
+        "hours": 2,
+        "title": "PD model value case",
+        "study": "archive/head-of-ai-factory/strategy-and-roadmap.md §7; credit-pd-model README",
+        "template": "curriculum/templates/hoai/week16_pd_value_case.md",
+        "action": "Quantify NPL/false-decline impact in VND or bps",
+        "deliverable": "1-page value case linked to model README",
+        "hoai_checkpoint": "H1"
+      }
     },
     {
       "week": 17,
@@ -658,7 +687,16 @@
       "run": "Return escalate if no chunk",
       "deliverable": "10-question golden set started",
       "resource_urls": [],
-      "checkpoint": null
+      "checkpoint": null,
+      "track_b": {
+        "hours": 2,
+        "title": "Copilot governance gates",
+        "study": "curriculum/governance-mlops.md §1–3 risk tiering",
+        "template": "curriculum/templates/hoai/week28_copilot_governance.md",
+        "action": "Set risk tier + G1/G2/G3 pass criteria for policy copilot",
+        "deliverable": "Governance checklist with named owners",
+        "hoai_checkpoint": "H2"
+      }
     },
     {
       "week": 29,
@@ -814,7 +852,16 @@
       "run": "Fail if grounded < 85%",
       "deliverable": "Friend runs Docker API",
       "resource_urls": [],
-      "checkpoint": "CP5"
+      "checkpoint": "CP5",
+      "track_b": {
+        "hours": 2,
+        "title": "90-day AI Factory plan",
+        "study": "archive/head-of-ai-factory/strategy-and-roadmap.md §6",
+        "template": "curriculum/templates/hoai/week40_ninety_day_plan.md",
+        "action": "Draft listen → frame → deliver phases for pilot squad",
+        "deliverable": "90-day plan with 1–2 quick wins + hiring sketch",
+        "hoai_checkpoint": "H3"
+      }
     },
     {
       "week": 41,
@@ -970,7 +1017,16 @@
       "run": "Verify 2 repos + CV + apply",
       "deliverable": "Hire-ready checklist ✓",
       "resource_urls": [],
-      "checkpoint": null
+      "checkpoint": null,
+      "track_b": {
+        "hours": 2,
+        "title": "Steering committee deck",
+        "study": "curriculum/head-of-ai-track.md · ai-factory-demo-case.md",
+        "template": "curriculum/templates/hoai/week52_steering_deck.md",
+        "action": "Build 5 slides: strategy · portfolio · KPIs · 90-day · ask",
+        "deliverable": "Deck + 5-min exec narrative (record or script)",
+        "hoai_checkpoint": "H4"
+      }
     }
   ],
   "checkpoints": [
@@ -1008,6 +1064,33 @@
       "id": "CP6",
       "after_week": 48,
       "label": "30-min interview: business metric + tech stack"
+    }
+  ],
+  "track_b_checkpoints": [
+    {
+      "id": "H0",
+      "after_week": 8,
+      "label": "AI strategy on one page (5 pillars)"
+    },
+    {
+      "id": "H1",
+      "after_week": 16,
+      "label": "PD model value case with VND/bps metric"
+    },
+    {
+      "id": "H2",
+      "after_week": 28,
+      "label": "Policy copilot G1/G2/G3 governance checklist"
+    },
+    {
+      "id": "H3",
+      "after_week": 40,
+      "label": "90-day AI Factory pilot plan"
+    },
+    {
+      "id": "H4",
+      "after_week": 52,
+      "label": "5-slide steering deck + portfolio narrative"
     }
   ]
 }

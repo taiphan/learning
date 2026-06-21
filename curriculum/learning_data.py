@@ -22,6 +22,17 @@ CHECKPOINTS = [
     {"id": "CP6", "after_week": 48, "label": "30-min interview: business metric + tech stack"},
 ]
 
+# Track B — Head of AI Factory (2 hrs/week alongside technical track)
+TRACK_B_CHECKPOINTS = [
+    {"id": "H0", "after_week": 8, "label": "AI strategy on one page (5 pillars)"},
+    {"id": "H1", "after_week": 16, "label": "PD model value case with VND/bps metric"},
+    {"id": "H2", "after_week": 28, "label": "Policy copilot G1/G2/G3 governance checklist"},
+    {"id": "H3", "after_week": 40, "label": "90-day AI Factory pilot plan"},
+    {"id": "H4", "after_week": 52, "label": "5-slide steering deck + portfolio narrative"},
+]
+
+TRACK_B_WEEKS = [8, 16, 28, 40, 52]
+
 SKILLS = [
     {
         "id": 1,
@@ -216,9 +227,9 @@ def _build_weeks() -> list[dict]:
         deliverable: str,
         urls: list[tuple[str, str]] | None = None,
         checkpoint: str | None = None,
+        track_b: dict | None = None,
     ):
-        items.append(
-            {
+        record = {
                 "week": n,
                 "title": title,
                 "phase": phase,
@@ -231,7 +242,9 @@ def _build_weeks() -> list[dict]:
                 "resource_urls": urls or [],
                 "checkpoint": checkpoint,
             }
-        )
+        if track_b:
+            record["track_b"] = track_b
+        items.append(record)
 
     # Month 1 — Python
     add(1, "Python syntax — BRD audit", "foundation", 1,
@@ -276,7 +289,16 @@ def _build_weeks() -> list[dict]:
         "Kaggle Pandas L1–4",
         "lab/notebooks/01_lending_kpis.ipynb",
         "jupyter notebook 01_lending_kpis.ipynb",
-        "3 KPIs + 1 chart", checkpoint="CP1")
+        "3 KPIs + 1 chart", checkpoint="CP1",
+        track_b={
+            "hours": 2,
+            "title": "AI Factory strategy (1 page)",
+            "study": "archive/head-of-ai-factory/strategy-and-roadmap.md §1–2",
+            "template": "curriculum/templates/hoai/week08_ai_strategy.md",
+            "action": "Complete strategy template for consumer finance scenario",
+            "deliverable": "One-page AI strategy — 5 pillars + operating model sketch",
+            "hoai_checkpoint": "H0",
+        })
 
     # Months 3–4 — ML
     add(9, "Load credit dataset", "ml", 5,
@@ -318,7 +340,16 @@ def _build_weeks() -> list[dict]:
         "Géron Ch 3 metrics",
         "lab/projects/credit-pd-model/README.md",
         "Document AUC + decision use",
-        "Repo public on GitHub", checkpoint="CP2")
+        "Repo public on GitHub", checkpoint="CP2",
+        track_b={
+            "hours": 2,
+            "title": "PD model value case",
+            "study": "archive/head-of-ai-factory/strategy-and-roadmap.md §7; credit-pd-model README",
+            "template": "curriculum/templates/hoai/week16_pd_value_case.md",
+            "action": "Quantify NPL/false-decline impact in VND or bps",
+            "deliverable": "1-page value case linked to model README",
+            "hoai_checkpoint": "H1",
+        })
     add(17, "ROC & threshold", "ml", 7,
         "sklearn metrics; StatQuest ROC",
         "lab/exercises/week17_metrics.py",
@@ -382,7 +413,16 @@ def _build_weeks() -> list[dict]:
         "RAG eval patterns",
         "lab/projects/policy-rag/",
         "Return escalate if no chunk",
-        "10-question golden set started")
+        "10-question golden set started",
+        track_b={
+            "hours": 2,
+            "title": "Copilot governance gates",
+            "study": "curriculum/governance-mlops.md §1–3 risk tiering",
+            "template": "curriculum/templates/hoai/week28_copilot_governance.md",
+            "action": "Set risk tier + G1/G2/G3 pass criteria for policy copilot",
+            "deliverable": "Governance checklist with named owners",
+            "hoai_checkpoint": "H2",
+        })
     add(29, "LLM structured JSON", "genai", 10,
         "Anthropic API docs",
         "lab/exercises/week29_structured_llm.py",
@@ -444,7 +484,16 @@ def _build_weeks() -> list[dict]:
         "Harness engineering",
         "lab/projects/week39_ci/",
         "Fail if grounded < 85%",
-        "Friend runs Docker API", checkpoint="CP5")
+        "Friend runs Docker API", checkpoint="CP5",
+        track_b={
+            "hours": 2,
+            "title": "90-day AI Factory plan",
+            "study": "archive/head-of-ai-factory/strategy-and-roadmap.md §6",
+            "template": "curriculum/templates/hoai/week40_ninety_day_plan.md",
+            "action": "Draft listen → frame → deliver phases for pilot squad",
+            "deliverable": "90-day plan with 1–2 quick wins + hiring sketch",
+            "hoai_checkpoint": "H3",
+        })
 
     # Months 11–12 — Career
     add(41, "Second use case BRD", "career", 13,
@@ -506,7 +555,16 @@ def _build_weeks() -> list[dict]:
         "ai-skills-workbook.md",
         "lab/WEEKS.md",
         "Verify 2 repos + CV + apply",
-        "Hire-ready checklist ✓")
+        "Hire-ready checklist ✓",
+        track_b={
+            "hours": 2,
+            "title": "Steering committee deck",
+            "study": "curriculum/head-of-ai-track.md · ai-factory-demo-case.md",
+            "template": "curriculum/templates/hoai/week52_steering_deck.md",
+            "action": "Build 5 slides: strategy · portfolio · KPIs · 90-day · ask",
+            "deliverable": "Deck + 5-min exec narrative (record or script)",
+            "hoai_checkpoint": "H4",
+        })
 
     assert len(items) == 52, f"Expected 52 weeks, got {len(items)}"
     return items
@@ -515,9 +573,14 @@ def _build_weeks() -> list[dict]:
 WEEKS = _build_weeks()
 
 META = {
-    "version": "1.0",
+    "version": "1.1",
     "hours_per_week": 10,
+    "hours_track_a": 8,
+    "hours_track_b": 2,
     "total_weeks": 52,
+    "track_b_weeks": TRACK_B_WEEKS,
+    "track_b_guide": "curriculum/head-of-ai-track.md",
+    "track_b_demo_case": "curriculum/ai-factory-demo-case.md",
     "data_source": "curriculum/learning_data.py",
     "workbook": "curriculum/ai-skills-workbook.md",
     "repo_root_docs": "docs/",

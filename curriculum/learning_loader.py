@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from learning_data import CHECKPOINTS, META, PHASES, SKILLS, WEEKS
+from learning_data import CHECKPOINTS, META, PHASES, SKILLS, TRACK_B_CHECKPOINTS, WEEKS
 from repo_paths import APPS_LEARNING, CURRICULUM
 
 COLOR_MAP: dict[str, Any] = {}
@@ -50,6 +50,7 @@ def curriculum_dict() -> dict[str, Any]:
         "skills": SKILLS,
         "weeks": WEEKS,
         "checkpoints": CHECKPOINTS,
+        "track_b_checkpoints": TRACK_B_CHECKPOINTS,
     }
 
 

@@ -14,10 +14,15 @@
       let raw = localStorage.getItem(cfg.STORAGE_KEY);
       if (!raw) raw = localStorage.getItem("finance-ai-learning-progress");
       if (!raw) raw = localStorage.getItem("fe-credit-ai-learning-progress");
-      if (raw) return JSON.parse(raw);
+      if (raw) {
+        const parsed = JSON.parse(raw);
+        if (!parsed.trackBCompleted) parsed.trackBCompleted = [];
+        return parsed;
+      }
     } catch (_) { /* ignore */ }
     return {
       completedWeeks: [],
+      trackBCompleted: [],
       currentWeek: 1,
       notes: {},
       activeTab: "overview",
@@ -52,6 +57,14 @@
 
   function isComplete(n) {
     return state.completedWeeks.includes(n);
+  }
+
+  function isTrackBComplete(n) {
+    return (state.trackBCompleted || []).includes(n);
+  }
+
+  function maxCompletedWeek() {
+    return state.completedWeeks.length ? Math.max(...state.completedWeeks) : 0;
   }
 
   function nextIncompleteWeek() {
@@ -122,6 +135,7 @@
       btn.classList.toggle("done", isComplete(w));
     });
     renderCheckpointsMini();
+    renderHoaiCheckpointsMini();
   }
 
   function renderHome() {
@@ -152,6 +166,22 @@
     }
 
     updateProgressUI();
+    renderHoaiHome();
+  }
+
+  function renderHoaiHome() {
+    const ul = $("#hoaiHomeProgress");
+    if (!ul || !data.track_b_checkpoints) return;
+    ul.innerHTML = "";
+    data.track_b_checkpoints.forEach((cp) => {
+      const li = document.createElement("li");
+      const done = isTrackBComplete(cp.after_week);
+      li.className = done ? "pass" : "";
+      li.innerHTML = `<strong>${cp.id}</strong> W${cp.after_week}: ${done ? "✓" : "—"} ${cp.label}`;
+      li.addEventListener("click", () => showWeek(cp.after_week));
+      li.style.cursor = "pointer";
+      ul.appendChild(li);
+    });
   }
 
   function renderPhaseGrid() {
@@ -182,7 +212,7 @@
       const color = cfg.PHASE_COLORS[w.phase] || "var(--ivory)";
       btn.innerHTML = `
         <span class="week-num" style="background:${isComplete(w.week) ? "var(--olive)" : color};color:${isComplete(w.week) ? "#fff" : "var(--slate)"}">W${String(w.week).padStart(2, "0")}</span>
-        <span class="week-link-title">${w.title}</span>`;
+        <span class="week-link-title">${w.title}${w.track_b ? '<span class="hoai-dot" title="Track B milestone">◆</span>' : ""}</span>`;
       btn.addEventListener("click", () => {
         showWeek(w.week);
         $("#sidebar").classList.remove("open");
@@ -205,7 +235,7 @@
   function renderCheckpointsMini() {
     const ul = $("#checkpointList");
     ul.innerHTML = "";
-    const maxDone = Math.max(0, ...state.completedWeeks, 0);
+    const maxDone = maxCompletedWeek();
     data.checkpoints.forEach((cp) => {
       const li = document.createElement("li");
       const pass = maxDone >= cp.after_week;
@@ -213,6 +243,41 @@
       li.textContent = `${cp.id} (W${cp.after_week}): ${pass ? "✓" : "—"} ${cp.label.slice(0, 40)}…`;
       ul.appendChild(li);
     });
+  }
+
+  function renderHoaiCheckpointsMini() {
+    const ul = $("#hoaiCheckpointList");
+    if (!ul || !data.track_b_checkpoints) return;
+    ul.innerHTML = "";
+    data.track_b_checkpoints.forEach((cp) => {
+      const li = document.createElement("li");
+      const pass = isTrackBComplete(cp.after_week);
+      li.className = pass ? "pass" : "";
+      li.textContent = `${cp.id} (W${cp.after_week}): ${pass ? "✓" : "—"} ${cp.label.slice(0, 36)}…`;
+      ul.appendChild(li);
+    });
+  }
+
+  function renderLeadershipPanel(w) {
+    const tb = w.track_b;
+    const active = $("#trackBActive");
+    const idle = $("#trackBIdle");
+    const banner = $("#trackBBanner");
+    if (!tb) {
+      active.hidden = true;
+      idle.hidden = false;
+      banner.textContent = "Track B — Head of AI Factory (2h/week on milestone weeks)";
+      return;
+    }
+    active.hidden = false;
+    idle.hidden = true;
+    banner.textContent = `${tb.hoai_checkpoint || "Track B"} · ~${tb.hours || 2}h · ${tb.title}`;
+    $("#trackBTitle").textContent = tb.title;
+    $("#trackBStudy").textContent = tb.study;
+    $("#trackBTemplate").textContent = tb.template;
+    $("#trackBAction").textContent = tb.action;
+    $("#trackBDeliverable").textContent = tb.deliverable;
+    $("#completeTrackB").checked = isTrackBComplete(w.week);
   }
 
   function setActiveTab(tab) {
@@ -277,6 +342,11 @@
       bridge.hidden = false;
       bridge.innerHTML =
         `<strong>GenAI phase:</strong> Use BRDs you export from the intake app as RAG corpus (see <code>projects/policy-rag/ask.py</code>).`;
+    } else if ([8, 16, 28, 40, 52].includes(n) && w.track_b) {
+      bridge.hidden = false;
+      bridge.innerHTML =
+        `<strong>Track B (Head of AI):</strong> ~2h leadership work — open the <em>Leadership</em> tab and fill ` +
+        `<code>${w.track_b.template}</code>.`;
     } else {
       bridge.hidden = true;
     }
@@ -323,6 +393,8 @@
     $("#weekNotes").value = state.notes[String(n)] || "";
     $("#completeWeek").checked = isComplete(n);
 
+    renderLeadershipPanel(w);
+
     $("#prevWeek").disabled = n <= 1;
     $("#nextWeek").textContent = n >= 52 ? "Finish path ✓" : "Next week →";
 
@@ -360,6 +432,20 @@
         toast(`Week ${n} marked complete`);
       } else {
         state.completedWeeks = state.completedWeeks.filter((w) => w !== n);
+      }
+      saveState();
+      renderWeek(n);
+    });
+
+    $("#completeTrackB").addEventListener("change", (e) => {
+      const n = state.currentWeek;
+      if (!state.trackBCompleted) state.trackBCompleted = [];
+      if (e.target.checked) {
+        if (!state.trackBCompleted.includes(n)) state.trackBCompleted.push(n);
+        state.trackBCompleted.sort((a, b) => a - b);
+        toast(`Track B milestone (W${n}) marked complete`);
+      } else {
+        state.trackBCompleted = state.trackBCompleted.filter((w) => w !== n);
       }
       saveState();
       renderWeek(n);

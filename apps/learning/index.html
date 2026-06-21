@@ -18,7 +18,7 @@
           <span class="brand-dot"></span>
           <div>
             <h1>Learning</h1>
-            <p class="tagline">52-week path · Banking → AI Engineer · 10 hrs/week</p>
+            <p class="tagline">52-week path · Engineer + Head of AI track · 10 hrs/week</p>
           </div>
         </div>
         <div class="topbar-stats">
@@ -41,6 +41,10 @@
         <section class="checkpoints-mini card" id="checkpointsMini">
           <h3>Checkpoints</h3>
           <ul id="checkpointList"></ul>
+        </section>
+        <section class="checkpoints-mini card hoai-mini" id="hoaiCheckpointsMini">
+          <h3>Head of AI (Track B)</h3>
+          <ul id="hoaiCheckpointList"></ul>
         </section>
       </aside>
 
@@ -75,6 +79,12 @@
             </article>
           </div>
 
+          <section class="card hoai-home" id="hoaiHomeCard">
+            <h3>Head of AI track (2h/week)</h3>
+            <p class="hint">Leadership milestones at weeks 8, 16, 28, 40, 52 — <a href="https://github.com/taiphan/learning/blob/main/curriculum/head-of-ai-track.md" target="_blank" rel="noopener">guide</a></p>
+            <ul class="hoai-progress" id="hoaiHomeProgress"></ul>
+          </section>
+
           <section class="card">
             <h3>Six phases</h3>
             <div class="phase-grid" id="phaseGrid"></div>
@@ -97,6 +107,7 @@
             <button type="button" class="tab active" data-tab="overview" role="tab">Overview</button>
             <button type="button" class="tab" data-tab="study" role="tab">Study</button>
             <button type="button" class="tab" data-tab="lab" role="tab">Lab</button>
+            <button type="button" class="tab" data-tab="leadership" role="tab">Leadership</button>
             <button type="button" class="tab" data-tab="notes" role="tab">Notes</button>
           </div>
 
@@ -162,6 +173,26 @@
               <div class="panel-block card">
                 <h4>Skill checkpoint</h4>
                 <p id="skillCheckpoint">—</p>
+              </div>
+            </article>
+
+            <article class="tab-panel" id="panelLeadership" data-panel="leadership" hidden>
+              <div class="track-b-banner card" id="trackBBanner">—</div>
+              <div class="panel-block card" id="trackBActive">
+                <h4 id="trackBTitle">—</h4>
+                <p><strong>Read:</strong> <code id="trackBStudy">—</code></p>
+                <p><strong>Template:</strong> <code id="trackBTemplate">—</code></p>
+                <p><strong>Action:</strong> <span id="trackBAction">—</span></p>
+                <p><strong>Done when:</strong> <span id="trackBDeliverable">—</span></p>
+                <p class="hint">Budget ~2 hours this week alongside the Lab tab.</p>
+                <label class="complete-toggle track-b-toggle">
+                  <input type="checkbox" id="completeTrackB" />
+                  <span>Mark Track B milestone complete</span>
+                </label>
+              </div>
+              <div class="panel-block card" id="trackBIdle" hidden>
+                <p>Track B leadership work runs on <strong>weeks 8, 16, 28, 40, and 52</strong> (~2h each).</p>
+                <p>See <code>curriculum/head-of-ai-track.md</code> in the repo for the full guide and career arc.</p>
               </div>
             </article>
 
