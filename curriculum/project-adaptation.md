@@ -188,7 +188,7 @@ If your long-term target includes **Head of AI / AI Factory lead**, run Track B 
 | 16 | PD value case | `curriculum/templates/hoai/week16_pd_value_case.md` |
 | 28 | Copilot governance | `curriculum/templates/hoai/week28_copilot_governance.md` |
 | 40 | 90-day plan | `curriculum/templates/hoai/week40_ninety_day_plan.md` |
-| 52 | Steering deck | `curriculum/templates/hoai/week52_steering_deck.md` |
+| 52 | Steering deck | `curriculum/templates/hoai/week52_steering_deck.md` · VPBank: `vpbank_steering_one_pager.md` |
 
 **Guide:** [head-of-ai-track.md](head-of-ai-track.md) · **Demo case:** [ai-factory-demo-case.md](ai-factory-demo-case.md)
 

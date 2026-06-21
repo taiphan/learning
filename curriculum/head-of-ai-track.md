@@ -26,7 +26,7 @@ Your unfair advantage: **BRD + compliance + banking KPI language** — Track B m
 | **H1** | 16 | PD model value case (VND/bps) | [week16_pd_value_case.md](templates/hoai/week16_pd_value_case.md) |
 | **H2** | 28 | Copilot G1/G2/G3 governance | [week28_copilot_governance.md](templates/hoai/week28_copilot_governance.md) |
 | **H3** | 40 | 90-day AI Factory plan | [week40_ninety_day_plan.md](templates/hoai/week40_ninety_day_plan.md) |
-| **H4** | 52 | 5-slide steering deck | [week52_steering_deck.md](templates/hoai/week52_steering_deck.md) |
+| **H4** | 52 | 5-slide steering deck | [week52_steering_deck.md](templates/hoai/week52_steering_deck.md) · VPBank variant: [vpbank_steering_one_pager.md](templates/hoai/vpbank_steering_one_pager.md) |
 
 Mark complete in the **Learning app → Leadership tab** on each milestone week.
 

@@ -559,9 +559,9 @@ def _build_weeks() -> list[dict]:
         track_b={
             "hours": 2,
             "title": "Steering committee deck",
-            "study": "curriculum/head-of-ai-track.md · ai-factory-demo-case.md",
+            "study": "curriculum/head-of-ai-track.md · job-skills-adaptation.md §F.4 · templates/hoai/vpbank_steering_one_pager.md",
             "template": "curriculum/templates/hoai/week52_steering_deck.md",
-            "action": "Build 5 slides: strategy · portfolio · KPIs · 90-day · ask",
+            "action": "Build 5 slides (or use VPBank one-pager): strategy · portfolio · KPIs · 90-day · ask",
             "deliverable": "Deck + 5-min exec narrative (record or script)",
             "hoai_checkpoint": "H4",
         })

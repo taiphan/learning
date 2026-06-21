@@ -7,7 +7,7 @@ Roles analyzed:
 - **B. OCB — Senior BA (Lending/BPM)** · `.../P836py`
 - **C. OCB — Senior Backend Engineer** · `.../qoAEgP`
 - **E. OCB — other IT roles** (Digital Banking BA, Scrum Master, T24 Dev, Digital PM) · `tuyendung.ocb.com.vn/vi/jobs`
-- **F. VPBank — IT & Data** · `hr.vpbank.com.vn/ta/Tuyendung_IT/index.html`
+- **F. VPBank — IT & Data** · `hr.vpbank.com.vn/ta/Tuyendung_IT/index.html` · **F.4 Head of AI Factory** (stretch)
 - **G. Techcombank — Technology & Data** · `techcombankjobs.com/go/Cong-nghe/553844/`
 - **H. NAB Innovation Centre Vietnam — IT & Data** · `nab.wd3.myworkdayjobs.com` · `itviec.com/nha-tuyen-dung/nab-innovation-centre-vietnam`
 - **I. Anthropic — Applied AI / Claude Code** (stretch; post-VN portfolio) · [anthropic-career-adaptation.md](anthropic-career-adaptation.md) · `job-boards.greenhouse.io/anthropic`
@@ -209,6 +209,7 @@ Source: [VPBank IT recruitment](https://hr.vpbank.com.vn/ta/Tuyendung_IT/index.h
 | **Senior Business Architect** | IT/BA | E2E process, capability map, solution alignment | BRD + operating model + As-is/To-be |
 | **Senior Solution Architect** | IT | Enterprise/solution design, integration, microservices | TOGAF-lite + API/integration stories |
 | **Product Owner — Digital Factory** | IT/PM | Backlog, Agile, business value, acceptance criteria | BRD AC → user stories traceability |
+| **Head of AI Factory** | Director | Enterprise AI strategy, predictive + GenAI at scale, MLOps/LLMOps, governance, people mgmt, **10+ yrs + 5 yrs leadership** | **Stretch (Year 4–5)** — Track B artifacts; see **F.4**; apply via AI Engineer → Tech Lead first |
 
 ### F.2 Skill-relationship map (VPBank AI/Data track)
 
@@ -242,6 +243,53 @@ Source: [VPBank IT recruitment](https://hr.vpbank.com.vn/ta/Tuyendung_IT/index.h
 1. **Primary target:** **Senior BA** or **AI Engineer** — pick one narrative (BA-first with AI/OCR differentiator, or AI-first with governance/BRD differentiator).
 2. **Portfolio:** BRD sample + one AI demo (RAG policy copilot or doc-intelligence) + metrics slide from `Head-of-AI-Factory-Slides.pptx`.
 3. **Gap close:** VPBank senior data roles often ask **10+ yrs** — emphasize depth of production impact and leadership if years are short; for AI Engineer, **4–5 yrs production AI** may suffice if artifact is strong.
+
+### F.4 VPBank — Head of AI Factory (stretch · Track B)
+
+**Source:** [LinkedIn — Head of AI Factory, Hanoi](https://vn.linkedin.com/jobs/view/head-of-ai-factory-at-vpbank-4424356100) (Director · Banking · ~200+ applicants typical).
+
+**Role summary:** Shape enterprise data science + AI strategy; lead predictive AI (scoring, forecast, anomaly) and generative AI (LLM, RAG, agents); architect build vs buy; run MLOps/LLMOps and reusable platform assets; partner with IT on data/AI infrastructure; govern ethics/privacy/regulatory compliance; own ROI and post-deployment measurement; manage headcount, hiring, succession; advise C-level and expand best practices to subsidiaries.
+
+#### F.4.1 Skills extracted
+
+| Category | Must-have | Your path (Track A + B) |
+|---|---|---|
+| Strategy | Enterprise AI roadmap; C-level influence; subsidiary rollout | Track B H0 (W8 strategy), H4 (W52 deck) |
+| Predictive AI | Production ML lifecycle; feature engineering; model risk | Track A PD project; Track B H1 (W16 value case) |
+| Generative AI | RAG, agents, prompt frameworks, guardrails | Track A weeks 25–33; `policy-rag`, copilot agent |
+| Platform | Feature stores, vector DBs, registries, inference APIs | Weeks 37–40; `governance-mlops.md` |
+| Architecture | Batch + real-time pipelines with IT/Data Architecture | Gap — emphasize collaboration stories in interviews |
+| Governance | Ethical AI, privacy, regulatory compliance | Track B H2 (W28); BRD app; strong differentiator |
+| Business | Problem statements, ROI, impact models, post-deploy metrics | BA background; W16 VND/bps templates |
+| People | 5+ yrs leadership; headcount, recruitment, succession | **Gap** — target Tech Lead (3–5) in Year 2–3 |
+| Credentials | Master’s/Ph.D.; **10+ yrs** DS/analytics | **Gap** — not a Year 1 apply target |
+
+#### F.4.2 JD → Track B artifact map
+
+| VPBank JD section | Track B milestone | Template |
+|---|---|---|
+| §1 Strategic Leadership | H0 | [week08_ai_strategy.md](templates/hoai/week08_ai_strategy.md) |
+| §5 Business partnership (ROI) | H1 | [week16_pd_value_case.md](templates/hoai/week16_pd_value_case.md) |
+| §4 Governance & Compliance | H2 | [week28_copilot_governance.md](templates/hoai/week28_copilot_governance.md) |
+| §6 People + §3 Platform (90-day plan) | H3 | [week40_ninety_day_plan.md](templates/hoai/week40_ninety_day_plan.md) |
+| §1 C-level steering + portfolio | H4 | [week52_steering_deck.md](templates/hoai/week52_steering_deck.md) · **VPBank variant:** [vpbank_steering_one_pager.md](templates/hoai/vpbank_steering_one_pager.md) |
+
+#### F.4.3 Fit verdict & career arc
+
+| Signal | Assessment |
+|---|---|
+| **Apply now?** | **No** — expects 10+ yrs production DS + 5+ yrs leadership + advanced degree |
+| **Near-term VPBank targets** | AI Engineer (DS1), Senior BA, Data Scientist |
+| **Your edge vs 200+ applicants** | Banking domain + BRD/governance + shippable GenAI portfolio (not slides-only) |
+| **Realistic arc** | Y1 dual track → Y2 AI Engineer (2–3 prod cases) → Y3 Tech Lead → Y4–5 HoAI internal/external |
+
+#### F.4.4 Adaptation plan (when ready — Year 4+)
+
+1. **Lead with factory, not models:** Intake → build → govern → measure (this repo as mini AI Factory).
+2. **Quantify in bank KPIs:** NPL, approval TAT, CIR bps, cost-to-serve — mirror W16 value case.
+3. **Prepare 5 exec stories:** strategy, build vs buy, MLOps for predictive + GenAI, governance tiers, org design (platform / use-case / governance squads).
+4. **Close people gap:** Document leading 3–5 engineers (even as tech lead) before HoAI screen.
+5. **Week 52 deliverable:** Use [vpbank_steering_one_pager.md](templates/hoai/vpbank_steering_one_pager.md) for VPBank-specific steering prep — not as substitute for experience on CV.
 
 ---
 

@@ -17,6 +17,7 @@
 | [head-of-ai-track.md](head-of-ai-track.md) | **Track B** — 2h/week Head of AI leadership (W8, 16, 28, 40, 52) |
 | [ai-factory-demo-case.md](ai-factory-demo-case.md) | Demo case for Track B governance & value templates |
 | [templates/hoai/](templates/hoai/) | Fill-in templates at each Track B checkpoint |
+| [templates/hoai/vpbank_steering_one_pager.md](templates/hoai/vpbank_steering_one_pager.md) | Week 52 VPBank HoAI steering one-pager (JD-aligned) |
 
 ## Generate assets
 

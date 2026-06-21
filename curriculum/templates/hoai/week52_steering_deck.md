@@ -4,6 +4,8 @@
 
 Build **5 slides** (Google Slides / PPTX / Marp). Optional reference: `archive/head-of-ai-factory/Head-of-AI-Factory-Slides.pptx` (format only).
 
+**VPBank Head of AI Factory variant:** [vpbank_steering_one_pager.md](vpbank_steering_one_pager.md) — pre-mapped to the [VPBank HoAI JD](https://vn.linkedin.com/jobs/view/head-of-ai-factory-at-vpbank-4424356100) (§F.4 in `job-skills-adaptation.md`).
+
 ---
 
 ## Slide 1 — Title
