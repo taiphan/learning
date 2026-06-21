@@ -6,6 +6,7 @@ let currentStep = 0;
 
 const i18n = {
   en: {
+    pageLead: 'Business Requirements Document — submit for BA review before IT delivery.',
     subtitle: 'Business Requirements Document — first gate in IT delivery pipeline',
     pipelineTitle: 'Delivery pipeline',
     pipelineHint: 'You are here: BRD gate. After acceptance → FSD → Scrum → UAT → CAB ship.',
@@ -53,6 +54,7 @@ const i18n = {
     },
   },
   vi: {
+    pageLead: 'BRD — gửi BA review trước khi IT triển khai.',
     subtitle: 'BRD — cổng đầu tiên trong quy trình giao hàng IT',
     pipelineTitle: 'Quy trình giao hàng',
     pipelineHint: 'Bạn đang ở: Cổng BRD. Sau khi chấp nhận → FSD → Scrum → UAT → CAB.',
@@ -850,6 +852,7 @@ function init() {
     app: "brd",
     base: "../",
   });
+  window.PlatformNav?.renderPlatformFooter();
 
   renderForm();
   loadDraft();

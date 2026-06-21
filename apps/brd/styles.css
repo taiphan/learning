@@ -1,38 +1,10 @@
 @import url("../shared/anthropic-theme.css");
 @import url("../shared/app-shell.css");
 
-/* BRD layout — matches Learning page shell */
-.layout--brd {
-  flex: 1;
-  max-width: 1280px;
-  width: 100%;
-  margin: 0 auto;
-  padding: 0 1.25rem 2rem;
-}
-
+/* BRD — uses shared .layout, .view-page--wide from app-shell */
 .brd-main {
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  max-width: none;
-  margin: 1.25rem 0 0;
-  padding: 0;
-}
-
-.brd-hero {
-  margin-bottom: 0;
-}
-
-.brd-hero .page-title {
-  margin: 0 0 0.35rem;
-  font-size: 1.5rem;
-  color: var(--text);
-}
-
-.brd-hero .page-lead {
-  margin: 0;
-  font-size: 1rem;
-  color: var(--text-secondary);
+  padding: 1.25rem 1.5rem 2rem;
+  overflow-y: auto;
 }
 
 .brd-grid {
@@ -42,20 +14,24 @@
   align-items: start;
 }
 
+.brd-sidebar {
+  min-width: 0;
+}
+
 @media (max-width: 900px) {
   .brd-grid { grid-template-columns: 1fr; }
-  .brd-grid .sidebar { order: 2; }
+  .brd-grid .brd-sidebar { order: 2; }
 }
 
 .form.card { padding: 1.5rem; }
 
-.sidebar .card { margin-bottom: 1rem; }
-.sidebar h2 {
+.brd-sidebar .card { margin-bottom: 1rem; }
+.brd-sidebar h2 {
   margin: 0 0 0.5rem;
   font-size: 0.95rem;
   color: var(--text);
 }
-.sidebar h3 {
+.brd-sidebar h3 {
   margin: 0.5rem 0 0.25rem;
   font-size: 0.75rem;
   text-transform: uppercase;

@@ -81,6 +81,9 @@
           a.className = "app-nav-link";
           a.href = pageHref;
           a.dataset.nav = item.id;
+          if (item.appId === "brd") {
+            a.title = "Open BRD intake (Week 1 bridge)";
+          }
           a.innerHTML = label;
           nav.appendChild(a);
           return;
@@ -111,6 +114,46 @@
           nav.appendChild(a);
         }
       });
+  }
+
+  function renderBreadcrumb(items) {
+    const nav = document.getElementById("platformBreadcrumb");
+    if (!nav || !items?.length) return;
+    nav.hidden = items.length <= 1;
+    nav.innerHTML = "";
+    const ol = document.createElement("ol");
+    ol.className = "breadcrumb-list";
+    items.forEach((item, i) => {
+      const li = document.createElement("li");
+      const isLast = i === items.length - 1;
+      if (isLast || (!item.href && !item.action)) {
+        li.className = "breadcrumb-current";
+        if (isLast) li.setAttribute("aria-current", "page");
+        li.textContent = item.label;
+      } else {
+        const a = document.createElement("a");
+        a.className = "breadcrumb-link";
+        a.textContent = item.label;
+        if (item.href) a.href = item.href;
+        if (item.action) {
+          a.href = item.href || "#";
+          a.addEventListener("click", (e) => {
+            e.preventDefault();
+            item.action();
+          });
+        }
+        li.appendChild(a);
+      }
+      ol.appendChild(li);
+    });
+    nav.appendChild(ol);
+  }
+
+  function defaultBrdBreadcrumb() {
+    renderBreadcrumb([
+      { label: "Home", href: `${state.base}#landing` },
+      { label: "BRD" },
+    ]);
   }
 
   function renderMobileNav() {
@@ -144,6 +187,16 @@
         btn.innerHTML = `<span class="mobile-nav-icon">${iconHtml(item.icon)}</span><span>${item.label}</span>`;
         btn.addEventListener("click", () => state.showWeek?.());
         bar.appendChild(btn);
+        return;
+      }
+
+      if (item.id === "learn" && state.app === "brd") {
+        const a = document.createElement("a");
+        a.className = "mobile-nav-item";
+        a.href = `${state.base}#week/1`;
+        a.dataset.mobileNav = "learn";
+        a.innerHTML = `<span class="mobile-nav-icon">${iconHtml(item.icon)}</span><span>${item.label}</span>`;
+        bar.appendChild(a);
         return;
       }
 
@@ -193,7 +246,29 @@
     state = { ...state, ...opts };
     renderTopNav();
     renderMobileNav();
-    if (state.app === "brd") setActive("brd");
+    if (state.app === "brd") {
+      setActive("brd");
+      defaultBrdBreadcrumb();
+      applyBrandTagline();
+    }
+  }
+
+  function applyBrandTagline() {
+    const el = document.getElementById("brandTagline");
+    if (!el) return;
+    const pc = cfg();
+    el.textContent =
+      state.app === "brd" ? pc.TAGLINE_BRD || pc.TAGLINE : pc.TAGLINE;
+  }
+
+  function renderPlatformFooter() {
+    const line = document.getElementById("platformVersionLine");
+    if (!line) return;
+    const v = cfg().APP_VERSION || "—";
+    line.textContent =
+      state.app === "brd"
+        ? `Learning v${v} · BRD intake · Gate ≥ 80%`
+        : `Learning v${v}`;
   }
 
   window.PlatformNav = {
@@ -201,6 +276,8 @@
     setActive,
     renderTopNav,
     renderMobileNav,
+    renderBreadcrumb,
+    renderPlatformFooter,
   };
 
   window.LearningNav = {

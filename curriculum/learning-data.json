@@ -21,7 +21,7 @@
     "workbook": "curriculum/ai-skills-workbook.md",
     "repo_root_docs": "docs/",
     "lab_root": "lab/",
-    "app_version": "2.6.4",
+    "app_version": "2.6.5",
     "requirements_version": "2.0.0",
     "curriculum_version": "1.3",
     "requirements_doc": "docs/learning-requirements/LEARNING-REQUIREMENTS.md",

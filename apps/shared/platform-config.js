@@ -3,6 +3,7 @@
  */
 window.PLATFORM_CONFIG = {
   APP_NAME: "Learning",
+  APP_VERSION: "2.6.5",
   TAGLINE: "Y1 → AI Engineer · 10 hrs/week",
   TAGLINE_BRD: "Y1 → AI Engineer · BRD intake",
   /** Mobile tab order (includes learn — mobile only) */

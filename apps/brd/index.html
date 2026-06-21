@@ -19,7 +19,7 @@
           <span class="brand-dot" aria-hidden="true"></span>
           <div>
             <h1>Learning</h1>
-            <p class="tagline" data-i18n="subtitle">Y1 → AI Engineer · BRD intake</p>
+            <p class="tagline" id="brandTagline">Y1 → AI Engineer · BRD intake</p>
           </div>
         </a>
         <nav class="app-nav" id="appNav" aria-label="Main menu"></nav>
@@ -32,45 +32,49 @@
       <nav class="topbar-subnav steps" id="stepNav" aria-label="Form steps"></nav>
     </header>
 
-    <div class="layout layout--brd">
+    <div class="layout layout--full">
       <main class="main brd-main" id="main" tabindex="-1">
-        <header class="page-hero card brd-hero">
-          <p class="eyebrow">Week 1 bridge · Y1 Q1</p>
-          <h2 class="page-title">BRD intake</h2>
-          <p class="page-lead" data-i18n="subtitle">Business Requirements Document — submit for BA review before IT delivery.</p>
-        </header>
+        <section class="view view-page view-page--wide view-brd">
+          <nav class="breadcrumb" id="platformBreadcrumb" aria-label="Breadcrumb"></nav>
 
-        <div class="brd-grid">
-          <aside class="sidebar">
-            <section class="card pipeline-card" id="pipelineCard">
-              <h2 data-i18n="pipelineTitle">Delivery pipeline</h2>
-              <p class="muted small" data-i18n="pipelineHint">You are here: BRD gate. IT delivers via Agile/Scrum after acceptance.</p>
-              <ol class="pipeline" id="pipelineList"></ol>
-            </section>
-            <section class="card routing-card" id="routingCard">
-              <h2 data-i18n="routingTitle">Review routing</h2>
-              <p class="muted" data-i18n="routingHint">IT-Governance, IT-Security, and GRC/Legal — updates as you complete the form.</p>
-              <div id="routingGroups"></div>
-            </section>
-            <section class="card gates-card">
-              <h2 data-i18n="gatesTitle">Hard gates</h2>
-              <ul class="gates-list" id="gatesList"></ul>
-            </section>
-            <section class="card selfcheck-card">
-              <h2 data-i18n="selfCheckTitle">8-step self-check</h2>
-              <ul class="selfcheck-list" id="selfCheckList"></ul>
-            </section>
-            <section class="card tips-card">
-              <h2 data-i18n="tipsTitle">Golden rule</h2>
-              <p data-i18n="goldenRule">Write the <strong>problem and business rules</strong> — not the system design.</p>
-              <p class="muted small" data-i18n="frameworkLink">See <a href="../../docs/12-it-operations-stakeholder-framework.md">IT Ops Framework</a>, <a href="../../docs/13-service-owner-delivery-control-guide.md">SO Guide</a>, and <a href="../../exports/Learning-BRD-Business-User-Guide-Slides.pptx">BRD writing slides</a>.</p>
-            </section>
-          </aside>
+          <header class="page-hero page-hero--left card">
+            <p class="eyebrow">Week 1 bridge · Y1 Q1</p>
+            <h2 class="page-title">BRD intake</h2>
+            <p class="page-lead" data-i18n="pageLead">Business Requirements Document — submit for BA review before IT delivery.</p>
+          </header>
 
-          <form class="form card" id="brdForm" novalidate>
-            <!-- Step panels injected by app.js -->
-          </form>
-        </div>
+          <div class="brd-grid">
+            <aside class="sidebar brd-sidebar">
+              <section class="card pipeline-card" id="pipelineCard">
+                <h2 data-i18n="pipelineTitle">Delivery pipeline</h2>
+                <p class="muted small" data-i18n="pipelineHint">You are here: BRD gate. IT delivers via Agile/Scrum after acceptance.</p>
+                <ol class="pipeline" id="pipelineList"></ol>
+              </section>
+              <section class="card routing-card" id="routingCard">
+                <h2 data-i18n="routingTitle">Review routing</h2>
+                <p class="muted" data-i18n="routingHint">IT-Governance, IT-Security, and GRC/Legal — updates as you complete the form.</p>
+                <div id="routingGroups"></div>
+              </section>
+              <section class="card gates-card">
+                <h2 data-i18n="gatesTitle">Hard gates</h2>
+                <ul class="gates-list" id="gatesList"></ul>
+              </section>
+              <section class="card selfcheck-card">
+                <h2 data-i18n="selfCheckTitle">8-step self-check</h2>
+                <ul class="selfcheck-list" id="selfCheckList"></ul>
+              </section>
+              <section class="card tips-card">
+                <h2 data-i18n="tipsTitle">Golden rule</h2>
+                <p data-i18n="goldenRule">Write the <strong>problem and business rules</strong> — not the system design.</p>
+                <p class="muted small" data-i18n="frameworkLink">See <a href="../../docs/12-it-operations-stakeholder-framework.md">IT Ops Framework</a>, <a href="../../docs/13-service-owner-delivery-control-guide.md">SO Guide</a>, and <a href="../../exports/Learning-BRD-Business-User-Guide-Slides.pptx">BRD writing slides</a>.</p>
+              </section>
+            </aside>
+
+            <form class="form card" id="brdForm" novalidate>
+              <!-- Step panels injected by app.js -->
+            </form>
+          </div>
+        </section>
       </main>
     </div>
   </div>
@@ -78,9 +82,11 @@
   <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation"></nav>
 
   <footer class="app-footer">
-    <span>Learning BRD · Gate ≥ 80% · BRD → FSD → UAT → Ship</span>
+    <span id="platformVersionLine">Learning · BRD intake</span>
+    <a href="../#landing">Home</a>
+    <a href="../#explore">Explore</a>
+    <a href="../#library">Library</a>
     <a href="../../docs/11-operations-manager-checklist.md">Ops checklist</a>
-    <a href="../#landing">52-week path</a>
   </footer>
 
   <dialog id="warnDialog" class="dialog">

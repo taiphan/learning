@@ -353,6 +353,75 @@ code {
 }
 .page-hero--left .page-lead { margin-left: 0; margin-right: 0; }
 
+/* ——— Page layout (Learning + BRD) ——— */
+:root {
+  --page-max: 960px;
+  --page-max-wide: 1280px;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+}
+
+.layout {
+  flex: 1;
+  display: grid;
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.layout--full { grid-template-columns: 1fr; }
+
+.view-page {
+  max-width: var(--page-max);
+  margin: 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.view-page--wide {
+  max-width: var(--page-max-wide);
+}
+
+.breadcrumb { margin-bottom: 0.25rem; }
+
+.breadcrumb-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-head);
+  font-size: 0.78rem;
+}
+
+.breadcrumb-list li:not(:last-child)::after {
+  content: "/";
+  margin-left: 0.35rem;
+  color: var(--border-strong);
+}
+
+.breadcrumb-link {
+  color: var(--link);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color var(--transition);
+}
+
+.breadcrumb-link:hover {
+  color: var(--link-hover);
+  text-decoration: underline;
+}
+
+.breadcrumb-current {
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
 /* ——— Footer ——— */
 .app-footer, .footer {
   text-align: center;

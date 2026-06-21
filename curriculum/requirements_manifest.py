@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 REQUIREMENTS_VERSION = "2.0.0"
-APP_VERSION = "2.6.4"
+APP_VERSION = "2.6.5"
 CURRICULUM_VERSION = "1.3"
 
 DOCS = {
@@ -16,6 +16,18 @@ DOCS = {
 }
 
 CHANGELOG: list[dict] = [
+    {
+        "version": "2.6.5",
+        "date": "2026-06-21",
+        "requirements": "2.0.0",
+        "app": "2.6.5",
+        "curriculum": "1.3",
+        "changes": [
+            "UX review — shared page layout, breadcrumbs, and wide view shell on BRD",
+            "Fixed BRD brand tagline (no longer overwritten by form subtitle i18n)",
+            "Mobile Learn tab on BRD links to Week 1; footer mirrors Learning app links",
+        ],
+    },
     {
         "version": "2.6.4",
         "date": "2026-06-21",
