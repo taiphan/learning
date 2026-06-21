@@ -68,6 +68,7 @@ Rule: **Same day as Track A** — leadership without shipping code is slides-onl
 | Week 41+ | [job-skills-adaptation.md](job-skills-adaptation.md) |
 | Example | [ai-factory-demo-case.md](ai-factory-demo-case.md) |
 | Portfolio | [project-adaptation.md](project-adaptation.md) |
+| Slides | `exports/learning/Learning-Track-B-Slides.pptx` (regenerate: `python3 curriculum/generate_track_b_slides.py`) |
 
 ---
 

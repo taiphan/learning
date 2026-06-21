@@ -26,6 +26,7 @@ def main():
     scripts = [
         "generate_learning_master_slides.py",
         "generate_ai_roadmap_slides.py",
+        "generate_track_b_slides.py",
     ]
     for name in scripts:
         print(f"3. Run {name}")
@@ -34,6 +35,7 @@ def main():
     print("\nDone.")
     print("  Master deck: exports/learning/Learning-Master-Slides.pptx")
     print("  Roadmap:     exports/learning/Zero-to-AI-Expert-Roadmap-Slides.pptx")
+    print("  Track B:     exports/learning/Learning-Track-B-Slides.pptx")
     print("  App:         cd apps/learning && python3 -m http.server 8081")
 
 

@@ -19,7 +19,7 @@ from anthropic_theme import (  # noqa: E402
     SW, SH, CLAY, SKY, OLIVE, FIG, CACTUS, CREAM, INK, GREY, LIGHT, BORDER, CARD_FILL, LINK,
     blank as _blank, rect as _rect, text as _text, header as _header, footer as _footer, title_slide,
 )
-from learning_data import CHECKPOINTS, META, PHASES, WEEKS  # noqa: E402
+from learning_data import CHECKPOINTS, META, PHASES, TRACK_B_CHECKPOINTS, TRACK_B_WEEKS, WEEKS  # noqa: E402
 from learning_loader import phase_color  # noqa: E402
 from week_slide_builders import (  # noqa: E402
     SLIDES_PER_WEEK,
@@ -29,7 +29,7 @@ from week_slide_builders import (  # noqa: E402
 
 OUTPUT = EXPORTS_LEARNING
 OUTPUT.mkdir(parents=True, exist_ok=True)
-FOOTER = f"Learning Master  ·  {SLIDES_PER_WEEK} slides/week  ·  Click W## to jump"
+FOOTER = f"Learning Master  ·  {SLIDES_PER_WEEK} slides/week  ·  Track B on W8/16/28/40/52"
 
 FIRST_WEEK_SLIDE = 7  # 0-based: after title, nav, 4 index, phase overview
 INDEX_SLIDE_START = 2
@@ -50,11 +50,12 @@ def s_nav_help(prs, idx):
     tips = [
         (CLAY, "Index slides", "Click any W## box → jump to that week's overview (3 slides each)"),
         (SKY, "Week slides", "Overview → Study → Lab — use Prev/Next within the week"),
+        (FIG, "Track B (◆ weeks)", "W8 · W16 · W28 · W40 · W52 — Head of AI leadership (~2h)"),
         (OLIVE, "Workbook", "ai-skills-workbook.md — steps, answers, what/why/when"),
-        (FIG, "Lab", "lab/ — run commands from the learning app Lab tab"),
+        (CACTUS, "Lab", "lab/ — run commands from the learning app Lab tab"),
     ]
     for i, (acc, head, sub) in enumerate(tips):
-        yy = y + 0.35 + i * 0.85
+        yy = y + 0.35 + i * 0.72
         _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, 1.0, yy, 11.5, 0.72, fill=CARD_FILL, line=acc, line_w=1.5)
         _text(s, 1.15, yy + 0.1, 11.2, 0.28, [(head, 11, True, acc)])
         _text(s, 1.15, yy + 0.38, 11.2, 0.28, [(sub, 10, False, GREY)])
@@ -64,7 +65,7 @@ def s_nav_help(prs, idx):
 
 def s_index_quarter(prs, idx, q_label: str, week_range: range):
     s = _blank(prs)
-    y = _header(s, f"Week index — {q_label}", kicker="Click a week to open overview slide")
+    y = _header(s, f"Week index — {q_label}", kicker="Click a week to open overview slide · ◆ = Track B")
     cols, rows = 7, 2
     cw, ch, gx, gy = 1.55, 0.62, 0.18, 0.2
     x0 = (SW - (cw * cols + gx * (cols - 1))) / 2
@@ -77,7 +78,8 @@ def s_index_quarter(prs, idx, q_label: str, week_range: range):
         w = next(x for x in WEEKS if x["week"] == wnum)
         acc = phase_color(w["phase"])
         sh = _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, yy, cw, ch, fill=acc)
-        _text(s, x + 0.06, yy + 0.06, cw - 0.12, 0.22, [(f"W{wnum:02d}", 10, True, CREAM)])
+        marker = "◆ " if wnum in TRACK_B_WEEKS else ""
+        _text(s, x + 0.06, yy + 0.06, cw - 0.12, 0.22, [(f"{marker}W{wnum:02d}", 10, True, CREAM)])
         title = w["title"][:18] + ("…" if len(w["title"]) > 18 else "")
         _text(s, x + 0.06, yy + 0.28, cw - 0.12, 0.3, [(title, 7.5, False, CREAM)])
         target = first_slide_index_for_week(wnum, FIRST_WEEK_SLIDE)
@@ -114,6 +116,21 @@ def s_checkpoints(prs, idx):
     return s
 
 
+def s_track_b_checkpoints(prs, idx):
+    s = _blank(prs)
+    y = _header(s, "Track B — Head of AI milestones", kicker=f"{META['hours_track_b']}h/week · W8 · W16 · W28 · W40 · W52")
+    for i, cp in enumerate(TRACK_B_CHECKPOINTS):
+        yy = y + 0.35 + i * 0.72
+        _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, 1.0, yy, 11.5, 0.58, fill=CARD_FILL, line=CLAY if i == 0 else BORDER)
+        _text(s, 1.15, yy + 0.12, 1.2, 0.35, [(cp["id"], 11, True, FIG)])
+        _text(s, 2.4, yy + 0.1, 2.0, 0.35, [(f"After week {cp['after_week']}", 10, False, GREY)])
+        _text(s, 4.5, yy + 0.1, 7.8, 0.35, [(cp["label"], 10, True, INK)])
+    _text(s, 1.0, y + 4.0, 11.5, 0.45,
+          [("Guide: curriculum/head-of-ai-track.md · VPBank deck: Learning-Track-B-Slides.pptx", 10, False, GREY)])
+    _footer(s, idx, FOOTER)
+    return s
+
+
 def _index_slide_for_week(wnum: int) -> int:
     if wnum <= 13:
         return INDEX_SLIDE_START
@@ -137,11 +154,11 @@ def generate():
     title_slide(
         _blank(prs),
         "52-Week Learning Master",
-        "Banking domain → AI engineer",
+        "Banking domain → AI engineer · Head of AI (Track B)",
         [
             "Single data source: curriculum/learning_data.py",
-            f"{SLIDES_PER_WEEK} slides per week · 156 week slides + index",
-            f"{META['hours_per_week']} hrs/week · 52 weeks · 14 skills",
+            f"{SLIDES_PER_WEEK} slides/week · 156 week slides + index",
+            f"{META['hours_per_week']} hrs/week ({META['hours_track_a']}h technical + {META['hours_track_b']}h leadership)",
         ],
     )
 
@@ -159,6 +176,8 @@ def generate():
         slide_num += SLIDES_PER_WEEK
 
     s_checkpoints(prs, slide_num)
+    slide_num += 1
+    s_track_b_checkpoints(prs, slide_num)
     _apply_deferred_links(prs)
 
     out = OUTPUT / "Learning-Master-Slides.pptx"

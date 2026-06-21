@@ -25,7 +25,7 @@
 python3 curriculum/generate_all_learning.py
 ```
 
-Outputs: `learning-data.json`, `lab/`, `exports/learning/Learning-Master-Slides.pptx`, roadmap deck.
+Outputs: `learning-data.json`, `lab/`, `exports/learning/Learning-Master-Slides.pptx`, roadmap deck, **Learning-Track-B-Slides.pptx**.
 
 BRD corporate decks: `python3 scripts/generate_office_files.py` → `exports/Learning-BRD-*.pptx`
 

@@ -135,6 +135,18 @@ def s_week_overview(
         _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, 0.55, y + 3.35, 12.2, 0.55, fill=LIGHT, line=CACTUS, line_w=2)
         _text(s, 0.7, y + 3.48, 11.8, 0.35, [(f"Checkpoint {week['checkpoint']}", 11, True, INK)])
 
+    tb = week.get("track_b")
+    if tb:
+        ty = y + (4.05 if week.get("checkpoint") else 3.35)
+        _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, 0.55, ty, 12.2, 0.72, fill=CARD_FILL, line=CLAY, line_w=2)
+        _rect(s, MSO_SHAPE.RECTANGLE, 0.55, ty, 12.2, 0.32, fill=CLAY)
+        cp = tb.get("hoai_checkpoint", "Track B")
+        _text(s, 0.7, ty + 0.04, 11.8, 0.28, [(f"TRACK B · {cp} · ~{tb.get('hours', 2)}h leadership", 9, True, CREAM)])
+        line = f"{tb.get('title', '')} — template: {tb.get('template', '')}"
+        if len(line) > 95:
+            line = line[:92] + "…"
+        _text(s, 0.7, ty + 0.38, 11.8, 0.28, [(line, 9, False, INK)])
+
     _nav_between(s, y, wnum, slide_index_in_week, prev_slide, next_slide, nav_links)
     _nav_back(s, y, index_slide, back_links)
     _footer(s, idx, FOOTER)
@@ -202,6 +214,7 @@ def s_week_lab(
     skill = skill_by_id(week["skill_id"])
     acc = phase_color(week["phase"])
     y = _header(s, f"Week {wnum} — Lab", kicker="Exercise · Run · Prove")
+    tb = week.get("track_b")
 
     _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, 0.55, y + 0.25, 12.2, 1.15, fill=CARD_FILL, line=BORDER)
     _rect(s, MSO_SHAPE.RECTANGLE, 0.55, y + 0.25, 12.2, 0.38, fill=SKY)
@@ -211,7 +224,7 @@ def s_week_lab(
     _text(s, 0.55, y + 1.55, 12.2, 0.28, [("Run command:", 10, True, INK)])
     _code_box(s, 0.55, y + 1.85, 12.2, 0.75, week["run"])
 
-    _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, 0.55, y + 2.75, 12.2, 1.05, fill=CARD_FILL, line=acc, line_w=2)
+    _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, 0.55, y + 2.75, 12.2, 1.05 if not tb else 1.35, fill=CARD_FILL, line=acc, line_w=2)
     _text(s, 0.7, y + 2.88, 11.8, 0.28, [("DONE WHEN", 9, True, acc)])
     steps = [
         f"1. Open `{week['exercise']}` in Cursor",
@@ -219,7 +232,12 @@ def s_week_lab(
         f"3. Output matches: {week['deliverable']}",
         f"4. Skill checkpoint: {skill['checkpoint']}",
     ]
-    _text(s, 0.7, y + 3.22, 11.8, 0.5, [("\n".join(steps), 9.5, False, INK)])
+    if tb:
+        steps.extend([
+            f"5. Track B ({tb.get('hoai_checkpoint', 'HoAI')}): {tb.get('action', '')}",
+            f"6. Leadership done when: {tb.get('deliverable', '')}",
+        ])
+    _text(s, 0.7, y + 3.22, 11.8, 0.5, [("\n".join(steps), 9.5 if not tb else 8.5, False, INK)])
 
     _nav_between(s, y, wnum, slide_index_in_week, prev_slide, next_slide, nav_links)
     _nav_back(s, y, index_slide, back_links)

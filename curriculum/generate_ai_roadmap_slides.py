@@ -19,6 +19,7 @@ from anthropic_theme import (  # noqa: E402
     blank as _blank, rect as _rect, text as _text, header as _header,
     footer as _footer, card as _card, title_slide, summary_slide,
 )
+from learning_data import META, TRACK_B_CHECKPOINTS  # noqa: E402
 
 OUTPUT = EXPORTS_LEARNING
 OUTPUT.mkdir(parents=True, exist_ok=True)
@@ -38,7 +39,7 @@ def s_title(prs, i):
         "Zero to AI Expert",
         [
             "Banking domain · Start from zero Python · 12-month plan",
-            "10 hrs/week → job-ready · 15 hrs/week → ~9 months",
+            f"{META['hours_per_week']} hrs/week ({META['hours_track_a']}h technical + {META['hours_track_b']}h Head of AI track)",
         ],
     )
     return s
@@ -50,7 +51,7 @@ def s_start_target(prs, i):
     cw, gap = 5.85, 0.45
     x0 = (SW - (cw * 2 + gap)) / 2
     _card(s, x0, y + 0.35, cw, 2.6, CLAY, "Today", "Banking domain · BRD/UAT · compliance mindset · Python = 0", "YOU")
-    _card(s, x0 + cw + gap, y + 0.35, cw, 2.6, OLIVE, "Month 12 target", "2 banking AI projects · LangGraph copilot · ML model · GitHub portfolio", "HIRE")
+    _card(s, x0 + cw + gap, y + 0.35, cw, 2.6, OLIVE, "Month 12 target", "2 banking AI projects · LangGraph copilot · ML model · HoAI artifacts (Track B)", "HIRE")
     _text(s, 0.55, y + 3.2, 12.2, 0.55,
           [("Expert in industry = job-ready portfolio + 2–3 yrs production — domain saves you ~1 year of \"what problem?\"", 13, True, NAVY)],
           align=PP_ALIGN.CENTER)
@@ -107,14 +108,14 @@ def s_phase_cards(prs, i, title, kicker, items):
 
 def s_weekly(prs, i):
     s = _blank(prs)
-    y = _header(s, "Weekly rhythm (10 hrs)", kicker="Sustainable pace")
+    y = _header(s, "Weekly rhythm (10 hrs)", kicker="8h Track A · 2h Track B on milestone weeks")
     days = [
         (SKY, "Mon", "2h learn", "Course + notes"),
         (CACTUS, "Tue", "2h code", "Exercises"),
         (OLIVE, "Wed", "1h domain", "Banking exercise"),
         (FIG, "Thu", "2h project", "Deliverable"),
         (CLAY, "Fri", "1h ship", "Git + README"),
-        (SKY, "Sat", "2h build", "Debug / stretch"),
+        (SKY, "Sat", "2h build", "Debug / Track B template"),
     ]
     cw, gap = 1.85, 0.22
     x0 = (SW - (cw * 6 + gap * 5)) / 2
@@ -126,7 +127,28 @@ def s_weekly(prs, i):
         _text(s, x + 0.12, y + 1.25, cw - 0.24, 0.45, [(hrs, 14, True, acc)], align=PP_ALIGN.CENTER)
         _text(s, x + 0.12, y + 1.75, cw - 0.24, 0.8, [(act, 10, False, GREY)], align=PP_ALIGN.CENTER)
     _text(s, 0.55, y + 3.0, 12.2, 0.5,
-          [("Rule: never watch without coding the same day · Sun = rest", 13, True, NAVY)], align=PP_ALIGN.CENTER)
+          [("Rule: never watch without coding the same day · Track B on W8/16/28/40/52 · Sun = rest", 12, True, NAVY)], align=PP_ALIGN.CENTER)
+    _footer_slide(s, i)
+    return s
+
+
+def s_track_b(prs, i):
+    s = _blank(prs)
+    y = _header(s, "Track B — Head of AI Factory", kicker="2h/week · VPBank HoAI-aligned")
+    for j, cp in enumerate(TRACK_B_CHECKPOINTS):
+        col, row = j % 2, j // 2
+        cw, ch, gx, gy = 5.85, 1.35, 0.45, 0.28
+        x0 = (SW - (cw * 2 + gx)) / 2
+        x = x0 + col * (cw + gx)
+        yy = y + 0.35 + row * (ch + gy)
+        acc = [CLAY, SKY, FIG, OLIVE, CACTUS][j]
+        _rect(s, MSO_SHAPE.ROUNDED_RECTANGLE, x, yy, cw, ch, fill=CARD_FILL, line=acc, line_w=2)
+        _text(s, x + 0.2, yy + 0.15, 1.0, 0.35, [(cp["id"], 12, True, acc)])
+        _text(s, x + 1.2, yy + 0.15, 4.5, 0.35, [(f"Week {cp['after_week']}", 10, False, GREY)])
+        _text(s, x + 0.2, yy + 0.55, cw - 0.4, 0.7, [(cp["label"], 10, True, INK)])
+    _text(s, 0.55, y + 3.35, 12.2, 0.45,
+          [("Deck: exports/learning/Learning-Track-B-Slides.pptx · Guide: head-of-ai-track.md", 11, True, NAVY)],
+          align=PP_ALIGN.CENTER)
     _footer_slide(s, i)
     return s
 
@@ -283,6 +305,7 @@ def generate():
                                      (CACTUS, "Portfolio", "GitHub + README"),
                                      (NAVY, "Apply", "NAB · OCB · VPBank · Anthropic")]),
         s_weekly,
+        s_track_b,
         s_domain_edge,
         s_resources,
         s_milestones,
