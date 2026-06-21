@@ -34,6 +34,60 @@
     updateProgressUI();
   }
 
+  function trackBCompletedCount() {
+    return (state.trackBCompleted || []).length;
+  }
+
+  function deckUrl(file) {
+    return `${cfg.DECK_BASE}${file}`;
+  }
+
+  function repoPathUrl(path) {
+    return `${cfg.REPO_BLOB}/${path}`;
+  }
+
+  function renderDeckLinks() {
+    const ul = $("#deckLinks");
+    if (!ul || !cfg.DECKS) return;
+    ul.innerHTML = "";
+    cfg.DECKS.forEach((d) => {
+      const li = document.createElement("li");
+      const a = document.createElement("a");
+      a.href = deckUrl(d.file);
+      a.textContent = d.label;
+      a.setAttribute("download", d.file);
+      li.appendChild(a);
+      ul.appendChild(li);
+    });
+  }
+
+  function renderTrackBLinks(w) {
+    const el = $("#trackBLinks");
+    if (!el) return;
+    el.innerHTML = "";
+    const tb = w?.track_b;
+    if (!tb) return;
+    const links = [
+      ["Track B guide", repoPathUrl("curriculum/head-of-ai-track.md")],
+      ["Template (GitHub)", repoPathUrl(tb.template.replace(/^curriculum\//, "curriculum/"))],
+      ["Track B slides (PPTX)", deckUrl("Learning-Track-B-Slides.pptx")],
+    ];
+    if (w.week === 52) {
+      links.push([
+        "VPBank steering one-pager",
+        repoPathUrl("curriculum/templates/hoai/vpbank_steering_one_pager.md"),
+      ]);
+    }
+    links.forEach(([label, url]) => {
+      const a = document.createElement("a");
+      a.href = url;
+      a.target = "_blank";
+      a.rel = "noopener";
+      a.textContent = label;
+      el.appendChild(a);
+    });
+  }
+
   function skillById(id) {
     return data.skills.find((s) => s.id === id);
   }
@@ -128,6 +182,13 @@
     const done = completedCount();
     const pct = Math.round((done / total) * 100);
     $("#progressPill").textContent = `${done} / ${total}`;
+    const tbDone = trackBCompletedCount();
+    const tbTotal = (data.track_b_checkpoints || []).length || 5;
+    const pill = $("#trackBPill");
+    if (pill) {
+      pill.textContent = `B ${tbDone}/${tbTotal}`;
+      pill.classList.toggle("complete", tbDone >= tbTotal);
+    }
     $("#statProgress").textContent = `${pct}%`;
     $("#barProgress").style.width = `${pct}%`;
     $$(".week-link").forEach((btn) => {
@@ -167,6 +228,7 @@
 
     updateProgressUI();
     renderHoaiHome();
+    renderDeckLinks();
   }
 
   function renderHoaiHome() {
@@ -278,6 +340,7 @@
     $("#trackBAction").textContent = tb.action;
     $("#trackBDeliverable").textContent = tb.deliverable;
     $("#completeTrackB").checked = isTrackBComplete(w.week);
+    renderTrackBLinks(w);
   }
 
   function setActiveTab(tab) {

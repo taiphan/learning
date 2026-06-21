@@ -26,9 +26,12 @@ Single source: [`learning_data.py`](../curriculum/learning_data.py) → [`learni
 
 Same content as slide decks and `lab/` exercises.
 
+**Live:** [GitHub Pages](https://taiphan.github.io/learning/) · decks at `/decks/*.pptx`
+
 ## Related
 
 - [Learning lab](../../lab/README.md) — hands-on Python exercises
-- [Learning Master Slides](../../exports/learning/Learning-Master-Slides.pptx)
-- [Workbook](../curriculum/ai-skills-workbook.md)
+- [Master slides](decks/Learning-Master-Slides.pptx) · [Roadmap](decks/Zero-to-AI-Expert-Roadmap-Slides.pptx) · [Track B](decks/Learning-Track-B-Slides.pptx)
+- [Track B guide](../../curriculum/head-of-ai-track.md)
+- [Workbook](../../curriculum/ai-skills-workbook.md)
 - [BRD Intake app](../brd/) — Week 1 bridge

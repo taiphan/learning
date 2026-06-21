@@ -19,4 +19,13 @@ window.LEARNING_CONFIG = {
   },
   DATA_URL: "learning-data.json",
   STORAGE_KEY: "learning-ai-learning-progress",
+  /** Served at /decks/ on GitHub Pages; synced from exports/learning/ on generate */
+  DECK_BASE: "decks/",
+  REPO: "https://github.com/taiphan/learning",
+  REPO_BLOB: "https://github.com/taiphan/learning/blob/main",
+  DECKS: [
+    { id: "master", label: "52-Week Master (165 slides)", file: "Learning-Master-Slides.pptx" },
+    { id: "roadmap", label: "Zero-to-AI Roadmap", file: "Zero-to-AI-Expert-Roadmap-Slides.pptx" },
+    { id: "trackb", label: "Track B — Head of AI (VPBank-aligned)", file: "Learning-Track-B-Slides.pptx" },
+  ],
 };

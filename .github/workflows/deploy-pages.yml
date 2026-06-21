@@ -33,6 +33,8 @@ jobs:
         run: |
           mkdir -p _site
           cp -r apps/learning/* _site/
+          mkdir -p _site/decks
+          cp exports/learning/*.pptx _site/decks/ 2>/dev/null || true
           mkdir -p _site/brd
           cp -r apps/brd/* _site/brd/
           cat > _site/brd-index.html <<'HTML'

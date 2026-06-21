@@ -34,7 +34,7 @@
 | `docs/` | BRD templates, governance, IT ops, ServiceNow mapping (00–14) |
 | `examples/` | Gold-standard sample BRDs |
 | `training/` | Trainer slide outlines and speaker notes |
-| `exports/learning/` | **2 slide decks** — Master (52 weeks) + Roadmap |
+| `exports/learning/` | **3 slide decks** — Master · Roadmap · Track B (HoAI / VPBank) |
 | `exports/` | BRD training DOCX/PPTX (`Learning-BRD-*`) |
 | `archive/` | HoAI pack, superseded docs, optional generators |
 | `scripts/generate_office_files.py` | Master generator for BRD Word/PowerPoint |
@@ -59,6 +59,9 @@
 | App core logic | `apps/brd/app.js` |
 | Curriculum source | `curriculum/learning_data.py` → `learning-data.json` |
 | Adaptation guide | `curriculum/project-adaptation.md` |
+| Track B guide | `curriculum/head-of-ai-track.md` |
+| Track B slides | `exports/learning/Learning-Track-B-Slides.pptx` |
+| VPBank HoAI map | `curriculum/job-skills-adaptation.md` §F.4 |
 | Sample BRD | `examples/04a-brd-pos-lending.md` |
 
 ## Commands

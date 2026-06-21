@@ -13,41 +13,43 @@
 
 ## Goal
 
-Use **learning** repo as dual base: (1) Finance BRD domain credibility, (2) **curriculum/** 12-month path to hire-ready AI engineer (OCB/NAB/VPBank; Anthropic stretch). Zero Python today · 10 hrs/week.
+Use **learning** repo as dual base: (1) Finance BRD domain credibility, (2) **curriculum/** 12-month path to hire-ready AI engineer (OCB/NAB/VPBank; Anthropic stretch). Zero Python today · 10 hrs/week (8h Track A + 2h Track B).
 
 ## Done
 
 - Single learning data source: `learning_data.py` → `learning-data.json`
-- **All 52 weeks** — runnable code via `generate_all_weeks.py` (exercises, SQL, projects, notebooks, career templates)
+- **All 52 weeks** — runnable code via `generate_all_weeks.py`
 - Shared libs: `lab/lib/` (brd_utils, loan_utils, rag_simple)
-- **Learning-Master-Slides.pptx** — 164 slides (3 per week + index); clickable W01–W52
-- **exports/learning/weeks/** — 52 individual week decks
-- Repo **lean** cleanup: `archive/` (HoAI, duplicate decks/docs); 2 learning PPTX only; `cv-templates.md`
-- **Track B (Head of AI):** 2h/week leadership on W8, 16, 28, 40, 52 — `head-of-ai-track.md`, HoAI templates, learning app Leadership tab + progress
+- **Learning-Master-Slides.pptx** — 165 slides (Track B on ◆ weeks + H0–H4 slide)
+- **Learning-Track-B-Slides.pptx** — 9 slides (VPBank HoAI steering variant)
+- **Zero-to-AI-Expert-Roadmap-Slides.pptx** — dual-track + Track B milestone slide
+- Repo **lean** cleanup: `archive/`; 3 learning PPTX in `exports/learning/`
+- **Track B:** app Leadership tab, H0–H4 templates, VPBank JD §F.4, `vpbank_steering_one_pager.md`
+- **App polish:** deck downloads (`apps/learning/decks/`), Track B pill `B 0/5`, Pages deploy `/decks/`
 
 ## In progress
 
 - User learning Skill 1 (Python) — start week 1 exercises
-- Optional: Track B milestone at W8 when technical week 8 reached
 - **Blockers:** none
 
 ## Next
 
-1. Read [project-adaptation.md](curriculum/project-adaptation.md) — three-app workflow + Track B
-2. Week 1 loop: learning app → BRD export → `week01_brd_checklist.py`
-3. Mark weeks complete in learning app as you finish labs
+1. Week 1 loop: learning app → BRD export → `week01_brd_checklist.py`
+2. Mark weeks complete in learning app as you finish labs
+3. At week 8: complete Track B H0 (AI strategy template) alongside CP1
 
 ## Decisions
 
 - Corporate Finance materials stay as-is; personal coding in `lab/` + external repos
-- BRD app scoring aligned with `docs/05-brd-quality-checklist.md` — exercises mirror same gates
+- BRD app scoring aligned with `docs/05-brd-quality-checklist.md`
+- Head of AI Factory (VPBank) = Year 4–5 stretch; apply AI Engineer first
 - SESSION resume = Read this file, not CodeGraph
 
 ## Gotchas
 
-- `.agent/SESSION.md` previously had class-ai-agent maintainer goals — replaced for this project
 - BRD app is static (no backend); drafts in browser localStorage only
-- CodeGraph indexes Python generators + `apps/brd/*.js` — run `codegraph sync` after edits
+- Slide decks: regenerate then `apps/learning/decks/` syncs on `generate_all_learning.py`
+- GitHub Pages serves decks at `/decks/*.pptx`
 
 ## Pointers
 
@@ -57,8 +59,9 @@ Use **learning** repo as dual base: (1) Finance BRD domain credibility, (2) **cu
 | Adaptation guide | `curriculum/project-adaptation.md` |
 | Track B guide | `curriculum/head-of-ai-track.md` |
 | HoAI templates | `curriculum/templates/hoai/` |
+| VPBank JD map | `curriculum/job-skills-adaptation.md` §F.4 |
+| Portfolio checklist | `lab/projects/PORTFOLIO.md` |
 | Workbook | `curriculum/ai-skills-workbook.md` |
-| Reading order | `curriculum/reading-path.md` |
-| BRD app | `apps/brd/` — `python3 -m http.server 8080` |
+| BRD app | `apps/brd/` |
 | Exercises | `lab/exercises/` |
 | Branch | `main` |

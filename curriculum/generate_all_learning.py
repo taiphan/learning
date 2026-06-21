@@ -1,12 +1,23 @@
 #!/usr/bin/env python3
 """Generate lean learning assets from learning_data.py (single source)."""
 
+import shutil
 import subprocess
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent
 sys.path.insert(0, str(ROOT))
+
+from repo_paths import APPS_LEARNING, EXPORTS_LEARNING  # noqa: E402
+
+
+def sync_decks_to_app():
+    dest = APPS_LEARNING / "decks"
+    dest.mkdir(parents=True, exist_ok=True)
+    for pptx in EXPORTS_LEARNING.glob("*.pptx"):
+        shutil.copy2(pptx, dest / pptx.name)
+    print(f"   → {dest}/ ({len(list(dest.glob('*.pptx')))} decks)")
 
 
 def main():
@@ -31,6 +42,9 @@ def main():
     for name in scripts:
         print(f"3. Run {name}")
         subprocess.run([sys.executable, str(ROOT / name)], check=True)
+
+    print("4. Sync slide decks → apps/learning/decks/")
+    sync_decks_to_app()
 
     print("\nDone.")
     print("  Master deck: exports/learning/Learning-Master-Slides.pptx")

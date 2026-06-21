@@ -17,7 +17,7 @@ learning/
 ├── examples/         # Sample BRDs
 ├── training/         # Trainer slide outlines
 ├── exports/
-│   ├── learning/     # Master + roadmap slide decks
+│   ├── learning/     # Master + roadmap + Track B slide decks
 │   └── *.pptx        # BRD training exports (Word/PPTX)
 └── scripts/          # Office file generator for BRD package
 ```
@@ -76,9 +76,16 @@ python3 curriculum/generate_all_learning.py
 
 ## AI learning path
 
-Adaptation guide: [curriculum/project-adaptation.md](curriculum/project-adaptation.md)
+**Dual track:** 8h/week technical (AI Engineer) + 2h/week **Track B** (Head of AI milestones on W8, 16, 28, 40, 52).
 
-Workbook: [curriculum/ai-skills-workbook.md](curriculum/ai-skills-workbook.md)
+| Resource | Path |
+|----------|------|
+| Adaptation guide | [curriculum/project-adaptation.md](curriculum/project-adaptation.md) |
+| Track B guide | [curriculum/head-of-ai-track.md](curriculum/head-of-ai-track.md) |
+| Workbook | [curriculum/ai-skills-workbook.md](curriculum/ai-skills-workbook.md) |
+| Master slides | [exports/learning/Learning-Master-Slides.pptx](exports/learning/Learning-Master-Slides.pptx) |
+| Roadmap slides | [exports/learning/Zero-to-AI-Expert-Roadmap-Slides.pptx](exports/learning/Zero-to-AI-Expert-Roadmap-Slides.pptx) |
+| Track B slides | [exports/learning/Learning-Track-B-Slides.pptx](exports/learning/Learning-Track-B-Slides.pptx) |
 
 ## Generate office files
 

@@ -22,6 +22,7 @@
           </div>
         </div>
         <div class="topbar-stats">
+          <div class="progress-pill track-b-pill" id="trackBPill" title="Track B milestones">B 0/5</div>
           <div class="progress-pill" id="progressPill" title="Weeks completed">0 / 52</div>
           <a class="btn btn-ghost" href="brd/" title="Learning BRD Intake">BRD App</a>
           <button type="button" class="btn btn-primary" id="continueBtn">Continue →</button>
@@ -81,8 +82,14 @@
 
           <section class="card hoai-home" id="hoaiHomeCard">
             <h3>Head of AI track (2h/week)</h3>
-            <p class="hint">Leadership milestones at weeks 8, 16, 28, 40, 52 — <a href="https://github.com/taiphan/learning/blob/main/curriculum/head-of-ai-track.md" target="_blank" rel="noopener">guide</a></p>
+            <p class="hint">Leadership milestones at weeks 8, 16, 28, 40, 52 — <a href="https://github.com/taiphan/learning/blob/main/curriculum/head-of-ai-track.md" target="_blank" rel="noopener">guide</a> · <a href="https://github.com/taiphan/learning/blob/main/curriculum/job-skills-adaptation.md#f4-vpbank--head-of-ai-factory-stretch--track-b" target="_blank" rel="noopener">VPBank HoAI JD map</a></p>
             <ul class="hoai-progress" id="hoaiHomeProgress"></ul>
+          </section>
+
+          <section class="card" id="resourcesCard">
+            <h3>Slide decks</h3>
+            <p class="hint">Regenerate: <code>python3 curriculum/generate_all_learning.py</code></p>
+            <ul class="link-list deck-links" id="deckLinks"></ul>
           </section>
 
           <section class="card">
@@ -185,6 +192,7 @@
                 <p><strong>Action:</strong> <span id="trackBAction">—</span></p>
                 <p><strong>Done when:</strong> <span id="trackBDeliverable">—</span></p>
                 <p class="hint">Budget ~2 hours this week alongside the Lab tab.</p>
+                <div class="guide-links" id="trackBLinks"></div>
                 <label class="complete-toggle track-b-toggle">
                   <input type="checkbox" id="completeTrackB" />
                   <span>Mark Track B milestone complete</span>
@@ -192,7 +200,7 @@
               </div>
               <div class="panel-block card" id="trackBIdle" hidden>
                 <p>Track B leadership work runs on <strong>weeks 8, 16, 28, 40, and 52</strong> (~2h each).</p>
-                <p>See <code>curriculum/head-of-ai-track.md</code> in the repo for the full guide and career arc.</p>
+                <p>See <a href="https://github.com/taiphan/learning/blob/main/curriculum/head-of-ai-track.md" target="_blank" rel="noopener">head-of-ai-track.md</a> and download <a href="decks/Learning-Track-B-Slides.pptx">Track B slides</a>.</p>
               </div>
             </article>
 
