@@ -222,7 +222,8 @@ gh workflow run deploy-pages.yml --ref main
 | `curriculum/requirements_manifest.py` | **Bump versions here** + CHANGELOG entry |
 | `curriculum/learning_data.py` | Week content (`META.version` = curriculum) |
 | `apps/learning/config.js` | `APP_VERSION` must match manifest |
-| `apps/learning/requirements-manifest.json` | Generated — do not edit by hand |
+| `apps/learning/data/requirements-manifest.json` | Generated — do not edit by hand |
+| `apps/learning/data/app-files-manifest.json` | Generated file catalog for Library view |
 | `docs/learning-requirements/CHANGELOG.md` | Human-readable history |
 
 **Release checklist:**

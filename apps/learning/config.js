@@ -2,12 +2,21 @@
 
 window.LEARNING_CONFIG = {
   /** Must match curriculum/requirements_manifest.py — run generate_all_learning.py after bump */
-  APP_VERSION: "2.1.0",
+  APP_VERSION: "2.5.0",
   REQUIREMENTS_VERSION: "2.0.0",
   CURRICULUM_VERSION: "1.3",
-  MANIFEST_URL: "requirements-manifest.json",
-  DATA_URL: "learning-data.json",
+  MANIFEST_URL: "data/requirements-manifest.json",
+  FILES_URL: "data/app-files-manifest.json",
+  DATA_URL: "data/learning-data.json",
   STORAGE_KEY: "learning-ai-learning-progress",
+  NAV: [
+    { id: "landing", label: "Home", hash: "landing", icon: "home" },
+    { id: "dashboard", label: "Dashboard", hash: "dashboard", icon: "dashboard" },
+    { id: "explore", label: "Explore", hash: "explore", icon: "explore" },
+    { id: "library", label: "Library", hash: "library", icon: "library" },
+    { id: "account", label: "Account", hash: "auth", icon: "account" },
+  ],
+  NAV_EXTERNAL: [{ label: "BRD", href: "brd/", icon: "brd" }],
   PHASE_COLORS: {
     y1q1: "var(--clay)",
     y1q2: "var(--sky)",
@@ -112,6 +121,13 @@ window.LEARNING_CONFIG = {
       body: "<p><strong>Track A (~8h)</strong> — every week: Study tab → Lab tab → run Python in <code>lab/</code>.</p><p><strong>Track B (~2h)</strong> — weeks <strong>8, 16, 28, 40, 52</strong> only: Leadership tab → save to <code>lab/delivery/track-b/</code>.</p>",
     },
     {
+      id: "menu",
+      type: "spotlight",
+      target: "#appNav",
+      title: "Main menu",
+      body: "<strong>Home</strong> — welcome & quick start · <strong>Dashboard</strong> — your progress · <strong>Explore</strong> — full path & resources · <strong>Library</strong> — all files · <strong>Account</strong> — sync · <strong>BRD</strong> — Week 1 bridge.",
+    },
+    {
       id: "continue",
       type: "spotlight",
       target: "#continueBtn",
@@ -139,12 +155,12 @@ window.LEARNING_CONFIG = {
       target: "#hoaiHomeCard",
       title: "Head of AI track (Track B)",
       body: "Leadership milestones appear here. Click any row to jump to that week. First deliverable: <strong>H0 at Week 8</strong>.",
-      view: "home",
+      view: "dashboard",
     },
     {
       id: "brd",
       type: "spotlight",
-      target: "a[href='brd/']",
+      target: ".app-nav-external",
       title: "BRD app — Week 1 bridge",
       body: "Week 1 connects your BA work to code: draft a BRD here, export <code>.md</code>, then run the checklist script from the Lab tab.",
     },

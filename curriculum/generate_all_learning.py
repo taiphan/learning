@@ -24,7 +24,7 @@ def main():
     from learning_loader import export_json
     from scaffold_learning_lab import scaffold
 
-    print("1. Export learning-data.json + requirements-manifest.json")
+    print("1. Export data/learning-data.json + requirements-manifest.json + app-files-manifest.json")
     json_path = export_json()
     print(f"   → {json_path}")
 
@@ -45,6 +45,12 @@ def main():
 
     print("4. Sync slide decks → apps/learning/decks/")
     sync_decks_to_app()
+
+    print("5. Export app-files-manifest.json")
+    from app_files_manifest import export_files_manifest
+
+    files_path = export_files_manifest()
+    print(f"   → {files_path}")
 
     print("\nDone.")
     print("  Master deck: exports/learning/Learning-Master-Slides.pptx")

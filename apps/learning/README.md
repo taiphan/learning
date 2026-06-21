@@ -6,7 +6,7 @@ Browser cockpit for your **Y1 AI Engineer path** — dual track (8h Track A + 2h
 
 **Step-by-step usage:** [docs/learning-requirements/LEARNING-REQUIREMENTS.md](../../docs/learning-requirements/LEARNING-REQUIREMENTS.md) (v2.0)
 
-**Version control:** `curriculum/requirements_manifest.py` → `requirements-manifest.json` (footer in app)
+**Version control:** `curriculum/requirements_manifest.py` → `data/requirements-manifest.json` (footer in app)
 
 **Google sign-in (optional):** [AUTH-SETUP.md](../../apps/learning/AUTH-SETUP.md) — sync progress with Firebase
 
@@ -27,10 +27,25 @@ Three apps, one repo:
 **Data flow:**
 
 ```
-curriculum/learning_data.py  →  learning-data.json  →  app.js (fetch)
+curriculum/learning_data.py  →  data/learning-data.json  →  app.js (fetch)
+                              ↘  data/app-files-manifest.json (Library view)
                               ↘  slide decks (exports/learning/)
                               ↘  lab/exercises/week*.py
 ```
+
+**App layout:**
+
+| Path | Role |
+|------|------|
+| `data/` | Generated JSON — curriculum, requirements, file catalog (**committed**; regenerate after curriculum changes) |
+| `decks/` | PPTX slide decks (GitHub Pages download) |
+| `app.js` | Main UI — home, weeks, progress |
+| `library.js` | Library view — browse all repo files |
+| `config.js` | Theme, enrichment links, version constants |
+| `guide.js` | In-app onboarding tour |
+| `auth.js` | Optional Google sign-in + Firestore sync |
+
+**Library:** Header **Library** or Home → **Open library** — search/filter all curriculum docs, lab files, Track B templates, decks, and requirements. Regenerate catalog: `python3 curriculum/generate_all_learning.py`.
 
 Progress is stored in **localStorage** only (`learning-ai-learning-progress`) — weeks complete, Track B milestones, notes, last tab.
 
@@ -68,7 +83,7 @@ python3 -m http.server 8081
 # http://localhost:8081
 ```
 
-Use a local server (not `file://`) so `learning-data.json` loads.
+Use a local server (not `file://`) so `data/learning-data.json` loads.
 
 ---
 
@@ -86,6 +101,8 @@ Or JSON only:
 python3 -c "import sys; sys.path.insert(0,'curriculum'); from learning_loader import export_json; export_json()"
 ```
 
+Commit `apps/learning/data/*.json` after regenerating so GitHub Pages and fresh clones load without running Python locally.
+
 ---
 
 ## Key files
@@ -93,8 +110,11 @@ python3 -c "import sys; sys.path.insert(0,'curriculum'); from learning_loader im
 | File | Purpose |
 |------|---------|
 | `app.js` | Routing, progress, week/home render |
+| `library.js` | Library view — browse all repo files |
 | `config.js` | Phase colors, tips, deck URLs, Track B delivery filenames |
-| `learning-data.json` | Exported curriculum (do not edit by hand) |
+| `data/learning-data.json` | Exported curriculum (do not edit by hand) |
+| `data/app-files-manifest.json` | File catalog for Library (generated) |
+| `data/requirements-manifest.json` | Version alignment (generated) |
 | `styles.css` | Layout and quarter / Track B styling |
 
 ---

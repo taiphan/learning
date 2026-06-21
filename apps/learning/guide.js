@@ -57,7 +57,7 @@
   }
 
   function prepareStep(step) {
-    if (step.view === "home") api.showHome();
+    if (step.view === "dashboard" || step.view === "home") api.showHome();
     else if (step.view === "week") api.showWeek(step.week || 1);
     if (step.before) runBefore(step.before);
   }

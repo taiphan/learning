@@ -84,27 +84,42 @@
       pushProgress(user.uid, progress).catch((err) => {
         console.warn("Progress sync failed:", err);
         window.__learningToast?.("Could not sync progress — saved locally");
+        updateAuthPageStats();
       });
     }, 800);
   }
 
+  function updateAuthPageStats() {
+    const getLocal = window.__learningAuthGetProgress;
+    if (!getLocal) return;
+    const p = getLocal();
+    const weeksEl = $("#authStatWeeks");
+    const tbEl = $("#authStatTrackB");
+    if (weeksEl) weeksEl.textContent = `${(p.completedWeeks || []).length} / 52`;
+    if (tbEl) tbEl.textContent = `${(p.trackBCompleted || []).length} / 5`;
+  }
+
   function renderAuthUI() {
-    const signedIn = $("#authSignedIn");
-    const signedOut = $("#authSignedOut");
+    const headerIn = $("#authHeaderSignedIn");
     const localOnly = $("#authLocalOnly");
-    if (!signedIn || !signedOut) return;
+    const openBtn = $("#openAuthBtn");
+    if (!openBtn) return;
 
     if (!isConfigured()) {
-      signedIn.hidden = true;
-      signedOut.hidden = true;
-      if (localOnly) localOnly.hidden = false;
+      if (headerIn) headerIn.hidden = true;
+      if (localOnly) {
+        localOnly.hidden = false;
+        localOnly.textContent = "Local";
+      }
+      if (openBtn) openBtn.title = "Local progress — open account page";
+      renderAuthPage();
       return;
     }
+
     if (localOnly) localOnly.hidden = true;
 
     if (user) {
-      signedOut.hidden = true;
-      signedIn.hidden = false;
+      if (headerIn) headerIn.hidden = false;
       const img = $("#authPhoto");
       const name = $("#authName");
       if (img) {
@@ -116,11 +131,63 @@
           img.hidden = true;
         }
       }
-      if (name) name.textContent = user.displayName || user.email || "Signed in";
+      if (name) name.textContent = user.displayName?.split(" ")[0] || "Account";
+      if (openBtn) openBtn.title = `${user.displayName || user.email} — account`;
     } else {
-      signedIn.hidden = true;
-      signedOut.hidden = false;
+      if (headerIn) headerIn.hidden = true;
+      if (localOnly) {
+        localOnly.hidden = false;
+        localOnly.textContent = "Sign in";
+      }
+      if (openBtn) openBtn.title = "Sign in to sync progress";
     }
+    renderAuthPage();
+  }
+
+  function renderAuthPage() {
+    const panelLocal = $("#authPanelLocal");
+    const panelSignIn = $("#authPanelSignIn");
+    const panelSignedIn = $("#authPanelSignedIn");
+    const title = $("#authPageTitle");
+    const subtitle = $("#authPageSubtitle");
+    if (!panelLocal) return;
+
+    panelLocal.hidden = true;
+    panelSignIn.hidden = true;
+    panelSignedIn.hidden = true;
+
+    if (!isConfigured()) {
+      panelLocal.hidden = false;
+      if (title) title.textContent = "Local progress";
+      if (subtitle) subtitle.textContent = "Google sign-in is not enabled on this site.";
+      return;
+    }
+
+    if (user) {
+      panelSignedIn.hidden = false;
+      if (title) title.textContent = "Signed in";
+      if (subtitle) subtitle.textContent = "Your progress syncs to the cloud automatically.";
+      const photo = $("#authPagePhoto");
+      const display = $("#authPageDisplayName");
+      const email = $("#authPageEmail");
+      if (photo) {
+        if (user.photoURL) {
+          photo.src = user.photoURL;
+          photo.alt = user.displayName || "User";
+          photo.hidden = false;
+        } else {
+          photo.hidden = true;
+        }
+      }
+      if (display) display.textContent = user.displayName || "Google user";
+      if (email) email.textContent = user.email || "";
+      updateAuthPageStats();
+      return;
+    }
+
+    panelSignIn.hidden = false;
+    if (title) title.textContent = "Sign in";
+    if (subtitle) subtitle.textContent = "Sync progress across devices with Google.";
   }
 
   async function signInWithGoogle() {
@@ -130,6 +197,8 @@
     }
     const provider = new firebase.auth.GoogleAuthProvider();
     provider.setCustomParameters({ prompt: "select_account" });
+    const btn = $("#authPageSignInBtn");
+    if (btn) btn.disabled = true;
     try {
       await auth.signInWithPopup(provider);
     } catch (err) {
@@ -141,6 +210,8 @@
             ? "Domain not authorized in Firebase Console"
             : err.message || "Sign-in failed";
       window.__learningToast?.(msg);
+    } finally {
+      if (btn) btn.disabled = false;
     }
   }
 
@@ -149,8 +220,16 @@
     try {
       await auth.signOut();
       window.__learningToast?.("Signed out — progress kept on this device");
-    } catch (err) {
+    } catch (_) {
       window.__learningToast?.("Sign-out failed");
+    }
+  }
+
+  function continueLearning() {
+    if (window.__learningShowHome) {
+      window.__learningShowHome();
+    } else {
+      location.hash = "dashboard";
     }
   }
 
@@ -173,6 +252,7 @@
       console.warn(err);
       window.__learningToast?.("Signed in — using local progress (sync unavailable)");
     }
+    renderAuthPage();
   }
 
   function initFirebase() {
@@ -192,8 +272,11 @@
   }
 
   function bindAuthEvents() {
-    $("#googleSignInBtn")?.addEventListener("click", signInWithGoogle);
-    $("#authSignOutBtn")?.addEventListener("click", signOutUser);
+    $("#authPageSignInBtn")?.addEventListener("click", signInWithGoogle);
+    $("#authPageSignOutBtn")?.addEventListener("click", signOutUser);
+    $("#authPageContinue")?.addEventListener("click", continueLearning);
+    $("#authPageContinueLocal")?.addEventListener("click", continueLearning);
+    $("#authPageSkipSignIn")?.addEventListener("click", continueLearning);
   }
 
   window.LearningAuth = {
@@ -202,9 +285,11 @@
     getUser: () => user,
     syncProgress: (progress) => {
       if (user) scheduleSync(progress);
+      updateAuthPageStats();
     },
     signIn: signInWithGoogle,
     signOut: signOutUser,
+    renderPage: renderAuthPage,
     init: initFirebase,
   };
 

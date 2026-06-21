@@ -71,9 +71,11 @@ Deploy workflow writes `auth-config.js` when `FIREBASE_API_KEY` is set.
 ## 6. Verify
 
 1. `cd apps/learning && python3 -m http.server 8081`
-2. Open http://localhost:8081 — **Sign in** button (not **Local** pill)
-3. Sign in with Google → toast **Progress synced with Google account**
+2. Open http://localhost:8081 — header **Sign in** or **Account** → opens `#auth` page
+3. On the auth page, click **Sign in with Google** → toast **Progress synced with Google account**
 4. Complete a week → check Firestore `learning_progress` document for your uid
+
+**Auth page URL:** `https://taiphan.github.io/learning/#auth` (or `#account`)
 
 ---
 

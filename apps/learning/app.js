@@ -5,6 +5,7 @@
   const cfg = window.LEARNING_CONFIG;
   let data = null;
   let manifest = null;
+  let filesManifest = null;
   let state = loadState();
 
   const $ = (sel) => document.querySelector(sel);
@@ -47,7 +48,7 @@
     localStorage.setItem(cfg.STORAGE_KEY, JSON.stringify(state));
     updateProgressUI();
     if (!$("#viewWeek").hidden) renderWeek(state.currentWeek);
-    else renderHome();
+    else if (!$("#viewDashboard").hidden) renderDashboard();
   }
 
   function trackBCompletedCount() {
@@ -234,35 +235,253 @@
     setTimeout(() => el.classList.remove("show"), 2200);
   }
 
+  function setLayoutMode(mode) {
+    const layout = $("#layout");
+    const toggle = $("#menuToggle");
+    if (!layout) return;
+    layout.classList.toggle("layout--full", mode === "full");
+    layout.classList.toggle("layout--sidebar", mode === "sidebar");
+    if (toggle) toggle.hidden = mode === "full";
+  }
+
+  function setNavActive(viewId) {
+    window.LearningNav?.setActive(viewId);
+  }
+
+  function updateBreadcrumb(view, meta = {}) {
+    const home = { label: "Home", href: "#landing", action: () => showLanding() };
+    const dash = { label: "Dashboard", href: "#dashboard", action: () => showDashboard() };
+    const items = [home];
+    switch (view) {
+      case "landing":
+        break;
+      case "dashboard":
+        items.push({ label: "Dashboard" });
+        break;
+      case "explore":
+        items.push({ label: "Explore" });
+        break;
+      case "library":
+        items.push({ label: "Library" });
+        break;
+      case "account":
+        items.push({ label: "Account" });
+        break;
+      case "week":
+        items.push(dash);
+        items.push({ label: meta.title || `Week ${meta.n}` });
+        break;
+      default:
+        break;
+    }
+    window.LearningUX?.renderBreadcrumb(items);
+    const mobileId = view === "week" ? "learn" : view;
+    window.LearningUX?.setMobileActive(mobileId);
+  }
+
+  function navigateTo(viewId) {
+    switch (viewId) {
+      case "landing":
+        showLanding();
+        break;
+      case "dashboard":
+        showDashboard();
+        break;
+      case "explore":
+        showExplore();
+        break;
+      case "library":
+        showLibrary();
+        break;
+      case "account":
+        showAuth();
+        break;
+      default:
+        showLanding();
+    }
+  }
+
+  let activeRoute = null;
+
+  function normalizeRoute(raw) {
+    const hash = (raw || "").replace(/^#/, "") || "landing";
+    if (hash === "home") return "dashboard";
+    if (hash === "account") return "auth";
+    return hash;
+  }
+
+  /** Update URL hash; hashchange → route() → renderForRoute (single render). */
+  function setRoute(raw) {
+    const normalized = normalizeRoute(raw);
+    if (normalizeRoute(location.hash.slice(1)) === normalized) {
+      renderForRoute(normalized);
+      return;
+    }
+    location.hash = normalized;
+  }
+
   function route() {
-    const hash = location.hash.slice(1) || "home";
-    const weekMatch = hash.match(/^week\/(\d+)$/);
+    let normalized = normalizeRoute(location.hash.slice(1));
+    if (!location.hash.slice(1)) {
+      history.replaceState(null, "", "#landing");
+      normalized = "landing";
+      activeRoute = null;
+    }
+    renderForRoute(normalized);
+  }
+
+  function renderForRoute(routeKey) {
+    if (activeRoute === routeKey) return;
+    activeRoute = routeKey;
+
+    const weekMatch = routeKey.match(/^week\/(\d+)$/);
     if (weekMatch) {
       const n = parseInt(weekMatch[1], 10);
       if (n >= 1 && n <= 52) {
-        showWeek(n);
+        renderWeekView(n);
         return;
       }
     }
-    showHome();
+
+    switch (routeKey) {
+      case "landing":
+        renderLandingView();
+        break;
+      case "dashboard":
+        renderDashboardView();
+        break;
+      case "explore":
+        renderExploreView();
+        break;
+      case "library":
+        renderLibraryView();
+        break;
+      case "auth":
+        renderAuthView();
+        break;
+      default:
+        activeRoute = null;
+        renderForRoute("landing");
+        break;
+    }
   }
 
-  function showHome() {
-    $("#viewHome").hidden = false;
+  function hideAllViews() {
+    $("#viewLanding").hidden = true;
+    $("#viewDashboard").hidden = true;
+    $("#viewExplore").hidden = true;
     $("#viewWeek").hidden = true;
-    location.hash = "home";
-    renderHome();
+    $("#viewLibrary").hidden = true;
+    $("#viewAuth").hidden = true;
+  }
+
+  function renderLanding() {
+    const prog = $("#landingProgress");
+    const done = completedCount();
+    if (prog) {
+      if (done > 0) {
+        prog.hidden = false;
+        const next = nextIncompleteWeek();
+        prog.textContent = `${done} / 52 weeks complete · next up: Week ${next}`;
+      } else {
+        prog.hidden = true;
+      }
+    }
+    const cont = $("#landingContinue");
+    if (cont) cont.hidden = done === 0;
+  }
+
+  function renderLandingView() {
+    hideAllViews();
+    setLayoutMode("full");
+    $("#viewLanding").hidden = false;
+    renderLanding();
     highlightWeekInList(null);
+    setNavActive("landing");
+    updateBreadcrumb("landing");
+  }
+
+  function renderDashboardView() {
+    hideAllViews();
+    setLayoutMode("sidebar");
+    $("#viewDashboard").hidden = false;
+    renderDashboard();
+    highlightWeekInList(null);
+    setNavActive("dashboard");
+    updateBreadcrumb("dashboard");
+  }
+
+  function renderExploreView() {
+    hideAllViews();
+    setLayoutMode("sidebar");
+    $("#viewExplore").hidden = false;
+    renderExplore();
+    highlightWeekInList(null);
+    setNavActive("explore");
+    updateBreadcrumb("explore");
+  }
+
+  function renderLibraryView() {
+    hideAllViews();
+    setLayoutMode("full");
+    $("#viewLibrary").hidden = false;
+    highlightWeekInList(null);
+    setNavActive("library");
+    updateBreadcrumb("library");
+    if (window.LearningLibrary && filesManifest) {
+      window.LearningLibrary.init(filesManifest, { onWeekClick: showWeek });
+    }
+  }
+
+  function renderAuthView() {
+    hideAllViews();
+    setLayoutMode("full");
+    $("#viewAuth").hidden = false;
+    highlightWeekInList(null);
+    setNavActive("account");
+    updateBreadcrumb("account");
+    window.LearningAuth?.renderPage?.();
+  }
+
+  function renderWeekView(n) {
+    state.currentWeek = n;
+    saveState();
+    hideAllViews();
+    setLayoutMode("sidebar");
+    $("#viewWeek").hidden = false;
+    const w = weekByNum(n);
+    renderWeek(n);
+    highlightWeekInList(n);
+    setNavActive("dashboard");
+    updateBreadcrumb("week", { n, title: w ? `W${String(n).padStart(2, "0")} · ${w.title}` : `Week ${n}` });
+  }
+
+  function showLanding() {
+    setRoute("landing");
+  }
+
+  function showDashboard() {
+    setRoute("dashboard");
+  }
+
+  function showExplore() {
+    setRoute("explore");
+  }
+
+  function showLibrary() {
+    setRoute("library");
+  }
+
+  function showAuth() {
+    setRoute("auth");
   }
 
   function showWeek(n) {
-    state.currentWeek = n;
-    saveState();
-    $("#viewHome").hidden = true;
-    $("#viewWeek").hidden = false;
-    location.hash = `week/${n}`;
-    renderWeek(n);
-    highlightWeekInList(n);
+    setRoute(`week/${n}`);
+  }
+
+  function showHome() {
+    showDashboard();
   }
 
   function highlightWeekInList(n) {
@@ -293,6 +512,7 @@
     renderCheckpointsMini();
     renderHoaiCheckpointsMini();
     updateQuarterProgressUI();
+    if ($("#viewLanding") && !$("#viewLanding").hidden) renderLanding();
   }
 
   function renderEnrichment() {
@@ -322,7 +542,7 @@
     });
   }
 
-  function renderHome() {
+  function renderDashboard() {
     const cur = weekByNum(state.currentWeek) || data.weeks[0];
     const phase = phaseById(cur.phase);
     const next = nextIncompleteWeek();
@@ -335,7 +555,7 @@
         : "Welcome back";
     $("#homeLead").textContent =
       completedCount() === 0
-        ? `Track A (~${meta.hours_track_a || 8}h): Python + BRD bridge. Track B (~${meta.hours_track_b || 2}h): Head of AI milestones at weeks 8, 16, 28, 40, 52. Week 1 → BRD app → checklist script.`
+        ? `Track A (~${meta.hours_track_a || 8}h): Python + BRD bridge. Track B (~${meta.hours_track_b || 2}h): Head of AI milestones at weeks 8, 16, 28, 40, 52.`
         : `You have completed ${completedCount()} weeks. ${nextW ? `Next: Week ${next} — ${nextW.title}.` : "You finished Y1!"}` +
           (phase?.career_gate ? ` Quarter gate: ${phase.career_gate}.` : "");
 
@@ -353,11 +573,22 @@
 
     updateProgressUI();
     renderHoaiHome();
-    renderTrackBIdleList();
-    renderDeckLinks();
+    if (window.LearningGuide) window.LearningGuide.renderHomeCard();
+  }
+
+  function renderExplore() {
+    renderPhaseGrid();
     renderCareerPath();
     renderEnrichment();
-    if (window.LearningGuide) window.LearningGuide.renderHomeCard();
+    renderDeckLinks();
+    const libHint = $("#libraryHomeHint");
+    if (libHint && filesManifest?.total) {
+      libHint.textContent = `${filesManifest.total} files indexed — curriculum, lab, Track B, decks, and docs.`;
+    }
+  }
+
+  function renderHome() {
+    renderDashboard();
   }
 
   function renderHoaiHome() {
@@ -537,7 +768,11 @@
   function setActiveTab(tab) {
     state.activeTab = tab;
     saveState();
-    $$(".tab").forEach((t) => t.classList.toggle("active", t.dataset.tab === tab));
+    $$(".tab").forEach((t) => {
+      const on = t.dataset.tab === tab;
+      t.classList.toggle("active", on);
+      t.setAttribute("aria-selected", on ? "true" : "false");
+    });
     $$(".tab-panel").forEach((p) => {
       const on = p.dataset.panel === tab;
       p.classList.toggle("active", on);
@@ -695,14 +930,36 @@
     updateProgressUI();
   }
 
+  function bindGotoHandlers() {
+    document.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-goto]");
+      if (!btn) return;
+      const dest = btn.dataset.goto;
+      if (dest === "week") {
+        showWeek(parseInt(btn.dataset.week || "1", 10));
+        return;
+      }
+      navigateTo(dest);
+    });
+  }
+
   function bindEvents() {
     $("#menuToggle").addEventListener("click", () => {
       $("#sidebar").classList.toggle("open");
     });
 
+    $("#brandHome")?.addEventListener("click", () => showLanding());
     $("#continueBtn").addEventListener("click", () => showWeek(nextIncompleteWeek()));
     $("#homeContinue").addEventListener("click", () => showWeek(nextIncompleteWeek()));
     $("#homeWeek1").addEventListener("click", () => showWeek(1));
+    $("#homeExplore")?.addEventListener("click", () => showExplore());
+    $("#landingStart")?.addEventListener("click", () => showWeek(1));
+    $("#landingContinue")?.addEventListener("click", () => showWeek(nextIncompleteWeek()));
+    $("#landingTour")?.addEventListener("click", () => window.LearningGuide?.openGuide?.());
+    $("#libraryBackHome")?.addEventListener("click", () => showDashboard());
+    $("#homeOpenLibrary")?.addEventListener("click", () => showLibrary());
+    $("#openAuthBtn")?.addEventListener("click", () => showAuth());
+    bindGotoHandlers();
 
     $$(".tab").forEach((tab) => {
       tab.addEventListener("click", () => setActiveTab(tab.dataset.tab));
@@ -764,21 +1021,29 @@
 
   async function init() {
     try {
-      const [dataRes, manifestRes] = await Promise.all([
+      const [dataRes, manifestRes, filesRes] = await Promise.all([
         fetch(cfg.DATA_URL),
         fetch(cfg.MANIFEST_URL).catch(() => null),
+        fetch(cfg.FILES_URL).catch(() => null),
       ]);
       if (!dataRes.ok) throw new Error(dataRes.statusText);
       data = await dataRes.json();
       if (manifestRes?.ok) manifest = await manifestRes.json();
+      if (filesRes?.ok) filesManifest = await filesRes.json();
     } catch (err) {
-      $("#main").innerHTML = `<div class="card"><h2>Could not load curriculum</h2><p>Run a local server from <code>apps/learning</code> and ensure <code>learning-data.json</code> exists.</p><pre>${err.message}</pre></div>`;
+      window.LearningUX?.hideLoading();
+      $("#main").innerHTML = `<div class="card"><h2>Could not load curriculum</h2><p>Run a local server from <code>apps/learning</code> and ensure <code>data/learning-data.json</code> exists.</p><pre>${err.message}</pre></div>`;
       return;
     }
 
     renderPhaseFilter();
     renderWeekList("all");
     renderPhaseGrid();
+    window.LearningUX?.init({
+      navigate: navigateTo,
+      showWeekContinue: () => showWeek(nextIncompleteWeek()),
+    });
+    window.LearningNav?.init(navigateTo);
     bindEvents();
     route();
     renderVersionFooter();
@@ -792,6 +1057,8 @@
       });
     }
     window.__learningToast = toast;
+    window.__learningShowHome = showHome;
+    window.__learningShowAuth = showAuth;
     window.__learningAuthGetProgress = () => ({
       completedWeeks: [...state.completedWeeks],
       trackBCompleted: [...(state.trackBCompleted || [])],
@@ -801,6 +1068,7 @@
     });
     window.__learningAuthApplyProgress = applyCloudProgress;
     window.LearningAuth?.init?.();
+    window.LearningUX?.hideLoading();
   }
 
   init();

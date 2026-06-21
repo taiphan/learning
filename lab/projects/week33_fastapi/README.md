@@ -1,7 +1,7 @@
 # FastAPI policy copilot (weeks 33–34)
 
 ```bash
-cd learning-lab/projects/week33_fastapi
+cd lab/projects/week33_fastapi
 pip install fastapi uvicorn
 uvicorn main:app --reload
 curl http://127.0.0.1:8000/health

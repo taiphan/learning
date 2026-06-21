@@ -70,7 +70,7 @@ def curriculum_dict() -> dict[str, Any]:
 def export_manifest(path: Path | None = None) -> Path:
     from requirements_manifest import manifest_dict
 
-    path = path or APPS_LEARNING / "requirements-manifest.json"
+    path = path or APPS_LEARNING / "data" / "requirements-manifest.json"
     payload = json.dumps(manifest_dict(), indent=2, ensure_ascii=False) + "\n"
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(payload, encoding="utf-8")
@@ -81,10 +81,13 @@ def export_json(path: Path | None = None) -> Path:
     path = path or CURRICULUM / "learning-data.json"
     payload = json.dumps(curriculum_dict(), indent=2, ensure_ascii=False) + "\n"
     path.write_text(payload, encoding="utf-8")
-    app_copy = APPS_LEARNING / "learning-data.json"
+    app_copy = APPS_LEARNING / "data" / "learning-data.json"
     app_copy.parent.mkdir(parents=True, exist_ok=True)
     app_copy.write_text(payload, encoding="utf-8")
     export_manifest()
+    from app_files_manifest import export_files_manifest
+
+    export_files_manifest()
     return path
 
 

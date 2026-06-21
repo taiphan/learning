@@ -9,7 +9,7 @@ jobs:
         with:
           python-version: "3.11"
       - run: pip install fastapi uvicorn pytest httpx pydantic scikit-learn pandas
-      - run: python learning-lab/setup_db.py
-      - run: python learning-lab/projects/credit-pd-model/train.py
-      - run: pytest learning-lab/projects/week33_fastapi/test_health.py
-      - run: python learning-lab/exercises/week32_run_eval.py
+      - run: python lab/setup_db.py
+      - run: python lab/projects/credit-pd-model/train.py
+      - run: pytest lab/projects/week33_fastapi/test_health.py
+      - run: python lab/exercises/week32_run_eval.py

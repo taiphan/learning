@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 REQUIREMENTS_VERSION = "2.0.0"
-APP_VERSION = "2.1.0"
+APP_VERSION = "2.5.0"
 CURRICULUM_VERSION = "1.3"
 
 DOCS = {
@@ -16,6 +16,54 @@ DOCS = {
 }
 
 CHANGELOG: list[dict] = [
+    {
+        "version": "2.5.0",
+        "date": "2026-06-21",
+        "requirements": "2.0.0",
+        "app": "2.5.0",
+        "curriculum": "1.3",
+        "changes": [
+            "UI/UX Pro Max pass — focus rings, skip link, breadcrumbs, loading shell",
+            "SVG nav icons + mobile bottom navigation bar",
+            "Micro-interactions, contrast, reduced-motion, no layout-shift hovers",
+        ],
+    },
+    {
+        "version": "2.4.0",
+        "date": "2026-06-21",
+        "requirements": "2.0.0",
+        "app": "2.4.0",
+        "curriculum": "1.3",
+        "changes": [
+            "Landing page at #landing with quick-start cards",
+            "Main menu: Home · Dashboard · Explore · Library · Account · BRD",
+            "Explore view — quarters, career path, videos, decks, library link",
+            "Dashboard slimmed to progress + Track B summary",
+        ],
+    },
+    {
+        "version": "2.3.0",
+        "date": "2026-06-21",
+        "requirements": "2.0.0",
+        "app": "2.3.0",
+        "curriculum": "1.3",
+        "changes": [
+            "Dedicated account page at #auth — Google sign-in, profile, sync stats",
+            "Header Account button replaces inline sign-in controls",
+        ],
+    },
+    {
+        "version": "2.2.0",
+        "date": "2026-06-21",
+        "requirements": "2.0.0",
+        "app": "2.2.0",
+        "curriculum": "1.3",
+        "changes": [
+            "apps/learning/data/ — JSON manifests in one folder",
+            "Library view — browse all curriculum, lab, deck, and doc files",
+            "app-files-manifest.json generated from repo on build",
+        ],
+    },
     {
         "version": "2.1.0",
         "date": "2026-06-21",

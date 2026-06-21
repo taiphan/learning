@@ -10,41 +10,49 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <div class="app" id="app">
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <div class="app-loading" id="appLoading" role="status" aria-live="polite" aria-label="Loading curriculum">
+    <div class="app-loading-inner">
+      <div class="loading-brand">
+        <span class="brand-dot"></span>
+        <span>Loading your 52-week path…</span>
+      </div>
+      <div class="loading-bar" aria-hidden="true"><div class="loading-bar-fill"></div></div>
+    </div>
+  </div>
+
+  <div class="app" id="app" aria-busy="true">
     <header class="topbar">
       <div class="topbar-inner">
         <button type="button" class="btn-icon menu-toggle" id="menuToggle" aria-label="Toggle week list">☰</button>
-        <div class="brand">
+        <button type="button" class="brand brand-btn" id="brandHome" aria-label="Go to home">
           <span class="brand-dot"></span>
           <div>
             <h1>Learning</h1>
-            <p class="tagline">Y1 → AI Engineer · 4 quarters · Track B HoAI · 10 hrs/week</p>
+            <p class="tagline">Y1 → AI Engineer · 10 hrs/week</p>
           </div>
-        </div>
-        <div class="topbar-stats">
-          <div class="progress-pill track-b-pill" id="trackBPill" title="Track B milestones">B 0/5</div>
-          <div class="progress-pill" id="progressPill" title="Weeks completed">0 / 52</div>
-          <a class="btn btn-ghost" href="brd/" title="Learning BRD Intake">BRD App</a>
-          <button type="button" class="btn btn-ghost" id="openGuideBtn" title="How to use this app">Guide</button>
-          <div class="auth-wrap" id="authWrap">
+        </button>
+        <nav class="app-nav" id="appNav" aria-label="Main menu"></nav>
+        <div class="topbar-actions">
+          <div class="topbar-stats">
+            <div class="progress-pill track-b-pill" id="trackBPill" title="Track B milestones">B 0/5</div>
+            <div class="progress-pill" id="progressPill" title="Weeks completed">0 / 52</div>
+          </div>
+          <button type="button" class="btn btn-ghost btn-sm" id="openGuideBtn" title="How to use this app">Guide</button>
+          <button type="button" class="btn btn-ghost auth-account-btn" id="openAuthBtn" title="Account & sync">
             <span class="auth-local-pill" id="authLocalOnly" title="Progress saved in this browser only">Local</span>
-            <div class="auth-signed-out" id="authSignedOut" hidden>
-              <button type="button" class="btn btn-google" id="googleSignInBtn" title="Sign in with Google to sync progress">
-                <span class="google-g" aria-hidden="true">G</span> Sign in
-              </button>
-            </div>
-            <div class="auth-signed-in" id="authSignedIn" hidden>
-              <img class="auth-photo" id="authPhoto" alt="" width="28" height="28" hidden />
-              <span class="auth-name" id="authName">—</span>
-              <button type="button" class="btn btn-ghost btn-sm" id="authSignOutBtn">Sign out</button>
-            </div>
-          </div>
+            <span class="auth-header-signed-in" id="authHeaderSignedIn" hidden>
+              <img class="auth-photo" id="authPhoto" alt="" width="24" height="24" hidden />
+              <span class="auth-name" id="authName">Account</span>
+            </span>
+          </button>
           <button type="button" class="btn btn-primary" id="continueBtn">Continue →</button>
         </div>
       </div>
     </header>
 
-    <div class="layout">
+    <div class="layout layout--sidebar" id="layout">
       <aside class="sidebar" id="sidebar">
         <div class="sidebar-head">
           <h2>Weeks</h2>
@@ -69,9 +77,71 @@
         </section>
       </aside>
 
-      <main class="main" id="main">
-        <!-- Home dashboard -->
-        <section class="view view-home" id="viewHome" hidden>
+      <main class="main" id="main" tabindex="-1">
+        <nav class="breadcrumb" id="breadcrumb" aria-label="Breadcrumb" hidden></nav>
+        <!-- Landing -->
+        <section class="view view-landing" id="viewLanding" hidden>
+          <div class="landing-hero card">
+            <p class="eyebrow">52-week dual track · zero Python start</p>
+            <h2 class="landing-title">Banking BA → AI Engineer</h2>
+            <p class="landing-lead">Y1 quarters · Track B Head of AI · 10 hrs/week · OCB · NAB · VPBank</p>
+            <div class="landing-actions">
+              <button type="button" class="btn btn-primary btn-lg" id="landingStart">Start Week 1</button>
+              <button type="button" class="btn btn-ghost btn-lg" id="landingContinue">Continue learning</button>
+              <button type="button" class="btn btn-ghost btn-lg" id="landingTour">Take the tour</button>
+            </div>
+            <p class="landing-progress hint" id="landingProgress" hidden></p>
+          </div>
+
+          <div class="landing-grid">
+            <article class="landing-card card">
+              <span class="landing-card-tag track-a">Track A · ~8h</span>
+              <h3>Technical path</h3>
+              <p>Every week: <strong>Overview → Study → Lab</strong>. Run Python in <code>lab/</code> — Python, ML, RAG, API, Docker.</p>
+              <button type="button" class="btn btn-ghost btn-sm landing-card-btn" data-goto="week" data-week="1">Open Week 1</button>
+            </article>
+            <article class="landing-card card">
+              <span class="landing-card-tag track-b">Track B · ~2h</span>
+              <h3>Head of AI</h3>
+              <p>Leadership milestones at weeks <strong>8, 16, 28, 40, 52</strong>. Save deliverables to <code>lab/delivery/track-b/</code>.</p>
+              <button type="button" class="btn btn-ghost btn-sm landing-card-btn" data-goto="explore">See milestones</button>
+            </article>
+            <article class="landing-card card">
+              <span class="landing-card-tag tools">Tools</span>
+              <h3>BRD + lab + library</h3>
+              <p>Week 1 bridge: <a href="brd/">BRD app</a> → export → checklist script. Browse all files in <strong>Library</strong>.</p>
+              <div class="landing-card-links">
+                <a class="btn btn-ghost btn-sm" href="brd/">BRD app</a>
+                <button type="button" class="btn btn-ghost btn-sm landing-card-btn" data-goto="library">Library</button>
+              </div>
+            </article>
+          </div>
+
+          <section class="card landing-quick">
+            <h3>Explore the platform</h3>
+            <div class="landing-quick-grid">
+              <button type="button" class="landing-quick-item" data-goto="dashboard">
+                <strong>Dashboard</strong>
+                <span>Your progress & next week</span>
+              </button>
+              <button type="button" class="landing-quick-item" data-goto="explore">
+                <strong>Full path</strong>
+                <span>Quarters, career, videos, decks</span>
+              </button>
+              <button type="button" class="landing-quick-item" data-goto="library">
+                <strong>Library</strong>
+                <span>All curriculum & lab files</span>
+              </button>
+              <button type="button" class="landing-quick-item" data-goto="account">
+                <strong>Account</strong>
+                <span>Sign in & sync progress</span>
+              </button>
+            </div>
+          </section>
+        </section>
+
+        <!-- Dashboard -->
+        <section class="view view-dashboard" id="viewDashboard" hidden>
           <div class="hero card">
             <p class="eyebrow">Your learning cockpit</p>
             <h2 id="homeGreeting">Welcome back</h2>
@@ -79,6 +149,7 @@
             <div class="hero-actions">
               <button type="button" class="btn btn-primary btn-lg" id="homeContinue">Continue learning</button>
               <button type="button" class="btn btn-ghost btn-lg" id="homeWeek1">Start at Week 1</button>
+              <button type="button" class="btn btn-ghost btn-lg" id="homeExplore">Explore path</button>
             </div>
           </div>
 
@@ -88,16 +159,15 @@
               <button type="button" class="btn btn-ghost btn-sm" id="dismissHomeCardBtn">Dismiss</button>
             </div>
             <ol class="getting-started-steps">
-              <li><strong>Pick a week</strong> — Continue, sidebar, or Y1 quarter cards</li>
-              <li><strong>Overview</strong> — read the deliverable and bridge banner</li>
-              <li><strong>Study</strong> — readings and resources (~2–3h Track A)</li>
-              <li><strong>Lab</strong> — run commands from <code>lab/</code> in Cursor (~4–5h)</li>
-              <li><strong>Leadership</strong> — Track B on weeks 8, 16, 28, 40, 52 only</li>
+              <li><strong>Menu</strong> — Home, Dashboard, Explore, Library, Account</li>
+              <li><strong>Continue</strong> — jump to your next incomplete week</li>
+              <li><strong>Weekly tabs</strong> — Overview · Study · Lab · Leadership · Notes</li>
+              <li><strong>Sidebar</strong> — all 52 weeks + checkpoints</li>
               <li><strong>Mark complete</strong> — footer checkbox, then Next week</li>
             </ol>
             <div class="getting-started-actions">
               <button type="button" class="btn btn-primary btn-sm" id="startTourBtn">Take the guided tour</button>
-              <a class="btn btn-ghost btn-sm" href="https://github.com/taiphan/learning/blob/main/docs/learning-requirements/LEARNING-REQUIREMENTS.md" target="_blank" rel="noopener">Requirements v2.0</a>
+              <a class="btn btn-ghost btn-sm" href="https://github.com/taiphan/learning/blob/main/docs/learning-requirements/LEARNING-REQUIREMENTS.md" target="_blank" rel="noopener">Requirements</a>
             </div>
           </section>
 
@@ -121,9 +191,29 @@
           </div>
 
           <section class="card hoai-home" id="hoaiHomeCard">
-            <h3>Head of AI track (2h/week)</h3>
-            <p class="hint">Leadership milestones at weeks 8, 16, 28, 40, 52 — <a href="https://github.com/taiphan/learning/blob/main/curriculum/head-of-ai-track.md" target="_blank" rel="noopener">guide</a> · <a href="https://github.com/taiphan/learning/blob/main/curriculum/job-skills-adaptation.md#f4-vpbank--head-of-ai-factory-stretch--track-b" target="_blank" rel="noopener">VPBank HoAI JD map</a></p>
+            <h3>Head of AI track (Track B)</h3>
+            <p class="hint">Milestone weeks 8, 16, 28, 40, 52 — <button type="button" class="btn-link" data-goto="explore">full path in Explore</button></p>
             <ul class="hoai-progress" id="hoaiHomeProgress"></ul>
+          </section>
+        </section>
+
+        <!-- Explore path & resources -->
+        <section class="view view-explore" id="viewExplore" hidden>
+          <header class="explore-head card">
+            <p class="eyebrow">Discover</p>
+            <h2>Explore the learning path</h2>
+            <p class="hint">Y1 quarters, career timeline, free videos, slide decks, and every repo file.</p>
+          </header>
+
+          <section class="card">
+            <h3>Y1 quarters</h3>
+            <div class="phase-grid" id="phaseGrid"></div>
+          </section>
+
+          <section class="card" id="careerPathCard">
+            <h3>Career path (Y1–Y4)</h3>
+            <p class="hint"><a href="https://github.com/taiphan/learning/blob/main/curriculum/career-timeline.md" target="_blank" rel="noopener">Full timeline</a> · Y1 = this 52-week path</p>
+            <div class="career-path-list" id="careerPathList"></div>
           </section>
 
           <section class="card enrichment-card" id="enrichmentCard">
@@ -131,7 +221,7 @@
               <h3>Free video learning</h3>
               <a class="btn btn-ghost btn-sm" href="https://github.com/taiphan/learning/blob/main/curriculum/video-learning-enrichment.md" target="_blank" rel="noopener">Full guide</a>
             </div>
-            <p class="hint">Coursera · LinkedIn (trial/employer) · YouTube · Microsoft — ~2–3h/week alongside Study tab. Lab deliverables still required.</p>
+            <p class="hint">Coursera · LinkedIn · YouTube · Microsoft — ~2–3h/week alongside Study tab.</p>
             <div class="enrichment-grid" id="enrichmentGrid"></div>
           </section>
 
@@ -141,16 +231,98 @@
             <ul class="link-list deck-links" id="deckLinks"></ul>
           </section>
 
-          <section class="card" id="careerPathCard">
-            <h3>Career path (Y1–Y4)</h3>
-            <p class="hint"><a href="https://github.com/taiphan/learning/blob/main/curriculum/career-timeline.md" target="_blank" rel="noopener">Full timeline</a> · Y1 = this 52-week path</p>
-            <div class="career-path-list" id="careerPathList"></div>
+          <section class="card library-home-card">
+            <div class="library-head-top">
+              <div>
+                <h3>Library — all files</h3>
+                <p class="hint" id="libraryHomeHint">Browse every curriculum doc, lab exercise, Track B template, and deck.</p>
+              </div>
+              <button type="button" class="btn btn-primary btn-sm" id="homeOpenLibrary">Open library</button>
+            </div>
           </section>
+        </section>
 
-          <section class="card">
-            <h3>Y1 quarters</h3>
-            <div class="phase-grid" id="phaseGrid"></div>
-          </section>
+        <!-- File library -->
+        <section class="view view-library" id="viewLibrary" hidden>
+          <header class="library-head card">
+            <div class="library-head-top">
+              <div>
+                <p class="eyebrow">Full repo index</p>
+                <h2>Library</h2>
+                <p class="hint">Every curriculum guide, lab exercise, Track B template, slide deck, and requirements doc — generated from the repo on build.</p>
+              </div>
+              <button type="button" class="btn btn-ghost" id="libraryBackHome">← Dashboard</button>
+            </div>
+            <div class="library-controls">
+              <input type="search" id="librarySearch" class="library-search" placeholder="Search path or label…" aria-label="Search files" />
+              <select id="libraryCategory" class="library-select" aria-label="Filter by category"></select>
+            </div>
+            <p class="library-stats hint" id="libraryStats">—</p>
+          </header>
+          <div class="library-body" id="libraryBody"></div>
+        </section>
+
+        <!-- Account / authentication -->
+        <section class="view view-auth" id="viewAuth" hidden>
+          <div class="auth-page">
+            <article class="card auth-page-card">
+              <header class="auth-page-head">
+                <p class="eyebrow">Your account</p>
+                <h2 id="authPageTitle">Sign in</h2>
+                <p class="hint" id="authPageSubtitle">Sync progress across devices with Google.</p>
+              </header>
+
+              <div class="auth-panel" id="authPanelLocal" hidden>
+                <div class="auth-status-pill local">Local only</div>
+                <p>Progress is saved in <strong>this browser</strong> only. No account is configured on this deployment.</p>
+                <ul class="auth-benefits">
+                  <li>Weeks completed, Track B milestones, and notes stay on this device</li>
+                  <li>Clear browser data = progress lost unless you export manually</li>
+                </ul>
+                <p class="hint">To enable Google sign-in, follow the setup guide and redeploy with Firebase secrets.</p>
+                <div class="auth-page-actions">
+                  <a class="btn btn-primary" href="https://github.com/taiphan/learning/blob/main/apps/learning/AUTH-SETUP.md" target="_blank" rel="noopener">Setup guide</a>
+                  <button type="button" class="btn btn-ghost" id="authPageContinueLocal">Continue learning</button>
+                </div>
+              </div>
+
+              <div class="auth-panel" id="authPanelSignIn" hidden>
+                <ul class="auth-benefits">
+                  <li><strong>Sync</strong> — weeks, Track B, and notes on every device</li>
+                  <li><strong>Merge</strong> — local progress unions with cloud on first sign-in</li>
+                  <li><strong>Auto-save</strong> — each change pushes to Firestore after sign-in</li>
+                </ul>
+                <button type="button" class="btn btn-google btn-google-lg" id="authPageSignInBtn">
+                  <span class="google-g" aria-hidden="true">G</span> Sign in with Google
+                </button>
+                <p class="auth-privacy hint">We store learning progress only — no passwords. Firebase secures access per user.</p>
+                <div class="auth-page-actions">
+                  <button type="button" class="btn btn-ghost" id="authPageSkipSignIn">Continue without signing in</button>
+                </div>
+              </div>
+
+              <div class="auth-panel" id="authPanelSignedIn" hidden>
+                <div class="auth-profile">
+                  <img class="auth-profile-photo" id="authPagePhoto" alt="" width="64" height="64" hidden />
+                  <div class="auth-profile-meta">
+                    <strong id="authPageDisplayName">—</strong>
+                    <span class="hint" id="authPageEmail">—</span>
+                  </div>
+                </div>
+                <div class="auth-status-pill synced" id="authPageSyncStatus">Synced</div>
+                <dl class="auth-sync-stats" id="authPageStats">
+                  <div><dt>Weeks done</dt><dd id="authStatWeeks">—</dd></div>
+                  <div><dt>Track B</dt><dd id="authStatTrackB">—</dd></div>
+                  <div><dt>Storage</dt><dd>Browser + Firestore</dd></div>
+                </dl>
+                <div class="auth-page-actions">
+                  <button type="button" class="btn btn-primary" id="authPageContinue">Continue learning</button>
+                  <button type="button" class="btn btn-ghost" id="authPageSignOutBtn">Sign out</button>
+                </div>
+                <p class="hint auth-signout-note">Signing out keeps progress on this device. Cloud copy remains for your account.</p>
+              </div>
+            </article>
+          </div>
         </section>
 
         <!-- Week detail -->
@@ -166,12 +338,12 @@
             <p class="skill-line" id="skillLine">—</p>
           </header>
 
-          <div class="tabs" role="tablist">
-            <button type="button" class="tab active" data-tab="overview" role="tab">Overview</button>
-            <button type="button" class="tab" data-tab="study" role="tab">Study</button>
-            <button type="button" class="tab" data-tab="lab" role="tab">Lab</button>
-            <button type="button" class="tab" data-tab="leadership" role="tab">Leadership</button>
-            <button type="button" class="tab" data-tab="notes" role="tab">Notes</button>
+          <div class="tabs" role="tablist" aria-label="Week sections">
+            <button type="button" class="tab active" data-tab="overview" role="tab" aria-selected="true">Overview</button>
+            <button type="button" class="tab" data-tab="study" role="tab" aria-selected="false">Study</button>
+            <button type="button" class="tab" data-tab="lab" role="tab" aria-selected="false">Lab</button>
+            <button type="button" class="tab" data-tab="leadership" role="tab" aria-selected="false">Leadership</button>
+            <button type="button" class="tab" data-tab="notes" role="tab" aria-selected="false">Notes</button>
           </div>
 
           <div class="tab-panels">
@@ -285,6 +457,29 @@
     </div>
   </div>
 
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+    <button type="button" class="mobile-nav-item" data-mobile-nav="landing" aria-label="Home">
+      <span class="mobile-nav-icon" data-icon="home"></span>
+      <span>Home</span>
+    </button>
+    <button type="button" class="mobile-nav-item" data-mobile-nav="dashboard" aria-label="Dashboard">
+      <span class="mobile-nav-icon" data-icon="dashboard"></span>
+      <span>Dashboard</span>
+    </button>
+    <button type="button" class="mobile-nav-item" data-mobile-nav="explore" aria-label="Explore">
+      <span class="mobile-nav-icon" data-icon="explore"></span>
+      <span>Explore</span>
+    </button>
+    <button type="button" class="mobile-nav-item" data-mobile-nav="learn" aria-label="Continue learning">
+      <span class="mobile-nav-icon" data-icon="learn"></span>
+      <span>Learn</span>
+    </button>
+    <button type="button" class="mobile-nav-item" data-mobile-nav="library" aria-label="Library">
+      <span class="mobile-nav-icon" data-icon="library"></span>
+      <span>Library</span>
+    </button>
+  </nav>
+
   <footer class="app-footer" id="appFooter">
     <span id="versionLine">—</span>
     <a id="versionChangelog" href="https://github.com/taiphan/learning/blob/main/docs/learning-requirements/CHANGELOG.md" target="_blank" rel="noopener">Changelog</a>
@@ -321,9 +516,13 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js" crossorigin="anonymous"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js" crossorigin="anonymous"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js" crossorigin="anonymous"></script>
-  <script src="auth.js"></script>
+  <script src="icons.js"></script>
   <script src="config.js"></script>
+  <script src="auth.js"></script>
   <script src="guide.js"></script>
+  <script src="library.js"></script>
+  <script src="nav.js"></script>
+  <script src="ux.js"></script>
   <script src="app.js"></script>
 </body>
 </html>
