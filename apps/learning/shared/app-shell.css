@@ -1,0 +1,369 @@
+/**
+ * Anthropic-inspired design tokens — Learning + BRD (high contrast).
+ */
+:root {
+  --slate: #141413;
+  --cream: #faf9f5;
+  --ivory: #e8e6dc;
+  --card: #ffffff;
+  --border: #c4beb4;
+  --border-strong: #a39e94;
+
+  /* Body text — always readable on cream/white */
+  --text: #141413;
+  --text-secondary: #2a3544;
+  --muted: #2a3544;
+  --muted-subtle: #3d4a5c;
+
+  /* Accents */
+  --clay: #c9684a;
+  --clay-dark: #a85338;
+  --sky: #4a7fad;
+  --link: #1a5270;
+  --link-hover: #0f3d52;
+  --olive: #4a6332;
+  --olive-soft: #5a7340;
+  --fig: #8a3355;
+  --gold: #6b5410;
+  --gold-soft: #9a7b18;
+
+  --green: var(--olive);
+  --surface: var(--card);
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Dark header (slate topbar) — solid colors, no low-opacity text */
+  --text-on-dark: #faf9f5;
+  --text-on-dark-muted: #e5e1d9;
+  --text-on-dark-subtle: #c8c3ba;
+
+  --font-head: "Poppins", system-ui, sans-serif;
+  --font-body: "Lora", Georgia, serif;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 2px 16px rgba(20, 20, 19, 0.08);
+  --shadow-hover: 0 4px 24px rgba(20, 20, 19, 0.12);
+  --focus-ring: 0 0 0 3px rgba(74, 127, 173, 0.5);
+  --transition: 180ms ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+* { box-sizing: border-box; }
+
+*:focus { outline: none; }
+*:focus-visible {
+  outline: 2px solid var(--sky);
+  outline-offset: 2px;
+  box-shadow: var(--focus-ring);
+}
+
+body {
+  margin: 0;
+  background: var(--cream);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6,
+.btn, label, .eyebrow, .pill, .step-tab {
+  font-family: var(--font-head);
+  color: var(--text);
+}
+
+p, li, dd, dt {
+  color: var(--text);
+}
+
+a {
+  color: var(--link);
+  font-weight: 600;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+a:hover {
+  color: var(--link-hover);
+}
+
+.hint, .muted, .small-muted, .stat-sub, .panel-desc, .subtitle-on-light {
+  color: var(--text-secondary);
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.9em;
+  background: var(--ivory);
+  color: var(--text);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+/* ——— Top bar (Learning homepage + BRD) ——— */
+.topbar {
+  background: var(--slate);
+  color: var(--text-on-dark);
+  padding: 0.75rem 1.25rem 0;
+  border-bottom: 3px solid var(--clay);
+  position: sticky;
+  top: 0;
+  z-index: 80;
+}
+
+.topbar-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex: 1;
+  min-width: 200px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-on-dark);
+}
+
+.tagline, .brand .subtitle {
+  margin: 0.1rem 0 0;
+  font-size: 0.8rem;
+  color: var(--text-on-dark-muted);
+  font-family: var(--font-head);
+  font-weight: 400;
+}
+
+.brand-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: var(--clay);
+  box-shadow: 12px 0 0 var(--sky), 24px 0 0 var(--olive-soft);
+}
+
+.brand-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  padding: 0;
+  flex: 1;
+  min-width: 200px;
+}
+
+.topbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+}
+
+.topbar-subnav {
+  max-width: 1400px;
+  margin: 0.65rem auto 0;
+  display: flex;
+  gap: 0.15rem;
+  overflow-x: auto;
+  padding-bottom: 0;
+}
+
+/* Step tabs (BRD) — same visual language as learning nav */
+.step-tab {
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  color: var(--text-on-dark-subtle);
+  padding: 0.55rem 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+  font-size: 0.78rem;
+  font-weight: 500;
+  font-family: var(--font-head);
+  transition: color var(--transition), border-color var(--transition);
+}
+
+.step-tab:hover { color: var(--text-on-dark); }
+.step-tab.active {
+  color: var(--text-on-dark);
+  border-bottom-color: var(--clay);
+  font-weight: 600;
+}
+.step-tab.done { color: var(--text-on-dark-muted); }
+
+.pill, .progress-pill {
+  display: inline-flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: var(--text-on-dark);
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: var(--font-head);
+}
+
+.pill.pass, .score-badge.pass, .progress-pill.pass {
+  background: var(--olive);
+  border-color: var(--olive);
+  color: var(--text-on-dark);
+}
+
+.pill.fail, .score-badge.fail, .progress-pill.fail {
+  background: var(--clay-dark);
+  border-color: var(--clay-dark);
+  color: var(--text-on-dark);
+}
+
+.pill.risk-low { background: var(--olive); border-color: var(--olive); color: var(--text-on-dark); }
+.pill.risk-medium { background: var(--sky); border-color: var(--sky); color: var(--text-on-dark); }
+.pill.risk-high { background: var(--clay); border-color: var(--clay); color: var(--text-on-dark); }
+.pill.risk-critical { background: #8b2e2e; border-color: #8b2e2e; color: var(--text-on-dark); }
+
+/* ——— Buttons ——— */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  font-family: var(--font-head);
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background var(--transition), border-color var(--transition), color var(--transition);
+}
+
+.btn-primary {
+  background: var(--clay);
+  color: #fff;
+  border-color: var(--clay);
+}
+.btn-primary:hover { background: var(--clay-dark); border-color: var(--clay-dark); }
+
+.btn-ghost {
+  background: var(--card);
+  border-color: var(--border-strong);
+  color: var(--text);
+}
+.btn-ghost:hover {
+  background: var(--cream);
+  border-color: var(--sky);
+  color: var(--text);
+}
+
+.topbar .btn-ghost {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.35);
+  color: var(--text-on-dark);
+}
+.topbar .btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.55);
+  color: var(--text-on-dark);
+}
+
+.btn-sm { padding: 0.35rem 0.65rem; font-size: 0.78rem; }
+.btn-lg { padding: 0.65rem 1.25rem; font-size: 0.95rem; }
+
+.btn-link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: var(--link);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+}
+.btn-link:hover { color: var(--link-hover); }
+
+/* ——— Cards ——— */
+.card {
+  background: var(--card);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+  padding: 1.25rem;
+  color: var(--text);
+}
+
+.card h2, .card h3, .card h4 {
+  color: var(--text);
+}
+
+.card .hint, .card .muted {
+  color: var(--text-secondary);
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.75rem;
+  color: var(--clay-dark);
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+}
+
+/* ——— Footer ——— */
+.app-footer, .footer {
+  text-align: center;
+  padding: 0.85rem 1rem;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  border-top: 1px solid var(--border);
+  background: var(--cream);
+  font-family: var(--font-head);
+}
+
+.app-footer a, .footer a {
+  color: var(--link);
+}
+
+/* ——— Forms (shared) ——— */
+input, select, textarea {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+}
+
+input::placeholder, textarea::placeholder {
+  color: var(--muted-subtle);
+  opacity: 1;
+}
+
+label {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.field label { display: block; margin-bottom: 0.35rem; font-size: 0.85rem; }
+.field .hint { font-size: 0.8rem; margin-top: 0.25rem; color: var(--text-secondary); }

@@ -10,23 +10,23 @@
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <header class="header">
-    <div class="header-inner">
-      <div class="brand">
-        <span class="brand-mark" aria-hidden="true"></span>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a class="brand" href="../#landing">
+        <span class="brand-dot" aria-hidden="true"></span>
         <div>
           <h1>Learning BRD Intake</h1>
-          <p class="subtitle" data-i18n="subtitle">Business Requirements Document — submit for BA review</p>
+          <p class="tagline" data-i18n="subtitle">Business Requirements Document — submit for BA review</p>
         </div>
-      </div>
-      <div class="header-actions">
-        <a class="btn btn-ghost" href="../#landing">← Learning app</a>
-        <button type="button" id="langToggle" class="btn btn-ghost" aria-label="Toggle language">VI / EN</button>
-        <span class="risk-badge" id="riskBadge" title="Auto risk level">—</span>
-        <span class="score-badge" id="scoreBadge" title="Quality preview">—%</span>
+      </a>
+      <div class="topbar-actions">
+        <a class="btn btn-ghost btn-sm" href="../#landing">← Learning app</a>
+        <button type="button" id="langToggle" class="btn btn-ghost btn-sm" aria-label="Toggle language">VI / EN</button>
+        <span class="pill risk-badge" id="riskBadge" title="Auto risk level">—</span>
+        <span class="pill score-badge" id="scoreBadge" title="Quality preview">—%</span>
       </div>
     </div>
-    <nav class="steps" id="stepNav" aria-label="Form steps"></nav>
+    <nav class="topbar-subnav steps" id="stepNav" aria-label="Form steps"></nav>
   </header>
 
   <main class="main">

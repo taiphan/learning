@@ -11,9 +11,9 @@
     "app": "App & setup",
     "brd": "BRD app"
   },
-  "total": 99,
+  "total": 101,
   "counts": {
-    "app": 15,
+    "app": 17,
     "brd": 1,
     "curriculum": 19,
     "decks": 3,
@@ -163,6 +163,28 @@
       "week": null,
       "description": null,
       "url": "https://github.com/taiphan/learning/blob/main/apps/learning/nav.js",
+      "local_url": null
+    },
+    {
+      "path": "apps/learning/shared/anthropic-theme.css",
+      "name": "anthropic-theme.css",
+      "category": "app",
+      "kind": "css",
+      "label": "Anthropic Theme",
+      "week": null,
+      "description": null,
+      "url": "https://github.com/taiphan/learning/blob/main/apps/learning/shared/anthropic-theme.css",
+      "local_url": null
+    },
+    {
+      "path": "apps/learning/shared/app-shell.css",
+      "name": "app-shell.css",
+      "category": "app",
+      "kind": "css",
+      "label": "App Shell",
+      "week": null,
+      "description": null,
+      "url": "https://github.com/taiphan/learning/blob/main/apps/learning/shared/app-shell.css",
       "local_url": null
     },
     {

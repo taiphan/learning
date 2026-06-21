@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 REQUIREMENTS_VERSION = "2.0.0"
-APP_VERSION = "2.6.2"
+APP_VERSION = "2.6.3"
 CURRICULUM_VERSION = "1.3"
 
 DOCS = {
@@ -17,15 +17,16 @@ DOCS = {
 
 CHANGELOG: list[dict] = [
     {
-        "version": "2.6.2",
+        "version": "2.6.3",
         "date": "2026-06-21",
         "requirements": "2.0.0",
-        "app": "2.6.2",
+        "app": "2.6.3",
         "curriculum": "1.3",
         "changes": [
-            "Contrast pass — darker muted text, link colors, topbar legibility",
-            "BRD app restyled to Anthropic palette (matches Learning app)",
-            "Shared apps/shared/anthropic-theme.css for both apps",
+            "Shared app-shell.css — topbar, buttons, cards, forms for Learning + BRD",
+            "Higher contrast text tokens (--text-secondary, darker links, solid topbar text)",
+            "BRD header matches Learning homepage (topbar, brand-dot, step tabs)",
+            "Risk/score badges use theme CSS classes instead of inline colors",
         ],
     },
     {

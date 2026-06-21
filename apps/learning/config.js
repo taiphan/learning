@@ -2,7 +2,7 @@
 
 window.LEARNING_CONFIG = {
   /** Must match curriculum/requirements_manifest.py — run generate_all_learning.py after bump */
-  APP_VERSION: "2.6.2",
+  APP_VERSION: "2.6.3",
   REQUIREMENTS_VERSION: "2.0.0",
   CURRICULUM_VERSION: "1.3",
   MANIFEST_URL: "data/requirements-manifest.json",

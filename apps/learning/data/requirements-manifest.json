@@ -1,6 +1,6 @@
 {
   "requirements_version": "2.0.0",
-  "app_version": "2.6.2",
+  "app_version": "2.6.3",
   "curriculum_version": "1.3",
   "updated": "2026-06-21",
   "docs": {
@@ -15,15 +15,16 @@
   "live_url": "https://taiphan.github.io/learning/",
   "changelog": [
     {
-      "version": "2.6.2",
+      "version": "2.6.3",
       "date": "2026-06-21",
       "requirements": "2.0.0",
-      "app": "2.6.2",
+      "app": "2.6.3",
       "curriculum": "1.3",
       "changes": [
-        "Contrast pass — darker muted text, link colors, topbar legibility",
-        "BRD app restyled to Anthropic palette (matches Learning app)",
-        "Shared apps/shared/anthropic-theme.css for both apps"
+        "Shared app-shell.css \u2014 topbar, buttons, cards, forms for Learning + BRD",
+        "Higher contrast text tokens (--text-secondary, darker links, solid topbar text)",
+        "BRD header matches Learning homepage (topbar, brand-dot, step tabs)",
+        "Risk/score badges use theme CSS classes instead of inline colors"
       ]
     },
     {
@@ -33,7 +34,7 @@
       "app": "2.6.0",
       "curriculum": "1.3",
       "changes": [
-        "Unified Home — landing and dashboard merged with progress stats and section nav",
+        "Unified Home \u2014 landing and dashboard merged with progress stats and section nav",
         "Consistent page-hero layout across Home, Explore, Library, Account",
         "Top nav simplified: Home, Explore, Library, Account (+ mobile Account)",
         "#dashboard and #home redirect to #landing"
@@ -46,7 +47,7 @@
       "app": "2.5.0",
       "curriculum": "1.3",
       "changes": [
-        "UI/UX Pro Max pass — focus rings, skip link, breadcrumbs, loading shell",
+        "UI/UX Pro Max pass \u2014 focus rings, skip link, breadcrumbs, loading shell",
         "SVG nav icons + mobile bottom navigation bar",
         "Micro-interactions, contrast, reduced-motion, no layout-shift hovers"
       ]
@@ -59,8 +60,8 @@
       "curriculum": "1.3",
       "changes": [
         "Landing page at #landing with quick-start cards",
-        "Main menu: Home · Dashboard · Explore · Library · Account · BRD",
-        "Explore view — quarters, career path, videos, decks, library link",
+        "Main menu: Home \u00b7 Dashboard \u00b7 Explore \u00b7 Library \u00b7 Account \u00b7 BRD",
+        "Explore view \u2014 quarters, career path, videos, decks, library link",
         "Dashboard slimmed to progress + Track B summary"
       ]
     },
@@ -71,7 +72,7 @@
       "app": "2.3.0",
       "curriculum": "1.3",
       "changes": [
-        "Dedicated account page at #auth — Google sign-in, profile, sync stats",
+        "Dedicated account page at #auth \u2014 Google sign-in, profile, sync stats",
         "Header Account button replaces inline sign-in controls"
       ]
     },
@@ -82,8 +83,8 @@
       "app": "2.2.0",
       "curriculum": "1.3",
       "changes": [
-        "apps/learning/data/ — JSON manifests in one folder",
-        "Library view — browse all curriculum, lab, deck, and doc files",
+        "apps/learning/data/ \u2014 JSON manifests in one folder",
+        "Library view \u2014 browse all curriculum, lab, deck, and doc files",
         "app-files-manifest.json generated from repo on build"
       ]
     },
@@ -119,9 +120,9 @@
       "app": "1.2.0",
       "curriculum": "1.2",
       "changes": [
-        "Y1 quarters (y1q1–y1q4) replace six technical phases",
-        "Track B H0–H4 on weeks 8, 16, 28, 40, 52",
-        "Career path Y1–Y4 in app home",
+        "Y1 quarters (y1q1\u2013y1q4) replace six technical phases",
+        "Track B H0\u2013H4 on weeks 8, 16, 28, 40, 52",
+        "Career path Y1\u2013Y4 in app home",
         "docs/15-learning-app-usage-requirements.md (superseded by 2.0)"
       ]
     },
@@ -133,7 +134,7 @@
       "curriculum": "1.0",
       "changes": [
         "Initial 52-week learning app + learning_data.py",
-        "Six-phase curriculum (foundation → career)"
+        "Six-phase curriculum (foundation \u2192 career)"
       ]
     }
   ]

@@ -58,6 +58,8 @@ jobs:
 
       - name: Build static site
         run: |
+          mkdir -p apps/learning/shared
+          cp apps/shared/*.css apps/learning/shared/
           mkdir -p _site
           cp -r apps/learning/* _site/
           mkdir -p _site/decks

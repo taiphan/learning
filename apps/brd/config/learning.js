@@ -303,10 +303,10 @@ export const LEARNING = {
   ],
 
   riskLevels: [
-    { id: 'low', label: { en: 'Low', vi: 'Thấp' }, color: '#70ad47' },
-    { id: 'medium', label: { en: 'Medium', vi: 'Trung bình' }, color: '#2e75b6' },
-    { id: 'high', label: { en: 'High', vi: 'Cao' }, color: '#ed7d31' },
-    { id: 'critical', label: { en: 'Critical', vi: 'Rất cao' }, color: '#c00000' },
+    { id: 'low', label: { en: 'Low', vi: 'Thấp' } },
+    { id: 'medium', label: { en: 'Medium', vi: 'Trung bình' } },
+    { id: 'high', label: { en: 'High', vi: 'Cao' } },
+    { id: 'critical', label: { en: 'Critical', vi: 'Rất cao' } },
   ],
 
   rolloutOptions: [

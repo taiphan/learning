@@ -311,8 +311,9 @@ function renderRiskBadge(data) {
   const id = computeRiskLevel(data);
   const meta = LEARNING.riskLevels.find((r) => r.id === id);
   el.textContent = meta ? lbl(meta) : id;
-  el.style.background = meta?.color || 'transparent';
-  el.style.display = data.requestType ? 'inline-block' : 'none';
+  el.className = 'pill risk-badge';
+  if (id) el.classList.add(`risk-${id}`);
+  el.style.display = data.requestType ? 'inline-flex' : 'none';
 }
 
 function updateUI() {
