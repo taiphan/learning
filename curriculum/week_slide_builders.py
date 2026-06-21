@@ -37,6 +37,10 @@ SLIDES_PER_WEEK = 3
 FOOTER = "Learning  ·  learning_data.py  ·  Anthropic theme"
 
 PHASE_TIPS: dict[str, str] = {
+    "y1q1": "Prove you can ship — BRD scorer + SQL/pandas before ML math.",
+    "y1q2": "Portfolio piece 1 — PD model + value case (H1).",
+    "y1q3": "Portfolio piece 2 — RAG + agent + Docker API.",
+    "y1q4": "Apply AI Engineer — CV, STAR, mock interview.",
     "foundation": "Type every example yourself — no copy-paste. Commit when the script runs clean.",
     "ml": "Connect every metric to business language: NPL, false decline, approval rate.",
     "nlp": "Always log which source chunk grounded your answer.",

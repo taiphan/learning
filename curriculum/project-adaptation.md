@@ -180,15 +180,15 @@ Run `week02_loan_rules.py` — same thresholds as `examples/04a-brd-pos-lending.
 
 ## Track B — Head of AI (2h/week alongside 8h technical)
 
-If your long-term target includes **Head of AI / AI Factory lead**, run Track B in parallel:
+Aligned to **Y1 quarters** — leadership milestones land on career gates, not random weeks.
 
-| Week | Checkpoint | Template |
-|------|------------|----------|
-| 8 | AI strategy draft | `curriculum/templates/hoai/week08_ai_strategy.md` |
-| 16 | PD value case | `curriculum/templates/hoai/week16_pd_value_case.md` |
-| 28 | Copilot governance | `curriculum/templates/hoai/week28_copilot_governance.md` |
-| 40 | 90-day plan | `curriculum/templates/hoai/week40_ninety_day_plan.md` |
-| 52 | Steering deck | `curriculum/templates/hoai/week52_steering_deck.md` · VPBank: `vpbank_steering_one_pager.md` |
+| Quarter | Week | Track B | Career gate |
+|---------|------|---------|-------------|
+| Y1 Q1 | 8 | H0 AI strategy | Technologist |
+| Y1 Q2 | 16 | H1 PD value case | ML hire signal |
+| Y1 Q3 | 28 | H2 governance | GenAI production |
+| Y1 Q4 | 40 | H3 90-day plan | Apply prep |
+| Y1 Q4 | 52 | H4 steering deck | Graduate + leadership narrative |
 
 **Guide:** [head-of-ai-track.md](head-of-ai-track.md) · **Demo case:** [ai-factory-demo-case.md](ai-factory-demo-case.md)
 

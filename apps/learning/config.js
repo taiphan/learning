@@ -2,6 +2,11 @@
 
 window.LEARNING_CONFIG = {
   PHASE_COLORS: {
+    y1q1: "var(--clay)",
+    y1q2: "var(--sky)",
+    y1q3: "var(--fig)",
+    y1q4: "var(--olive)",
+    // legacy ids (fallback)
     foundation: "var(--clay)",
     ml: "var(--sky)",
     nlp: "var(--olive)",
@@ -10,6 +15,10 @@ window.LEARNING_CONFIG = {
     career: "var(--olive)",
   },
   PHASE_TIPS: {
+    y1q1: "Prove you can ship — BRD scorer + SQL/pandas before any ML math.",
+    y1q2: "Portfolio piece 1 — PD model + value case (H1) beats tutorial certificates.",
+    y1q3: "Portfolio piece 2 — RAG + agent + Docker API = OCB/NAB interview core.",
+    y1q4: "Apply AI Engineer — CV, STAR, mock interview; Track B deck for leadership loops.",
     foundation: "Type every example yourself — no copy-paste. Commit when the script runs clean.",
     ml: "Connect every metric to business language: NPL, false decline, approval rate.",
     nlp: "Always log which source chunk grounded your answer.",

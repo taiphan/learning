@@ -35,9 +35,11 @@ Mark complete in the **Learning app → Leadership tab** on each milestone week.
 
 ## Career arc (realistic)
 
+**Y1 quarters in the learning app:** Q1 Technologist → Q2 ML signal → Q3 GenAI production → Q4 Apply. Full map: [career-timeline.md](career-timeline.md).
+
 ```mermaid
 flowchart LR
-  Y1[52w dual track<br/>Engineer portfolio + HoAI artifacts]
+  Y1[Y1 · 52w dual track<br/>4 quarters · CP + HoAI artifacts]
   Y2[VN bank AI Engineer<br/>2–3 prod use cases]
   Y3[Tech Lead / AI Product<br/>squad of 3–5]
   Y4[Head of AI Factory<br/>strategy + team + P&L]

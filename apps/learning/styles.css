@@ -436,6 +436,32 @@ textarea {
 .leadership-panel .guide-links { margin: 1rem 0; }
 .leadership-panel .guide-links a { color: var(--gold); }
 
+.career-gate-chip {
+  font-size: 0.75rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: var(--ivory);
+  color: var(--slate);
+  border: 1px solid var(--border);
+  max-width: 14rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.career-path-list { display: flex; flex-direction: column; gap: 0.65rem; }
+.career-year {
+  padding: 0.75rem 1rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  background: var(--surface);
+}
+.career-year.active { border-color: var(--clay); background: rgba(217, 119, 87, 0.06); }
+.career-year-head { font-size: 0.9rem; margin-bottom: 0.25rem; }
+.career-year-role { font-size: 0.85rem; color: var(--muted); margin: 0; }
+.career-year-meta { font-size: 0.8rem; color: var(--muted); margin: 0.35rem 0 0; }
+.phase-gate { font-size: 0.85rem; font-weight: 600; color: var(--slate); margin: 0.25rem 0; }
+.phase-track-b, .phase-apply { display: block; font-size: 0.8rem; color: var(--muted); margin-top: 0.35rem; }
+
 .track-b-pill {
   background: rgba(201, 162, 39, 0.15);
   border: 1px solid rgba(201, 162, 39, 0.45);

@@ -90,7 +90,7 @@ def s_index_quarter(prs, idx, q_label: str, week_range: range):
 
 def s_phase_overview(prs, idx):
     s = _blank(prs)
-    y = _header(s, "Six phases · 52 weeks · 156 slides", kicker=META["data_source"])
+    y = _header(s, "Y1 — Four career quarters · 52 weeks", kicker=META["data_source"])
     for i, p in enumerate(PHASES):
         yy = y + 0.3 + i * 0.72
         acc = phase_color(p["id"])
@@ -98,7 +98,8 @@ def s_phase_overview(prs, idx):
         _rect(s, MSO_SHAPE.RECTANGLE, 0.8, yy, 0.12, 0.62, fill=acc)
         _text(s, 1.05, yy + 0.08, 2.2, 0.45, [(f"Weeks {p['weeks']}", 10, True, acc)])
         _text(s, 3.3, yy + 0.08, 4.5, 0.45, [(p["name"], 11, True, INK)])
-        _text(s, 8.0, yy + 0.08, 4.3, 0.45, [(p["theme"], 9.5, False, GREY)])
+        gate = p.get("career_gate", p.get("theme", ""))
+        _text(s, 8.0, yy + 0.08, 4.3, 0.45, [(gate[:48], 9, False, GREY)])
     _footer(s, idx, FOOTER)
     return s
 

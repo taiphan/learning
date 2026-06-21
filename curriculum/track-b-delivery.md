@@ -1,6 +1,13 @@
 # Track B Delivery Playbook
 
-**What this is:** How to **deliver** each Head of AI milestone (H0–H4) in ~2 hours/week — where files go, what “done” means, and what you ship at Week 52.
+**What this is:** How to **deliver** each Head of AI milestone (H0–H4) in ~2 hours/week — aligned to **Y1 career quarters**. See [career-timeline.md](career-timeline.md).
+
+| Quarter | Track B | Career gate |
+|---------|---------|-------------|
+| Y1 Q1 | H0 @ W8 | Technologist |
+| Y1 Q2 | H1 @ W16 | ML hire signal |
+| Y1 Q3 | H2 @ W28 | GenAI production |
+| Y1 Q4 | H3 @ W40 · H4 @ W52 | Apply AI Engineer |
 
 **Who:** Banking BA · dual track · target AI Engineer (Y1) → Head of AI (Y4–5)  
 **App:** Learning → **Leadership** tab on weeks **8, 16, 28, 40, 52** · checkbox **Track B complete**

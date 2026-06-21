@@ -231,6 +231,7 @@
     updateProgressUI();
     renderHoaiHome();
     renderDeckLinks();
+    renderCareerPath();
   }
 
   function renderHoaiHome() {
@@ -248,6 +249,32 @@
     });
   }
 
+  function renderCareerPath() {
+    const ul = $("#careerPathList");
+    if (!ul || !data.career_path) return;
+    ul.innerHTML = "";
+    data.career_path.forEach((y) => {
+      const el = document.createElement("article");
+      el.className = "career-year" + (y.year === 1 ? " active" : "");
+      const weeks = y.weeks && y.weeks !== "—" ? `Weeks ${y.weeks}` : "On the job";
+      el.innerHTML = `
+        <div class="career-year-head"><strong>Y${y.year}</strong> · ${y.label}</div>
+        <p class="career-year-role">${y.role_target}</p>
+        <p class="career-year-meta">${weeks} · ${y.deliverable || ""}</p>`;
+      if (y.year === 1) {
+        el.addEventListener("click", () => {
+          const q1 = data.phases.find((p) => p.id === "y1q1");
+          if (q1) {
+            const first = data.weeks.find((w) => w.phase === q1.id);
+            if (first) showWeek(first.week);
+          }
+        });
+        el.style.cursor = "pointer";
+      }
+      ul.appendChild(el);
+    });
+  }
+
   function renderPhaseGrid() {
     const grid = $("#phaseGrid");
     grid.innerHTML = "";
@@ -255,7 +282,12 @@
       const el = document.createElement("article");
       el.className = "phase-card";
       el.style.borderLeftColor = cfg.PHASE_COLORS[p.id] || "var(--clay)";
-      el.innerHTML = `<h4>${p.name}</h4><p>Weeks ${p.weeks} · ${p.theme}</p>`;
+      const tb = p.track_b ? `<span class="phase-track-b">${p.track_b}</span>` : "";
+      const apply = p.apply_target ? `<span class="phase-apply">Apply: ${p.apply_target}</span>` : "";
+      el.innerHTML = `<h4>${p.name}</h4>
+        <p class="phase-gate">${p.career_gate || ""}</p>
+        <p>Weeks ${p.weeks} · M${p.months || ""} · ${p.theme}</p>
+        ${tb}${apply}`;
       el.addEventListener("click", () => {
         const first = data.weeks.find((w) => w.phase === p.id);
         if (first) showWeek(first.week);
@@ -365,7 +397,14 @@
     $("#weekBadge").textContent = `W${String(n).padStart(2, "0")}`;
     $("#phaseChip").textContent = phase.name;
     $("#phaseChip").style.background = cfg.PHASE_COLORS[w.phase] || "var(--ivory)";
-    $("#monthChip").textContent = `Month ${w.month}`;
+    $("#monthChip").textContent = `Month ${w.month} · Y1 Q${w.career_quarter || phase.career_quarter || "?"}`;
+    const cg = $("#careerGateChip");
+    if (cg && (w.career_gate || phase.career_gate)) {
+      cg.hidden = false;
+      cg.textContent = w.career_gate || phase.career_gate;
+    } else if (cg) {
+      cg.hidden = true;
+    }
     $("#weekTitle").textContent = w.title;
     $("#skillLine").textContent = `Skill ${skill.id}: ${skill.name}`;
 

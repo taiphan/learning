@@ -17,51 +17,35 @@ Use **learning** repo as dual base: (1) Finance BRD domain credibility, (2) **cu
 
 ## Done
 
-- Single learning data source: `learning_data.py` → `learning-data.json`
-- **All 52 weeks** — runnable code via `generate_all_weeks.py`
-- Shared libs: `lab/lib/` (brd_utils, loan_utils, rag_simple)
-- **Learning-Master-Slides.pptx** — 165 slides (Track B on ◆ weeks + H0–H4 slide)
-- **Learning-Track-B-Slides.pptx** — 9 slides (VPBank HoAI steering variant)
-- **Zero-to-AI-Expert-Roadmap-Slides.pptx** — dual-track + Track B milestone slide
-- Repo **lean** cleanup: `archive/`; 3 learning PPTX in `exports/learning/`
-- **Track B:** app Leadership tab, H0–H4 templates, VPBank JD §F.4, `vpbank_steering_one_pager.md`
-- **App polish:** deck downloads (`apps/learning/decks/`), Track B pill `B 0/5`, Pages deploy `/decks/`
+- **Career-aligned Y1 quarters:** `y1q1`–`y1q4` replace 6 technical phases · [career-timeline.md](curriculum/career-timeline.md)
+- **CAREER_PATH** Y1–Y4 in `learning_data.py` · app shows career path + quarter gates
+- Track B delivery playbook + `lab/delivery/track-b/`
+- Learning app: Leadership tab, decks, B 0/5 pill, VPBank §F.4
+- Slides: Master + Roadmap (quarter-based) + Track B PPTX
 
 ## In progress
 
-- User learning Skill 1 (Python) — start week 1 exercises
+- User learning Skill 1 (Python) — **Y1 Q1** Week 1
 - **Blockers:** none
 
 ## Next
 
 1. Week 1 loop: learning app → BRD export → `week01_brd_checklist.py`
-2. Mark weeks complete in learning app as you finish labs
-3. At week 8: complete Track B H0 (AI strategy template) alongside CP1
+2. Y1 Q1 gate (W12): technologist — CP0 W4 · CP1+H0 W8
+3. Y1 Q4 gate (W52): apply AI Engineer — not Head of AI
 
 ## Decisions
 
-- Corporate Finance materials stay as-is; personal coding in `lab/` + external repos
-- BRD app scoring aligned with `docs/05-brd-quality-checklist.md`
-- Head of AI Factory (VPBank) = Year 4–5 stretch; apply AI Engineer first
-- SESSION resume = Read this file, not CodeGraph
-
-## Gotchas
-
-- BRD app is static (no backend); drafts in browser localStorage only
-- Slide decks: regenerate then `apps/learning/decks/` syncs on `generate_all_learning.py`
-- GitHub Pages serves decks at `/decks/*.pptx`
+- Phases = **career quarters** (not foundation/ml/nlp silos); technical skills unchanged
+- Y2–Y4 = on-the-job; not in weekly curriculum
+- Head of AI Factory = Y4 stretch; Track B = leadership narrative from Y1
 
 ## Pointers
 
 | Item | Location |
 |------|----------|
-| Project map | `.agent/PROJECT.md` |
-| Adaptation guide | `curriculum/project-adaptation.md` |
-| Track B guide | `curriculum/head-of-ai-track.md` |
-| HoAI templates | `curriculum/templates/hoai/` |
-| VPBank JD map | `curriculum/job-skills-adaptation.md` §F.4 |
-| Portfolio checklist | `lab/projects/PORTFOLIO.md` |
-| Workbook | `curriculum/ai-skills-workbook.md` |
-| BRD app | `apps/brd/` |
-| Exercises | `lab/exercises/` |
+| Career timeline | `curriculum/career-timeline.md` |
+| Track B delivery | `curriculum/track-b-delivery.md` |
+| Track B outputs | `lab/delivery/track-b/` |
+| Learning app | `apps/learning/` |
 | Branch | `main` |

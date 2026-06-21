@@ -3,32 +3,119 @@
 from __future__ import annotations
 
 # Phase ids → anthropic_theme color keys (resolved in learning_loader)
+# Y1 quarters align with career arc; post-Y1 path in CAREER_PATH
 PHASES = [
-    {"id": "foundation", "name": "Foundation", "color": "CLAY", "weeks": "1–8", "theme": "Python · Git · SQL · pandas"},
-    {"id": "ml", "name": "Classical ML", "color": "SKY", "weeks": "9–20", "theme": "EDA · sklearn · SHAP"},
-    {"id": "nlp", "name": "NLP & Docs", "color": "OLIVE", "weeks": "21–24", "theme": "Embeddings · chunking · classify"},
-    {"id": "genai", "name": "GenAI & Agents", "color": "FIG", "weeks": "25–32", "theme": "RAG · LangGraph · eval"},
-    {"id": "production", "name": "Production", "color": "CACTUS", "weeks": "33–40", "theme": "FastAPI · Docker · CI"},
-    {"id": "career", "name": "Career", "color": "OLIVE", "weeks": "41–52", "theme": "Portfolio · apply · interview"},
+    {
+        "id": "y1q1",
+        "name": "Y1 Q1 — Technologist",
+        "color": "CLAY",
+        "weeks": "1–12",
+        "months": "1–3",
+        "theme": "Python · Git · SQL · pandas · ML start",
+        "career_year": 1,
+        "career_quarter": 1,
+        "career_gate": "Ship code + BRD bridge",
+        "apply_target": None,
+        "track_b": "H0 @ W8",
+    },
+    {
+        "id": "y1q2",
+        "name": "Y1 Q2 — ML hire signal",
+        "color": "SKY",
+        "weeks": "13–24",
+        "months": "4–6",
+        "theme": "PD model · metrics · SHAP · NLP · RAG start",
+        "career_year": 1,
+        "career_quarter": 2,
+        "career_gate": "Portfolio piece 1 (classical ML)",
+        "apply_target": None,
+        "track_b": "H1 @ W16",
+    },
+    {
+        "id": "y1q3",
+        "name": "Y1 Q3 — GenAI production",
+        "color": "FIG",
+        "weeks": "25–36",
+        "months": "7–9",
+        "theme": "RAG · agents · FastAPI · Docker · CI",
+        "career_year": 1,
+        "career_quarter": 3,
+        "career_gate": "Portfolio piece 2 (GenAI + API)",
+        "apply_target": None,
+        "track_b": "H2 @ W28",
+    },
+    {
+        "id": "y1q4",
+        "name": "Y1 Q4 — Apply",
+        "color": "OLIVE",
+        "weeks": "37–52",
+        "months": "10–12",
+        "theme": "Production gate · use case 2 · CV · interview",
+        "career_year": 1,
+        "career_quarter": 4,
+        "career_gate": "Apply AI Engineer (VN banks)",
+        "apply_target": "OCB · NAB · VPBank AI Engineer / Senior BA",
+        "track_b": "H3 @ W40 · H4 @ W52",
+    },
 ]
 
+# Post–Year-1 career arc (study path ends at Y1 Q4; Y2–Y4 = on-the-job)
+CAREER_PATH = [
+    {
+        "year": 1,
+        "label": "Dual track (this repo)",
+        "weeks": "1–52",
+        "hours_per_week": 10,
+        "role_target": "Graduate → apply AI Engineer",
+        "deliverable": "2 portfolio repos + Track B H0–H4 + CP0–CP6",
+        "quarters": ["y1q1", "y1q2", "y1q3", "y1q4"],
+    },
+    {
+        "year": 2,
+        "label": "AI Engineer",
+        "weeks": "—",
+        "hours_per_week": "40 (job)",
+        "role_target": "OCB / NAB / VPBank AI Engineer",
+        "deliverable": "2–3 production use cases with measured KPI",
+        "quarters": [],
+    },
+    {
+        "year": 3,
+        "label": "Tech Lead / AI Product",
+        "weeks": "—",
+        "role_target": "Lead squad of 3–5",
+        "deliverable": "Roadmap + hiring loop + stakeholder mgmt",
+        "quarters": [],
+    },
+    {
+        "year": 4,
+        "label": "Head of AI Factory",
+        "weeks": "—",
+        "role_target": "Strategy + team + P&L",
+        "deliverable": "Factory operating model · subsidiary rollout",
+        "quarters": [],
+    },
+]
+
+PHASE_CAREER = {p["id"]: p for p in PHASES}
+
 CHECKPOINTS = [
-    {"id": "CP0", "after_week": 4, "label": "Write 50-line script without googling every line"},
-    {"id": "CP1", "after_week": 8, "label": "SQL JOIN + pandas groupby without tutorial"},
-    {"id": "CP2", "after_week": 16, "label": "Train model, report AUC, explain one prediction"},
-    {"id": "CP3", "after_week": 24, "label": "RAG cites source chunk in answer"},
-    {"id": "CP4", "after_week": 32, "label": "LangGraph agent + 30-question eval ≥85%"},
-    {"id": "CP5", "after_week": 40, "label": "Friend runs your Docker API on their laptop"},
-    {"id": "CP6", "after_week": 48, "label": "30-min interview: business metric + tech stack"},
+    {"id": "CP0", "after_week": 4, "label": "Write 50-line script without googling every line", "career_quarter": "y1q1"},
+    {"id": "CP1", "after_week": 8, "label": "SQL JOIN + pandas groupby without tutorial", "career_quarter": "y1q1"},
+    {"id": "CP2", "after_week": 16, "label": "Train model, report AUC, explain one prediction", "career_quarter": "y1q2"},
+    {"id": "CP3", "after_week": 24, "label": "RAG cites source chunk in answer", "career_quarter": "y1q2"},
+    {"id": "CP4", "after_week": 32, "label": "LangGraph agent + 30-question eval ≥85%", "career_quarter": "y1q3"},
+    {"id": "CP5", "after_week": 40, "label": "Friend runs your Docker API on their laptop", "career_quarter": "y1q4"},
+    {"id": "CP6", "after_week": 48, "label": "30-min interview: business metric + tech stack", "career_quarter": "y1q4"},
 ]
 
 # Track B — Head of AI Factory (2 hrs/week alongside technical track)
 TRACK_B_CHECKPOINTS = [
-    {"id": "H0", "after_week": 8, "label": "AI strategy on one page (5 pillars)"},
-    {"id": "H1", "after_week": 16, "label": "PD model value case with VND/bps metric"},
-    {"id": "H2", "after_week": 28, "label": "Policy copilot G1/G2/G3 governance checklist"},
-    {"id": "H3", "after_week": 40, "label": "90-day AI Factory pilot plan"},
-    {"id": "H4", "after_week": 52, "label": "5-slide steering deck + portfolio narrative"},
+    {"id": "H0", "after_week": 8, "label": "AI strategy on one page (5 pillars)", "career_quarter": "y1q1"},
+    {"id": "H1", "after_week": 16, "label": "PD model value case with VND/bps metric", "career_quarter": "y1q2"},
+    {"id": "H2", "after_week": 28, "label": "Policy copilot G1/G2/G3 governance checklist", "career_quarter": "y1q3"},
+    {"id": "H3", "after_week": 40, "label": "90-day AI Factory pilot plan", "career_quarter": "y1q4"},
+    {"id": "H4", "after_week": 52, "label": "5-slide steering deck + portfolio narrative", "career_quarter": "y1q4"},
 ]
 
 TRACK_B_WEEKS = [8, 16, 28, 40, 52]
@@ -235,6 +322,9 @@ def _build_weeks() -> list[dict]:
                 "phase": phase,
                 "skill_id": skill_id,
                 "month": (n - 1) // 4 + 1,
+                "career_year": PHASE_CAREER[phase]["career_year"],
+                "career_quarter": PHASE_CAREER[phase]["career_quarter"],
+                "career_gate": PHASE_CAREER[phase]["career_gate"],
                 "study": study,
                 "exercise": exercise,
                 "run": run,
@@ -247,45 +337,45 @@ def _build_weeks() -> list[dict]:
         items.append(record)
 
     # Month 1 — Python
-    add(1, "Python syntax — BRD audit", "foundation", 1,
+    add(1, "Python syntax — BRD audit", "y1q1", 1,
         "Python.org §1–4; Kaggle Python L1–3",
         "lab/exercises/week01_brd_checklist.py",
         "python3 week01_brd_checklist.py --app-sample",
         "Lists missing BRD sections",
         [("Python tutorial", "https://docs.python.org/3/tutorial/")])
-    add(2, "Functions & CSV loan rules", "foundation", 1,
+    add(2, "Functions & CSV loan rules", "y1q1", 1,
         "§5–6; read docs/01-brd-template-en.md",
         "lab/exercises/week02_loan_rules.py",
         "python3 week02_loan_rules.py",
         "10 loans pass/fail correctly")
-    add(3, "Dicts & weighted BRD score", "foundation", 1,
+    add(3, "Dicts & weighted BRD score", "y1q1", 1,
         "Lists, dicts, JSON; docs/05 quality rubric",
         "lab/exercises/week03_brd_weighted_score.py",
         "python3 week03_brd_weighted_score.py",
         "Weighted score % printed")
-    add(4, "OOP scorecard + Git", "foundation", 2,
+    add(4, "OOP scorecard + Git", "y1q1", 2,
         "Classes basics; Git commit/push",
         "lab/exercises/week04_brd_scorecard.py",
         "python3 week04_brd_scorecard.py",
         "BRDScorecard class + GitHub repo", checkpoint="CP0")
 
     # Month 2 — SQL + pandas
-    add(5, "SQL aggregates & filters", "foundation", 3,
+    add(5, "SQL aggregates & filters", "y1q1", 3,
         "SQLBolt 1–6",
         "lab/sql/week05_queries.sql",
         "sqlite3 loans.db < sql/week05_queries.sql",
         "5 queries documented")
-    add(6, "SQL JOINs", "foundation", 3,
+    add(6, "SQL JOINs", "y1q1", 3,
         "SQLBolt 7–12",
         "lab/sql/week06_join.sql",
         "Run join on customers + applications",
         "Join returns correct rows")
-    add(7, "SQL windows & trends", "foundation", 3,
+    add(7, "SQL windows & trends", "y1q1", 3,
         "SQLBolt 13–18",
         "lab/sql/week07_window.sql",
         "Monthly disbursement trend query",
         "Window function KPI")
-    add(8, "pandas KPIs", "foundation", 4,
+    add(8, "pandas KPIs", "y1q1", 4,
         "Kaggle Pandas L1–4",
         "lab/notebooks/01_lending_kpis.ipynb",
         "jupyter notebook 01_lending_kpis.ipynb",
@@ -301,42 +391,42 @@ def _build_weeks() -> list[dict]:
         })
 
     # Months 3–4 — ML
-    add(9, "Load credit dataset", "ml", 5,
+    add(9, "Load credit dataset", "y1q1", 5,
         "Kaggle Give Me Some Credit description",
         "lab/notebooks/02_eda_credit.ipynb",
         "Start EDA notebook",
         "Dataset loaded; shape printed")
-    add(10, "EDA histograms & missing", "ml", 5,
+    add(10, "EDA histograms & missing", "y1q1", 5,
         "StatQuest stats fundamentals (3 videos)",
         "lab/notebooks/02_eda_credit.ipynb",
         "Complete missing-value analysis",
         "2 charts with captions")
-    add(11, "Business insights write-up", "ml", 5,
+    add(11, "Business insights write-up", "y1q1", 5,
         "StatQuest ML intro",
         "lab/notebooks/02_eda_credit.ipynb",
         "Write 3 insights in BRD language",
         "insights.md in notebook")
-    add(12, "Train/test split — no leakage", "ml", 6,
+    add(12, "Train/test split — no leakage", "y1q1", 6,
         "Kaggle Intro ML L1–3",
         "lab/exercises/week12_train_test.py",
         "python3 week12_train_test.py",
         "Time-based split documented")
-    add(13, "Logistic regression baseline", "ml", 6,
+    add(13, "Logistic regression baseline", "y1q2", 6,
         "Kaggle Intro ML L4–7",
         "lab/projects/credit-pd-model/train.py",
         "python3 projects/credit-pd-model/train.py",
         "Baseline AUC printed")
-    add(14, "Random Forest tune", "ml", 6,
+    add(14, "Random Forest tune", "y1q2", 6,
         "Kaggle Intermediate ML",
         "lab/projects/credit-pd-model/train.py",
         "Beat baseline AUC",
         "Comparison table in README")
-    add(15, "XGBoost + imbalance", "ml", 6,
+    add(15, "XGBoost + imbalance", "y1q2", 6,
         "XGBoost docs; class_weight",
         "lab/projects/credit-pd-model/train.py",
         "class_weight or scale_pos_weight",
         "README business metric")
-    add(16, "Model README + metric", "ml", 6,
+    add(16, "Model README + metric", "y1q2", 6,
         "Géron Ch 3 metrics",
         "lab/projects/credit-pd-model/README.md",
         "Document AUC + decision use",
@@ -350,66 +440,66 @@ def _build_weeks() -> list[dict]:
             "deliverable": "1-page value case linked to model README",
             "hoai_checkpoint": "H1",
         })
-    add(17, "ROC & threshold", "ml", 7,
+    add(17, "ROC & threshold", "y1q2", 7,
         "sklearn metrics; StatQuest ROC",
         "lab/exercises/week17_metrics.py",
         "python3 week17_metrics.py",
         "ROC plot saved")
-    add(18, "Precision/recall trade-off", "ml", 7,
+    add(18, "Precision/recall trade-off", "y1q2", 7,
         "StatQuest precision-recall",
         "lab/exercises/week17_metrics.py",
         "Threshold for 90% approval rate",
         "Table in README")
-    add(19, "Calibration intuition", "ml", 7,
+    add(19, "Calibration intuition", "y1q2", 7,
         "Géron calibration concept",
         "lab/exercises/week17_metrics.py",
         "Reliability sketch",
         "1 paragraph for BA audience")
-    add(20, "SHAP explainability", "ml", 7,
+    add(20, "SHAP explainability", "y1q2", 7,
         "SHAP intro notebook",
         "lab/exercises/week20_shap.py",
         "python3 week20_shap.py",
         "decline_story.md + plot")
 
     # Months 5–6 — NLP
-    add(21, "Sentence embeddings", "nlp", 8,
+    add(21, "Sentence embeddings", "y1q2", 8,
         "HF NLP Ch 1–2",
         "lab/exercises/week21_embed.py",
         "python3 week21_embed.py",
         "Top-3 similar policy lines")
-    add(22, "Chunk policy text", "nlp", 8,
+    add(22, "Chunk policy text", "y1q2", 8,
         "HF NLP Ch 3",
         "lab/data/sample_policy.txt",
         "Chunk into 500-token pieces",
         "chunk manifest JSON")
-    add(23, "Cosine similarity search", "nlp", 8,
+    add(23, "Cosine similarity search", "y1q2", 8,
         "LangChain embedding docs",
         "lab/exercises/week21_embed.py",
         "Query latency measured",
         "Sub-200ms local benchmark")
-    add(24, "Document classifier", "nlp", 8,
+    add(24, "Document classifier", "y1q2", 8,
         "Text classification sklearn",
         "lab/exercises/week24_doc_classifier.py",
         "python3 week24_doc_classifier.py",
         "80%+ on tiny test set", checkpoint="CP3")
 
     # Months 7–8 — GenAI
-    add(25, "LangChain RAG quickstart", "genai", 9,
+    add(25, "LangChain RAG quickstart", "y1q3", 9,
         "DL.AI LangChain short course",
         "lab/exercises/week25_rag_cli.py",
         "python3 week25_rag_cli.py",
         "One Q&A with source cite")
-    add(26, "Chroma vector store", "genai", 9,
+    add(26, "Chroma vector store", "y1q3", 9,
         "ChromaDB docs",
         "lab/exercises/week25_rag_cli.py",
         "Persist index to ./chroma_db",
         "Reload index works")
-    add(27, "PDF / markdown loader", "genai", 9,
+    add(27, "PDF / markdown loader", "y1q3", 9,
         "LangChain document loaders",
         "lab/projects/policy-rag/",
         "Index examples/04a-brd-pos-lending.md",
         "CLI over repo BRD")
-    add(28, "Refusal without context", "genai", 9,
+    add(28, "Refusal without context", "y1q3", 9,
         "RAG eval patterns",
         "lab/projects/policy-rag/",
         "Return escalate if no chunk",
@@ -423,64 +513,64 @@ def _build_weeks() -> list[dict]:
             "deliverable": "Governance checklist with named owners",
             "hoai_checkpoint": "H2",
         })
-    add(29, "LLM structured JSON", "genai", 10,
+    add(29, "LLM structured JSON", "y1q3", 10,
         "Anthropic API docs",
         "lab/exercises/week29_structured_llm.py",
         "Extract policy fields to JSON",
         "Valid schema output")
-    add(30, "LangGraph intro", "genai", 10,
+    add(30, "LangGraph intro", "y1q3", 10,
         "DL.AI LangGraph course",
         "lab/exercises/week30_langgraph.py",
         "python3 week30_langgraph.py",
         "State diagram in README")
-    add(31, "Agent tools", "genai", 10,
+    add(31, "Agent tools", "y1q3", 10,
         "LangGraph tool calling",
         "lab/projects/policy-copilot-agent/",
         "3 tools: lookup, calc, escalate",
         "Multi-step trace logged")
-    add(32, "Eval harness ≥85%", "genai", 10,
+    add(32, "Eval harness ≥85%", "y1q3", 10,
         "ragas; data/eval_questions.json",
         "lab/data/eval_questions.json",
         "python3 week32_run_eval.py",
         "Automated eval report", checkpoint="CP4")
 
     # Months 9–10 — Production
-    add(33, "FastAPI /ask endpoint", "production", 11,
+    add(33, "FastAPI /ask endpoint", "y1q3", 11,
         "FastAPI tutorial §1–5",
         "lab/projects/week33_fastapi/main.py",
         "uvicorn main:app --reload",
         "curl POST /ask works")
-    add(34, "Pydantic validation", "production", 11,
+    add(34, "Pydantic validation", "y1q3", 11,
         "FastAPI body models",
         "lab/projects/week33_fastapi/main.py",
         "pytest test_health.py",
         "Invalid input rejected")
-    add(35, "Dockerfile", "production", 11,
+    add(35, "Dockerfile", "y1q3", 11,
         "Docker get-started",
         "lab/projects/week35_docker/Dockerfile",
         "docker build -t copilot .",
         "Image builds")
-    add(36, "docker compose up", "production", 11,
+    add(36, "docker compose up", "y1q3", 11,
         "docker-compose reference",
         "lab/projects/week35_docker/docker-compose.yml",
         "docker compose up",
         "Healthcheck passes")
-    add(37, "PII guardrails", "production", 12,
+    add(37, "PII guardrails", "y1q4", 12,
         "governance-mlops.md",
         "lab/exercises/week37_guardrails.py",
         "python3 week37_guardrails.py",
         "Redacted audit.log")
-    add(38, "Model card", "production", 12,
+    add(38, "Model card", "y1q4", 12,
         "Responsible AI template",
         "lab/projects/model_card.md",
         "Fill purpose, limits, risks",
         "3 governance gates documented")
-    add(39, "GitHub Actions CI", "production", 12,
+    add(39, "GitHub Actions CI", "y1q4", 12,
         "GitHub Actions Python",
         "lab/projects/week39_ci/.github/workflows/ci.yml",
         "Push triggers pytest + eval",
         "CI badge green")
-    add(40, "Eval gate in CI", "production", 12,
+    add(40, "Eval gate in CI", "y1q4", 12,
         "Harness engineering",
         "lab/projects/week39_ci/",
         "Fail if grounded < 85%",
@@ -496,62 +586,62 @@ def _build_weeks() -> list[dict]:
         })
 
     # Months 11–12 — Career
-    add(41, "Second use case BRD", "career", 13,
+    add(41, "Second use case BRD", "y1q4", 13,
         "examples/04a; job-skills-adaptation.md",
         "lab/exercises/week41_value_case.md",
         "Fill value case template",
         "1-page quantified metric")
-    add(42, "AML triage OR doc OCR story", "career", 13,
+    add(42, "AML triage OR doc OCR story", "y1q4", 13,
         "job-skills-adaptation.md",
         "lab/projects/use-case-2/README.md",
         "Pick and scope use case",
         "STAR outline draft")
-    add(43, "Portfolio README", "career", 13,
+    add(43, "Portfolio README", "y1q4", 13,
         "GitHub portfolio patterns",
         "lab/projects/PORTFOLIO.md",
         "Link all repos + metrics",
         "Single index page")
-    add(44, "Architecture diagram", "career", 13,
+    add(44, "Architecture diagram", "y1q4", 13,
         "Mermaid / draw.io",
         "lab/projects/PORTFOLIO.md",
         "Copilot architecture diagram",
         "Diagram in README")
-    add(45, "CV update", "career", 14,
+    add(45, "CV update", "y1q4", 14,
         "cv-templates.md",
         "curriculum/cv-templates.md",
         "Fill real project metrics",
         "CV draft v1")
-    add(46, "Apply OCB / NAB / VPBank", "career", 14,
+    add(46, "Apply OCB / NAB / VPBank", "y1q4", 14,
         "job-skills-adaptation.md",
         "curriculum/job-skills-adaptation.md",
         "Submit 3 applications",
         "Application tracker")
-    add(47, "STAR stories ×5", "career", 14,
+    add(47, "STAR stories ×5", "y1q4", 14,
         "cv-templates.md §3",
         "lab/exercises/week47_star_stories.md",
         "Write 5 STAR stories",
         "Stories reviewed aloud")
-    add(48, "Mock interview", "career", 14,
+    add(48, "Mock interview", "y1q4", 14,
         "job-skills-adaptation.md",
         "lab/exercises/week47_star_stories.md",
         "45-min mock with peer",
         "Feedback notes", checkpoint="CP6")
-    add(49, "Demo video 5 min", "career", 14,
+    add(49, "Demo video 5 min", "y1q4", 14,
         "Record Loom / OBS",
         "lab/projects/PORTFOLIO.md",
         "English demo of copilot",
         "Video link in README")
-    add(50, "Anthropic stretch research", "career", 14,
+    add(50, "Anthropic stretch research", "y1q4", 14,
         "anthropic-career-adaptation.md",
         "curriculum/anthropic-career-adaptation.md",
         "Map skills to Claude roles",
         "Gap list")
-    add(51, "Review weak weeks", "career", 14,
+    add(51, "Review weak weeks", "y1q4", 14,
         "Re-run failed checkpoints",
         "learning-data.json + workbook",
         "Fix lowest eval score week",
         "All CP0–CP6 passed")
-    add(52, "Graduation checklist", "career", 14,
+    add(52, "Graduation checklist", "y1q4", 14,
         "ai-skills-workbook.md",
         "lab/WEEKS.md",
         "Verify 2 repos + CV + apply",
@@ -573,7 +663,8 @@ def _build_weeks() -> list[dict]:
 WEEKS = _build_weeks()
 
 META = {
-    "version": "1.1",
+    "version": "1.2",
+    "career_timeline": "curriculum/career-timeline.md",
     "hours_per_week": 10,
     "hours_track_a": 8,
     "hours_track_b": 2,

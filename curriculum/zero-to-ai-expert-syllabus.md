@@ -4,6 +4,8 @@
 **Target:** Hire-ready **AI Engineer / applied AI expert** in banking (OCB, NAB, VPBank, Techcombank track).  
 **Honest horizon:** **12 months** focused study → job-ready portfolio · **2–3 years** production work → industry “expert.”
 
+**Career-aligned quarters (Y1):** [career-timeline.md](career-timeline.md) — learning app phases = Y1 Q1–Q4, not generic “ML/NLP/GenAI” silos.
+
 **Companion deck:** `exports/Zero-to-AI-Expert-Roadmap-Slides.pptx` (generate below).
 
 **Hands-on lab:** [learning-lab-guide.md](learning-lab-guide.md) — materials, exercises, how to learn · start at [lab/exercises/week01_brd_checklist.py](lab/exercises/week01_brd_checklist.py)
