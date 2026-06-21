@@ -68,8 +68,10 @@
     const tb = w?.track_b;
     if (!tb) return;
     const links = [
+      ["Delivery playbook", repoPathUrl("curriculum/track-b-delivery.md")],
       ["Track B guide", repoPathUrl("curriculum/head-of-ai-track.md")],
       ["Template (GitHub)", repoPathUrl(tb.template.replace(/^curriculum\//, "curriculum/"))],
+      ["Save to", repoPathUrl("lab/delivery/track-b/README.md")],
       ["Track B slides (PPTX)", deckUrl("Learning-Track-B-Slides.pptx")],
     ];
     if (w.week === 52) {

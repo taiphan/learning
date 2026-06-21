@@ -66,3 +66,4 @@
 - [ ] All three phases have dated outputs
 - [ ] Quick wins map to **your GitHub portfolio**
 - [ ] 1-page summary ready for mock exec readout
+- [ ] Saved as `lab/delivery/track-b/h3-ninety-day-plan.md`

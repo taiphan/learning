@@ -2,7 +2,8 @@
 
 **Profile:** Banking BA/domain expert · learning Python · target **Head of AI Factory** (3–5 year horizon)  
 **Time:** **2 hours/week** alongside **8 hours** technical track (52 weeks)  
-**Technical track:** AI Engineer first → Lead → Head of AI
+**Technical track:** AI Engineer first → Lead → Head of AI  
+**Delivery playbook:** [track-b-delivery.md](track-b-delivery.md) · outputs → `lab/delivery/track-b/`
 
 ---
 
@@ -28,7 +29,7 @@ Your unfair advantage: **BRD + compliance + banking KPI language** — Track B m
 | **H3** | 40 | 90-day AI Factory plan | [week40_ninety_day_plan.md](templates/hoai/week40_ninety_day_plan.md) |
 | **H4** | 52 | 5-slide steering deck | [week52_steering_deck.md](templates/hoai/week52_steering_deck.md) · VPBank variant: [vpbank_steering_one_pager.md](templates/hoai/vpbank_steering_one_pager.md) |
 
-Mark complete in the **Learning app → Leadership tab** on each milestone week.
+Mark complete in the **Learning app → Leadership tab** on each milestone week. Save filled docs to **`lab/delivery/track-b/`** ([delivery playbook](track-b-delivery.md)).
 
 ---
 

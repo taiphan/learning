@@ -13,6 +13,8 @@
       52
     ],
     "track_b_guide": "curriculum/head-of-ai-track.md",
+    "track_b_delivery": "curriculum/track-b-delivery.md",
+    "track_b_output_dir": "lab/delivery/track-b/",
     "track_b_demo_case": "curriculum/ai-factory-demo-case.md",
     "data_source": "curriculum/learning_data.py",
     "workbook": "curriculum/ai-skills-workbook.md",

@@ -55,3 +55,4 @@
 - [ ] Linked from model README
 - [ ] At least one **VND or bps** number with source assumption
 - [ ] Reviewed aloud in 2 minutes (pretend steering committee)
+- [ ] Saved as `lab/delivery/track-b/h1-pd-value-case.md`

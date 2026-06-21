@@ -55,4 +55,4 @@ List 5 steps from intake → production → monitor:
 - [ ] One page (max 500 words) or single slide
 - [ ] Every pillar has a measurable outcome
 - [ ] At least one use case ties to **your lab portfolio**
-- [ ] Saved in `lab/projects/PORTFOLIO.md` or personal notes repo
+- [ ] Saved as `lab/delivery/track-b/h0-ai-strategy.md` (see [track-b-delivery.md](../../track-b-delivery.md))

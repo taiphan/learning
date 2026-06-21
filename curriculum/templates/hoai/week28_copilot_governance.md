@@ -58,4 +58,4 @@ When confidence &lt; ___ or no source chunk → **human escalation** (not silent
 
 - [ ] All G1 rows filled
 - [ ] G2 linked to your eval % from lab
-- [ ] Saved beside `projects/policy-rag/README.md`
+- [ ] Saved as `lab/delivery/track-b/h2-copilot-governance.md`

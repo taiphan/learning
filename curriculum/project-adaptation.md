@@ -192,7 +192,9 @@ If your long-term target includes **Head of AI / AI Factory lead**, run Track B 
 
 **Guide:** [head-of-ai-track.md](head-of-ai-track.md) · **Demo case:** [ai-factory-demo-case.md](ai-factory-demo-case.md)
 
-In the learning app: open weeks 8 / 16 / 28 / 40 / 52 → **Leadership** tab → fill template → check **Track B complete**.
+In the learning app: open weeks 8 / 16 / 28 / 40 / 52 → **Leadership** tab → fill template → save to `lab/delivery/track-b/` → check **Track B complete**.
+
+**Delivery playbook:** [track-b-delivery.md](track-b-delivery.md)
 
 ---
 

@@ -15,6 +15,7 @@
 | [cv-templates.md](cv-templates.md) | CV & cover letter (Week 45+) |
 | [governance-mlops.md](governance-mlops.md) | Responsible AI / MLOps (Weeks 37–40) |
 | [head-of-ai-track.md](head-of-ai-track.md) | **Track B** — 2h/week Head of AI leadership (W8, 16, 28, 40, 52) |
+| [track-b-delivery.md](track-b-delivery.md) | **Track B delivery** — done criteria · save paths · Year 1 bundle |
 | [ai-factory-demo-case.md](ai-factory-demo-case.md) | Demo case for Track B governance & value templates |
 | [templates/hoai/](templates/hoai/) | Fill-in templates at each Track B checkpoint |
 | [templates/hoai/vpbank_steering_one_pager.md](templates/hoai/vpbank_steering_one_pager.md) | Week 52 VPBank HoAI steering one-pager (JD-aligned) |

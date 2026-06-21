@@ -62,6 +62,6 @@ Link: GitHub URLs
 
 ## Done when
 
-- [ ] Deck exported (PDF or PPTX)
-- [ ] Script recorded (Loom 5 min) OR rehearsed aloud twice
+- [ ] Deck exported to `lab/delivery/track-b/exports/` (PDF or PPTX)
+- [ ] Script in `lab/delivery/track-b/h4-steering-deck.md` · recorded (Loom 5 min) OR rehearsed twice
 - [ ] Linked from `lab/projects/PORTFOLIO.md`
