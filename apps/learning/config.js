@@ -2,7 +2,7 @@
 
 window.LEARNING_CONFIG = {
   /** Must match curriculum/requirements_manifest.py — run generate_all_learning.py after bump */
-  APP_VERSION: "2.5.0",
+  APP_VERSION: "2.6.0",
   REQUIREMENTS_VERSION: "2.0.0",
   CURRICULUM_VERSION: "1.3",
   MANIFEST_URL: "data/requirements-manifest.json",
@@ -11,7 +11,6 @@ window.LEARNING_CONFIG = {
   STORAGE_KEY: "learning-ai-learning-progress",
   NAV: [
     { id: "landing", label: "Home", hash: "landing", icon: "home" },
-    { id: "dashboard", label: "Dashboard", hash: "dashboard", icon: "dashboard" },
     { id: "explore", label: "Explore", hash: "explore", icon: "explore" },
     { id: "library", label: "Library", hash: "library", icon: "library" },
     { id: "account", label: "Account", hash: "auth", icon: "account" },
@@ -125,7 +124,7 @@ window.LEARNING_CONFIG = {
       type: "spotlight",
       target: "#appNav",
       title: "Main menu",
-      body: "<strong>Home</strong> — welcome & quick start · <strong>Dashboard</strong> — your progress · <strong>Explore</strong> — full path & resources · <strong>Library</strong> — all files · <strong>Account</strong> — sync · <strong>BRD</strong> — Week 1 bridge.",
+      body: "<strong>Home</strong> — progress & quick start · <strong>Explore</strong> — full path & resources · <strong>Library</strong> — all files · <strong>Account</strong> — sync · <strong>BRD</strong> — Week 1 bridge.",
     },
     {
       id: "continue",
@@ -155,7 +154,7 @@ window.LEARNING_CONFIG = {
       target: "#hoaiHomeCard",
       title: "Head of AI track (Track B)",
       body: "Leadership milestones appear here. Click any row to jump to that week. First deliverable: <strong>H0 at Week 8</strong>.",
-      view: "dashboard",
+      view: "landing",
     },
     {
       id: "brd",

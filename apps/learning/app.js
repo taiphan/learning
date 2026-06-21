@@ -48,7 +48,7 @@
     localStorage.setItem(cfg.STORAGE_KEY, JSON.stringify(state));
     updateProgressUI();
     if (!$("#viewWeek").hidden) renderWeek(state.currentWeek);
-    else if (!$("#viewDashboard").hidden) renderDashboard();
+    else if (!$("#viewLanding").hidden) renderHome();
   }
 
   function trackBCompletedCount() {
@@ -250,13 +250,9 @@
 
   function updateBreadcrumb(view, meta = {}) {
     const home = { label: "Home", href: "#landing", action: () => showLanding() };
-    const dash = { label: "Dashboard", href: "#dashboard", action: () => showDashboard() };
     const items = [home];
     switch (view) {
       case "landing":
-        break;
-      case "dashboard":
-        items.push({ label: "Dashboard" });
         break;
       case "explore":
         items.push({ label: "Explore" });
@@ -268,24 +264,24 @@
         items.push({ label: "Account" });
         break;
       case "week":
-        items.push(dash);
         items.push({ label: meta.title || `Week ${meta.n}` });
         break;
       default:
         break;
     }
     window.LearningUX?.renderBreadcrumb(items);
-    const mobileId = view === "week" ? "learn" : view;
+    const mobileId = view === "week" ? "learn" : view === "auth" ? "account" : view;
     window.LearningUX?.setMobileActive(mobileId);
   }
 
   function navigateTo(viewId) {
+    if (viewId === "dashboard" || viewId === "home") {
+      showLanding();
+      return;
+    }
     switch (viewId) {
       case "landing":
         showLanding();
-        break;
-      case "dashboard":
-        showDashboard();
         break;
       case "explore":
         showExplore();
@@ -305,7 +301,7 @@
 
   function normalizeRoute(raw) {
     const hash = (raw || "").replace(/^#/, "") || "landing";
-    if (hash === "home") return "dashboard";
+    if (hash === "home" || hash === "dashboard") return "landing";
     if (hash === "account") return "auth";
     return hash;
   }
@@ -347,9 +343,6 @@
       case "landing":
         renderLandingView();
         break;
-      case "dashboard":
-        renderDashboardView();
-        break;
       case "explore":
         renderExploreView();
         break;
@@ -368,14 +361,13 @@
 
   function hideAllViews() {
     $("#viewLanding").hidden = true;
-    $("#viewDashboard").hidden = true;
     $("#viewExplore").hidden = true;
     $("#viewWeek").hidden = true;
     $("#viewLibrary").hidden = true;
     $("#viewAuth").hidden = true;
   }
 
-  function renderLanding() {
+  function renderHomeSummary() {
     const prog = $("#landingProgress");
     const done = completedCount();
     if (prog) {
@@ -391,29 +383,54 @@
     if (cont) cont.hidden = done === 0;
   }
 
+  function renderHome() {
+    renderHomeSummary();
+
+    const cur = weekByNum(state.currentWeek) || data.weeks[0];
+    const phase = phaseById(cur.phase);
+    const next = nextIncompleteWeek();
+    const nextW = weekByNum(next);
+    const meta = data.meta || {};
+
+    const done = completedCount();
+    $("#homeGreeting").textContent = done === 0 ? "Banking BA → AI Engineer" : "Welcome back";
+    $("#homeLead").textContent =
+      done === 0
+        ? `Y1 quarters · Track B Head of AI · ${meta.hours_per_week || 10} hrs/week · OCB · NAB · VPBank`
+        : `${done} weeks complete. ${nextW ? `Next: Week ${next} — ${nextW.title}.` : "You finished Y1!"}` +
+          (phase?.career_gate ? ` Quarter gate: ${phase.career_gate}.` : "");
+
+    const cpPending = data.checkpoints.find((cp) => {
+      const maxDone = state.completedWeeks.length ? Math.max(...state.completedWeeks) : 0;
+      return maxDone < cp.after_week;
+    });
+    if (cpPending) {
+      $("#statCheckpoint").textContent = cpPending.id;
+      $("#statCheckpointLabel").textContent = `After week ${cpPending.after_week}: ${cpPending.label}`;
+    } else {
+      $("#statCheckpoint").textContent = "Done";
+      $("#statCheckpointLabel").textContent = "All checkpoints passed";
+    }
+
+    updateProgressUI();
+    renderHoaiHome();
+    if (window.LearningGuide) window.LearningGuide.renderHomeCard();
+  }
+
   function renderLandingView() {
     hideAllViews();
     setLayoutMode("full");
     $("#viewLanding").hidden = false;
-    renderLanding();
+    renderHome();
     highlightWeekInList(null);
     setNavActive("landing");
     updateBreadcrumb("landing");
-  }
-
-  function renderDashboardView() {
-    hideAllViews();
-    setLayoutMode("sidebar");
-    $("#viewDashboard").hidden = false;
-    renderDashboard();
-    highlightWeekInList(null);
-    setNavActive("dashboard");
-    updateBreadcrumb("dashboard");
+    window.LearningUX?.injectSectionIcons?.();
   }
 
   function renderExploreView() {
     hideAllViews();
-    setLayoutMode("sidebar");
+    setLayoutMode("full");
     $("#viewExplore").hidden = false;
     renderExplore();
     highlightWeekInList(null);
@@ -452,16 +469,12 @@
     const w = weekByNum(n);
     renderWeek(n);
     highlightWeekInList(n);
-    setNavActive("dashboard");
+    setNavActive("landing");
     updateBreadcrumb("week", { n, title: w ? `W${String(n).padStart(2, "0")} · ${w.title}` : `Week ${n}` });
   }
 
   function showLanding() {
     setRoute("landing");
-  }
-
-  function showDashboard() {
-    setRoute("dashboard");
   }
 
   function showExplore() {
@@ -481,7 +494,7 @@
   }
 
   function showHome() {
-    showDashboard();
+    showLanding();
   }
 
   function highlightWeekInList(n) {
@@ -512,7 +525,7 @@
     renderCheckpointsMini();
     renderHoaiCheckpointsMini();
     updateQuarterProgressUI();
-    if ($("#viewLanding") && !$("#viewLanding").hidden) renderLanding();
+    if ($("#viewLanding") && !$("#viewLanding").hidden) renderHomeSummary();
   }
 
   function renderEnrichment() {
@@ -542,40 +555,6 @@
     });
   }
 
-  function renderDashboard() {
-    const cur = weekByNum(state.currentWeek) || data.weeks[0];
-    const phase = phaseById(cur.phase);
-    const next = nextIncompleteWeek();
-    const nextW = weekByNum(next);
-    const meta = data.meta || {};
-
-    $("#homeGreeting").textContent =
-      completedCount() === 0
-        ? "Welcome — Y1 Q1, Week 1"
-        : "Welcome back";
-    $("#homeLead").textContent =
-      completedCount() === 0
-        ? `Track A (~${meta.hours_track_a || 8}h): Python + BRD bridge. Track B (~${meta.hours_track_b || 2}h): Head of AI milestones at weeks 8, 16, 28, 40, 52.`
-        : `You have completed ${completedCount()} weeks. ${nextW ? `Next: Week ${next} — ${nextW.title}.` : "You finished Y1!"}` +
-          (phase?.career_gate ? ` Quarter gate: ${phase.career_gate}.` : "");
-
-    const cpPending = data.checkpoints.find((cp) => {
-      const maxDone = state.completedWeeks.length ? Math.max(...state.completedWeeks) : 0;
-      return maxDone < cp.after_week;
-    });
-    if (cpPending) {
-      $("#statCheckpoint").textContent = cpPending.id;
-      $("#statCheckpointLabel").textContent = `After week ${cpPending.after_week}: ${cpPending.label}`;
-    } else {
-      $("#statCheckpoint").textContent = "Done";
-      $("#statCheckpointLabel").textContent = "All checkpoints passed";
-    }
-
-    updateProgressUI();
-    renderHoaiHome();
-    if (window.LearningGuide) window.LearningGuide.renderHomeCard();
-  }
-
   function renderExplore() {
     renderPhaseGrid();
     renderCareerPath();
@@ -585,10 +564,6 @@
     if (libHint && filesManifest?.total) {
       libHint.textContent = `${filesManifest.total} files indexed — curriculum, lab, Track B, decks, and docs.`;
     }
-  }
-
-  function renderHome() {
-    renderDashboard();
   }
 
   function renderHoaiHome() {
@@ -950,13 +925,10 @@
 
     $("#brandHome")?.addEventListener("click", () => showLanding());
     $("#continueBtn").addEventListener("click", () => showWeek(nextIncompleteWeek()));
-    $("#homeContinue").addEventListener("click", () => showWeek(nextIncompleteWeek()));
-    $("#homeWeek1").addEventListener("click", () => showWeek(1));
-    $("#homeExplore")?.addEventListener("click", () => showExplore());
     $("#landingStart")?.addEventListener("click", () => showWeek(1));
     $("#landingContinue")?.addEventListener("click", () => showWeek(nextIncompleteWeek()));
     $("#landingTour")?.addEventListener("click", () => window.LearningGuide?.openGuide?.());
-    $("#libraryBackHome")?.addEventListener("click", () => showDashboard());
+    $("#libraryBackHome")?.addEventListener("click", () => showLanding());
     $("#homeOpenLibrary")?.addEventListener("click", () => showLibrary());
     $("#openAuthBtn")?.addEventListener("click", () => showAuth());
     bindGotoHandlers();

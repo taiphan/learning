@@ -229,7 +229,7 @@
     if (window.__learningShowHome) {
       window.__learningShowHome();
     } else {
-      location.hash = "dashboard";
+      location.hash = "landing";
     }
   }
 

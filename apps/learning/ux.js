@@ -38,7 +38,7 @@
       const isLast = i === items.length - 1;
       if (isLast || !item.href) {
         li.className = "breadcrumb-current";
-        li.setAttribute("aria-current", "page");
+        if (isLast) li.setAttribute("aria-current", "page");
         li.textContent = item.label;
       } else {
         const a = document.createElement("a");
@@ -92,6 +92,14 @@
     });
   }
 
+  function injectSectionIcons() {
+    const icons = window.LEARNING_ICONS || {};
+    document.querySelectorAll(".section-nav-icon[data-icon]").forEach((el) => {
+      const name = el.dataset.icon;
+      if (icons[name]) el.innerHTML = icons[name];
+    });
+  }
+
   const $$ = (sel) => document.querySelectorAll(sel);
 
   window.LearningUX = {
@@ -99,9 +107,11 @@
     hideLoading,
     renderBreadcrumb,
     setMobileActive,
+    injectSectionIcons,
     init: (opts) => {
       initSkipLink();
       initMobileNav(opts?.navigate, opts?.showWeekContinue);
+      injectSectionIcons();
     },
   };
 })();

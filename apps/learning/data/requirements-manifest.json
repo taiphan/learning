@@ -1,6 +1,6 @@
 {
   "requirements_version": "2.0.0",
-  "app_version": "2.5.0",
+  "app_version": "2.6.0",
   "curriculum_version": "1.3",
   "updated": "2026-06-21",
   "docs": {
@@ -14,6 +14,19 @@
   "repo": "https://github.com/taiphan/learning",
   "live_url": "https://taiphan.github.io/learning/",
   "changelog": [
+    {
+      "version": "2.6.0",
+      "date": "2026-06-21",
+      "requirements": "2.0.0",
+      "app": "2.6.0",
+      "curriculum": "1.3",
+      "changes": [
+        "Unified Home — landing and dashboard merged with progress stats and section nav",
+        "Consistent page-hero layout across Home, Explore, Library, Account",
+        "Top nav simplified: Home, Explore, Library, Account (+ mobile Account)",
+        "#dashboard and #home redirect to #landing"
+      ]
+    },
     {
       "version": "2.5.0",
       "date": "2026-06-21",

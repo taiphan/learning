@@ -109,7 +109,7 @@ Commit `apps/learning/data/*.json` after regenerating so GitHub Pages and fresh 
 
 | File | Purpose |
 |------|---------|
-| `app.js` | Routing, progress, week/home render |
+| `app.js` | Routing, progress, home/week render |
 | `library.js` | Library view — browse all repo files |
 | `config.js` | Phase colors, tips, deck URLs, Track B delivery filenames |
 | `data/learning-data.json` | Exported curriculum (do not edit by hand) |

@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 REQUIREMENTS_VERSION = "2.0.0"
-APP_VERSION = "2.5.0"
+APP_VERSION = "2.6.0"
 CURRICULUM_VERSION = "1.3"
 
 DOCS = {
@@ -16,6 +16,19 @@ DOCS = {
 }
 
 CHANGELOG: list[dict] = [
+    {
+        "version": "2.6.0",
+        "date": "2026-06-21",
+        "requirements": "2.0.0",
+        "app": "2.6.0",
+        "curriculum": "1.3",
+        "changes": [
+            "Unified Home — landing and dashboard merged with progress stats and section nav",
+            "Consistent page-hero layout across Home, Explore, Library, Account",
+            "Top nav simplified: Home, Explore, Library, Account (+ mobile Account)",
+            "#dashboard and #home redirect to #landing",
+        ],
+    },
     {
         "version": "2.5.0",
         "date": "2026-06-21",

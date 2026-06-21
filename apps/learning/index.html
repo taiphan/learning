@@ -79,18 +79,63 @@
 
       <main class="main" id="main" tabindex="-1">
         <nav class="breadcrumb" id="breadcrumb" aria-label="Breadcrumb" hidden></nav>
-        <!-- Landing -->
-        <section class="view view-landing" id="viewLanding" hidden>
-          <div class="landing-hero card">
+        <!-- Home — landing + progress merged -->
+        <section class="view view-page view-home" id="viewLanding" hidden>
+          <header class="page-hero card">
             <p class="eyebrow">52-week dual track · zero Python start</p>
-            <h2 class="landing-title">Banking BA → AI Engineer</h2>
-            <p class="landing-lead">Y1 quarters · Track B Head of AI · 10 hrs/week · OCB · NAB · VPBank</p>
-            <div class="landing-actions">
+            <h2 class="page-title" id="homeGreeting">Banking BA → AI Engineer</h2>
+            <p class="page-lead" id="homeLead">Y1 quarters · Track B Head of AI · 10 hrs/week · OCB · NAB · VPBank</p>
+            <div class="page-actions">
               <button type="button" class="btn btn-primary btn-lg" id="landingStart">Start Week 1</button>
               <button type="button" class="btn btn-ghost btn-lg" id="landingContinue">Continue learning</button>
               <button type="button" class="btn btn-ghost btn-lg" id="landingTour">Take the tour</button>
             </div>
-            <p class="landing-progress hint" id="landingProgress" hidden></p>
+            <p class="page-progress hint" id="landingProgress" hidden></p>
+          </header>
+
+          <nav class="section-nav card" aria-label="Platform sections">
+            <h3 class="section-nav-title">Navigate</h3>
+            <div class="section-nav-grid">
+              <button type="button" class="section-nav-item" data-goto="explore">
+                <span class="section-nav-icon" data-icon="explore"></span>
+                <strong>Explore</strong>
+                <span>Quarters, career, videos, decks</span>
+              </button>
+              <button type="button" class="section-nav-item" data-goto="library">
+                <span class="section-nav-icon" data-icon="library"></span>
+                <strong>Library</strong>
+                <span>All curriculum &amp; lab files</span>
+              </button>
+              <button type="button" class="section-nav-item" data-goto="account">
+                <span class="section-nav-icon" data-icon="account"></span>
+                <strong>Account</strong>
+                <span>Sign in &amp; sync progress</span>
+              </button>
+              <button type="button" class="section-nav-item" data-goto="week" data-week="1">
+                <span class="section-nav-icon" data-icon="learn"></span>
+                <strong>Learn</strong>
+                <span>Weekly study &amp; lab loop</span>
+              </button>
+            </div>
+          </nav>
+
+          <div class="grid-3">
+            <article class="card stat-card">
+              <span class="stat-label">Progress</span>
+              <span class="stat-value" id="statProgress">0%</span>
+              <div class="bar"><div class="bar-fill" id="barProgress"></div></div>
+            </article>
+            <article class="card stat-card">
+              <span class="stat-label">Y1 quarter</span>
+              <span class="stat-value" id="statQuarter">Q1</span>
+              <span class="stat-sub" id="statQuarterLabel">—</span>
+              <div class="bar bar-quarter"><div class="bar-fill" id="barQuarter"></div></div>
+            </article>
+            <article class="card stat-card">
+              <span class="stat-label">Next checkpoint</span>
+              <span class="stat-value" id="statCheckpoint">CP0</span>
+              <span class="stat-sub" id="statCheckpointLabel">—</span>
+            </article>
           </div>
 
           <div class="landing-grid">
@@ -117,52 +162,16 @@
             </article>
           </div>
 
-          <section class="card landing-quick">
-            <h3>Explore the platform</h3>
-            <div class="landing-quick-grid">
-              <button type="button" class="landing-quick-item" data-goto="dashboard">
-                <strong>Dashboard</strong>
-                <span>Your progress & next week</span>
-              </button>
-              <button type="button" class="landing-quick-item" data-goto="explore">
-                <strong>Full path</strong>
-                <span>Quarters, career, videos, decks</span>
-              </button>
-              <button type="button" class="landing-quick-item" data-goto="library">
-                <strong>Library</strong>
-                <span>All curriculum & lab files</span>
-              </button>
-              <button type="button" class="landing-quick-item" data-goto="account">
-                <strong>Account</strong>
-                <span>Sign in & sync progress</span>
-              </button>
-            </div>
-          </section>
-        </section>
-
-        <!-- Dashboard -->
-        <section class="view view-dashboard" id="viewDashboard" hidden>
-          <div class="hero card">
-            <p class="eyebrow">Your learning cockpit</p>
-            <h2 id="homeGreeting">Welcome back</h2>
-            <p class="lead" id="homeLead">Pick up where you left off or browse the full 52-week path.</p>
-            <div class="hero-actions">
-              <button type="button" class="btn btn-primary btn-lg" id="homeContinue">Continue learning</button>
-              <button type="button" class="btn btn-ghost btn-lg" id="homeWeek1">Start at Week 1</button>
-              <button type="button" class="btn btn-ghost btn-lg" id="homeExplore">Explore path</button>
-            </div>
-          </div>
-
           <section class="card getting-started" id="gettingStartedCard" hidden>
             <div class="getting-started-head">
               <h3>How to use this app</h3>
               <button type="button" class="btn btn-ghost btn-sm" id="dismissHomeCardBtn">Dismiss</button>
             </div>
             <ol class="getting-started-steps">
-              <li><strong>Menu</strong> — Home, Dashboard, Explore, Library, Account</li>
+              <li><strong>Home</strong> — progress, tracks, and section links</li>
               <li><strong>Continue</strong> — jump to your next incomplete week</li>
               <li><strong>Weekly tabs</strong> — Overview · Study · Lab · Leadership · Notes</li>
-              <li><strong>Sidebar</strong> — all 52 weeks + checkpoints</li>
+              <li><strong>Sidebar</strong> — all 52 weeks + checkpoints (☰ on mobile)</li>
               <li><strong>Mark complete</strong> — footer checkbox, then Next week</li>
             </ol>
             <div class="getting-started-actions">
@@ -170,25 +179,6 @@
               <a class="btn btn-ghost btn-sm" href="https://github.com/taiphan/learning/blob/main/docs/learning-requirements/LEARNING-REQUIREMENTS.md" target="_blank" rel="noopener">Requirements</a>
             </div>
           </section>
-
-          <div class="grid-3">
-            <article class="card stat-card">
-              <span class="stat-label">Progress</span>
-              <span class="stat-value" id="statProgress">0%</span>
-              <div class="bar"><div class="bar-fill" id="barProgress"></div></div>
-            </article>
-            <article class="card stat-card">
-              <span class="stat-label">Y1 quarter</span>
-              <span class="stat-value" id="statQuarter">Q1</span>
-              <span class="stat-sub" id="statQuarterLabel">—</span>
-              <div class="bar bar-quarter"><div class="bar-fill" id="barQuarter"></div></div>
-            </article>
-            <article class="card stat-card">
-              <span class="stat-label">Next checkpoint</span>
-              <span class="stat-value" id="statCheckpoint">CP0</span>
-              <span class="stat-sub" id="statCheckpointLabel">—</span>
-            </article>
-          </div>
 
           <section class="card hoai-home" id="hoaiHomeCard">
             <h3>Head of AI track (Track B)</h3>
@@ -198,11 +188,11 @@
         </section>
 
         <!-- Explore path & resources -->
-        <section class="view view-explore" id="viewExplore" hidden>
-          <header class="explore-head card">
+        <section class="view view-page view-explore" id="viewExplore" hidden>
+          <header class="page-hero page-hero--left card">
             <p class="eyebrow">Discover</p>
-            <h2>Explore the learning path</h2>
-            <p class="hint">Y1 quarters, career timeline, free videos, slide decks, and every repo file.</p>
+            <h2 class="page-title">Explore the learning path</h2>
+            <p class="page-lead">Y1 quarters, career timeline, free videos, slide decks, and every repo file.</p>
           </header>
 
           <section class="card">
@@ -243,15 +233,15 @@
         </section>
 
         <!-- File library -->
-        <section class="view view-library" id="viewLibrary" hidden>
-          <header class="library-head card">
+        <section class="view view-page view-library" id="viewLibrary" hidden>
+          <header class="page-hero page-hero--left card library-head">
             <div class="library-head-top">
               <div>
                 <p class="eyebrow">Full repo index</p>
-                <h2>Library</h2>
-                <p class="hint">Every curriculum guide, lab exercise, Track B template, slide deck, and requirements doc — generated from the repo on build.</p>
+                <h2 class="page-title">Library</h2>
+                <p class="page-lead">Every curriculum guide, lab exercise, Track B template, slide deck, and requirements doc — generated from the repo on build.</p>
               </div>
-              <button type="button" class="btn btn-ghost" id="libraryBackHome">← Dashboard</button>
+              <button type="button" class="btn btn-ghost" id="libraryBackHome">← Home</button>
             </div>
             <div class="library-controls">
               <input type="search" id="librarySearch" class="library-search" placeholder="Search path or label…" aria-label="Search files" />
@@ -263,13 +253,13 @@
         </section>
 
         <!-- Account / authentication -->
-        <section class="view view-auth" id="viewAuth" hidden>
+        <section class="view view-page view-auth" id="viewAuth" hidden>
           <div class="auth-page">
             <article class="card auth-page-card">
-              <header class="auth-page-head">
+              <header class="page-hero page-hero--left auth-page-head">
                 <p class="eyebrow">Your account</p>
-                <h2 id="authPageTitle">Sign in</h2>
-                <p class="hint" id="authPageSubtitle">Sync progress across devices with Google.</p>
+                <h2 class="page-title" id="authPageTitle">Sign in</h2>
+                <p class="page-lead" id="authPageSubtitle">Sync progress across devices with Google.</p>
               </header>
 
               <div class="auth-panel" id="authPanelLocal" hidden>
@@ -462,10 +452,6 @@
       <span class="mobile-nav-icon" data-icon="home"></span>
       <span>Home</span>
     </button>
-    <button type="button" class="mobile-nav-item" data-mobile-nav="dashboard" aria-label="Dashboard">
-      <span class="mobile-nav-icon" data-icon="dashboard"></span>
-      <span>Dashboard</span>
-    </button>
     <button type="button" class="mobile-nav-item" data-mobile-nav="explore" aria-label="Explore">
       <span class="mobile-nav-icon" data-icon="explore"></span>
       <span>Explore</span>
@@ -477,6 +463,10 @@
     <button type="button" class="mobile-nav-item" data-mobile-nav="library" aria-label="Library">
       <span class="mobile-nav-icon" data-icon="library"></span>
       <span>Library</span>
+    </button>
+    <button type="button" class="mobile-nav-item" data-mobile-nav="account" aria-label="Account">
+      <span class="mobile-nav-icon" data-icon="account"></span>
+      <span>Account</span>
     </button>
   </nav>
 
