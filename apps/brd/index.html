@@ -4,19 +4,23 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Learning — BRD Intake</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <header class="header">
     <div class="header-inner">
       <div class="brand">
-        <span class="brand-mark">LE</span>
+        <span class="brand-mark" aria-hidden="true"></span>
         <div>
           <h1>Learning BRD Intake</h1>
           <p class="subtitle" data-i18n="subtitle">Business Requirements Document — submit for BA review</p>
         </div>
       </div>
       <div class="header-actions">
+        <a class="btn btn-ghost" href="../#landing">← Learning app</a>
         <button type="button" id="langToggle" class="btn btn-ghost" aria-label="Toggle language">VI / EN</button>
         <span class="risk-badge" id="riskBadge" title="Auto risk level">—</span>
         <span class="score-badge" id="scoreBadge" title="Quality preview">—%</span>
@@ -60,7 +64,7 @@
   <footer class="footer">
     <p>Learning BRD Training Package · BRD → FSD → UAT → Ship · Gate ≥ 80%
       · <a href="../../docs/11-operations-manager-checklist.md">Ops checklist</a>
-      · <a href="../" id="learningAppLink">52-week AI learning path</a></p>
+      · <a href="../#landing" id="learningAppLink">52-week AI learning path</a></p>
   </footer>
 
   <dialog id="warnDialog" class="dialog">

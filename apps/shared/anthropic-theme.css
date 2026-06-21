@@ -1,0 +1,52 @@
+/**
+ * Anthropic-inspired palette — shared by Learning + BRD apps.
+ * Warm neutrals, Poppins headings, Lora body.
+ */
+:root {
+  --slate: #141413;
+  --cream: #faf9f5;
+  --ivory: #e8e6dc;
+  --card: #ffffff;
+
+  /* Text — tuned for WCAG AA on cream/white */
+  --text: #141413;
+  --muted: #3d4f63;
+  --muted-subtle: #5c6778;
+
+  /* Accents */
+  --clay: #d97757;
+  --clay-dark: #b85f42;
+  --sky: #6a9bcc;
+  --link: #356085;
+  --link-hover: #274862;
+  --olive: #5a7340;
+  --olive-soft: #788c5d;
+  --fig: #a84366;
+  --cactus: #8fa89e;
+
+  /* Track B / milestone (dark enough for light backgrounds) */
+  --gold: #7a6110;
+  --gold-soft: #b8941f;
+  --gold-bg: rgba(184, 148, 31, 0.12);
+
+  /* Aliases used across apps */
+  --green: var(--olive);
+  --border: #d8d4c8;
+  --surface: var(--cream);
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+
+  /* On dark header (slate topbar) */
+  --text-on-dark: #faf9f5;
+  --text-on-dark-muted: rgba(250, 249, 245, 0.88);
+  --text-on-dark-subtle: rgba(250, 249, 245, 0.72);
+
+  --font-head: "Poppins", system-ui, sans-serif;
+  --font-body: "Lora", Georgia, serif;
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 2px 16px rgba(20, 20, 19, 0.06);
+  --shadow-hover: 0 4px 24px rgba(20, 20, 19, 0.1);
+  --focus-ring: 0 0 0 3px rgba(106, 155, 204, 0.45);
+  --transition: 180ms ease;
+}

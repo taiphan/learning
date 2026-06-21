@@ -1,6 +1,6 @@
 {
   "requirements_version": "2.0.0",
-  "app_version": "2.6.1",
+  "app_version": "2.6.2",
   "curriculum_version": "1.3",
   "updated": "2026-06-21",
   "docs": {
@@ -14,6 +14,18 @@
   "repo": "https://github.com/taiphan/learning",
   "live_url": "https://taiphan.github.io/learning/",
   "changelog": [
+    {
+      "version": "2.6.2",
+      "date": "2026-06-21",
+      "requirements": "2.0.0",
+      "app": "2.6.2",
+      "curriculum": "1.3",
+      "changes": [
+        "Contrast pass — darker muted text, link colors, topbar legibility",
+        "BRD app restyled to Anthropic palette (matches Learning app)",
+        "Shared apps/shared/anthropic-theme.css for both apps"
+      ]
+    },
     {
       "version": "2.6.0",
       "date": "2026-06-21",
