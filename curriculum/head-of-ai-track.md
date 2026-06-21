@@ -69,6 +69,7 @@ Rule: **Same day as Track A** — leadership without shipping code is slides-onl
 | Example | [ai-factory-demo-case.md](ai-factory-demo-case.md) |
 | Portfolio | [project-adaptation.md](project-adaptation.md) |
 | Slides | `exports/learning/Learning-Track-B-Slides.pptx` (regenerate: `python3 curriculum/generate_track_b_slides.py`) |
+| **Interactive canvas** | Cursor: `head-of-ai-factory.canvas.tsx` — 10-slide HoAI deck with charts, factory DAG, VPBank JD map |
 
 ---
 
