@@ -1,6 +1,6 @@
 {
   "requirements_version": "2.0.0",
-  "app_version": "2.6.3",
+  "app_version": "2.6.4",
   "curriculum_version": "1.3",
   "updated": "2026-06-21",
   "docs": {
@@ -14,6 +14,18 @@
   "repo": "https://github.com/taiphan/learning",
   "live_url": "https://taiphan.github.io/learning/",
   "changelog": [
+    {
+      "version": "2.6.4",
+      "date": "2026-06-21",
+      "requirements": "2.0.0",
+      "app": "2.6.4",
+      "curriculum": "1.3",
+      "changes": [
+        "Unified platform nav \u2014 Home, Explore, Library, BRD, Account in one topbar + mobile tabs",
+        "BRD uses same brand, fonts, page-hero, footer, and shared platform-nav.js",
+        "Navigate between Learning and BRD without leaving the platform chrome"
+      ]
+    },
     {
       "version": "2.6.3",
       "date": "2026-06-21",

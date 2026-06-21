@@ -1044,7 +1044,9 @@
       navigate: navigateTo,
       showWeekContinue: () => showWeek(nextIncompleteWeek()),
     });
-    window.LearningNav?.init(navigateTo);
+    window.LearningNav?.init(navigateTo, {
+      showWeek: () => showWeek(nextIncompleteWeek()),
+    });
     bindEvents();
     route();
     renderVersionFooter();

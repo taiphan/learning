@@ -1,19 +1,50 @@
 @import url("../shared/anthropic-theme.css");
 @import url("../shared/app-shell.css");
 
-/* BRD layout */
-.main {
-  display: grid;
-  grid-template-columns: 300px 1fr;
-  gap: 1.25rem;
+/* BRD layout — matches Learning page shell */
+.layout--brd {
+  flex: 1;
   max-width: 1280px;
-  margin: 1.25rem auto;
+  width: 100%;
+  margin: 0 auto;
   padding: 0 1.25rem 2rem;
 }
 
+.brd-main {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: none;
+  margin: 1.25rem 0 0;
+  padding: 0;
+}
+
+.brd-hero {
+  margin-bottom: 0;
+}
+
+.brd-hero .page-title {
+  margin: 0 0 0.35rem;
+  font-size: 1.5rem;
+  color: var(--text);
+}
+
+.brd-hero .page-lead {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--text-secondary);
+}
+
+.brd-grid {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+
 @media (max-width: 900px) {
-  .main { grid-template-columns: 1fr; }
-  .sidebar { order: 2; }
+  .brd-grid { grid-template-columns: 1fr; }
+  .brd-grid .sidebar { order: 2; }
 }
 
 .form.card { padding: 1.5rem; }

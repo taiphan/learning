@@ -1233,10 +1233,11 @@ body.guide-open { overflow: hidden; }
 }
 .section-nav-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
   gap: 0.65rem;
 }
-.section-nav-item {
+.section-nav-item,
+a.section-nav-item {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -1248,6 +1249,8 @@ body.guide-open { overflow: hidden; }
   cursor: pointer;
   text-align: left;
   font-family: var(--font-head);
+  text-decoration: none;
+  color: inherit;
   transition: border-color var(--transition), box-shadow var(--transition), background var(--transition);
 }
 .section-nav-item:hover {
@@ -1362,11 +1365,6 @@ body.guide-open { overflow: hidden; }
   .layout--sidebar { grid-template-columns: 1fr; }
   .landing-grid { grid-template-columns: 1fr; }
   .landing-quick-grid { grid-template-columns: 1fr; }
-  .app-nav { display: none; }
-  .mobile-nav { display: flex; }
-  .main { padding-bottom: calc(var(--mobile-nav-h) + 1rem); }
-  .app-footer { padding-bottom: calc(var(--mobile-nav-h) + 0.5rem); }
-  .app-nav-label { display: none; }
   .topbar-inner { gap: 0.65rem; }
   .sidebar {
     position: fixed;

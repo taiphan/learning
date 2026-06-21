@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
+<body class="has-mobile-nav">
   <a class="skip-link" href="#main">Skip to main content</a>
 
   <div class="app-loading" id="appLoading" role="status" aria-live="polite" aria-label="Loading curriculum">
@@ -106,6 +106,11 @@
                 <strong>Library</strong>
                 <span>All curriculum &amp; lab files</span>
               </button>
+              <a class="section-nav-item" href="brd/">
+                <span class="section-nav-icon" data-icon="brd"></span>
+                <strong>BRD</strong>
+                <span>Week 1 intake &amp; export</span>
+              </a>
               <button type="button" class="section-nav-item" data-goto="account">
                 <span class="section-nav-icon" data-icon="account"></span>
                 <strong>Account</strong>
@@ -447,28 +452,7 @@
     </div>
   </div>
 
-  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
-    <button type="button" class="mobile-nav-item" data-mobile-nav="landing" aria-label="Home">
-      <span class="mobile-nav-icon" data-icon="home"></span>
-      <span>Home</span>
-    </button>
-    <button type="button" class="mobile-nav-item" data-mobile-nav="explore" aria-label="Explore">
-      <span class="mobile-nav-icon" data-icon="explore"></span>
-      <span>Explore</span>
-    </button>
-    <button type="button" class="mobile-nav-item" data-mobile-nav="learn" aria-label="Continue learning">
-      <span class="mobile-nav-icon" data-icon="learn"></span>
-      <span>Learn</span>
-    </button>
-    <button type="button" class="mobile-nav-item" data-mobile-nav="library" aria-label="Library">
-      <span class="mobile-nav-icon" data-icon="library"></span>
-      <span>Library</span>
-    </button>
-    <button type="button" class="mobile-nav-item" data-mobile-nav="account" aria-label="Account">
-      <span class="mobile-nav-icon" data-icon="account"></span>
-      <span>Account</span>
-    </button>
-  </nav>
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation"></nav>
 
   <footer class="app-footer" id="appFooter">
     <span id="versionLine">—</span>
@@ -506,12 +490,13 @@
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js" crossorigin="anonymous"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js" crossorigin="anonymous"></script>
   <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js" crossorigin="anonymous"></script>
-  <script src="icons.js"></script>
+  <script src="shared/icons.js"></script>
+  <script src="shared/platform-config.js"></script>
+  <script src="shared/platform-nav.js"></script>
   <script src="config.js"></script>
   <script src="auth.js"></script>
   <script src="guide.js"></script>
   <script src="library.js"></script>
-  <script src="nav.js"></script>
   <script src="ux.js"></script>
   <script src="app.js"></script>
 </body>

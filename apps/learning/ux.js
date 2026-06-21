@@ -69,21 +69,8 @@
     });
   }
 
-  function initMobileNav(navigate, showWeek) {
-    const bar = $("#mobileNav");
-    if (!bar) return;
-    const icons = window.LEARNING_ICONS || {};
-    bar.querySelectorAll("[data-icon]").forEach((el) => {
-      const name = el.dataset.icon;
-      if (icons[name]) el.innerHTML = icons[name];
-    });
-    bar.querySelectorAll("[data-mobile-nav]").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        const dest = btn.dataset.mobileNav;
-        if (dest === "learn") showWeek?.();
-        else navigate?.(dest);
-      });
-    });
+  function initMobileNav() {
+    /* Mobile tabs rendered by shared/platform-nav.js */
   }
 
   function setMobileActive(viewId) {

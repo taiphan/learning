@@ -834,19 +834,23 @@ function applyI18n() {
   });
 }
 
-function wireLearningLink() {
-  const link = document.getElementById('learningAppLink');
-  if (!link) return;
-  if (location.pathname.includes('/brd')) {
-    link.href = '../';
-  } else if (location.hostname === 'localhost' && location.port === '8080') {
-    link.href = 'http://localhost:8081';
-  } else if (location.hostname.includes('github.io')) {
-    link.href = location.pathname.replace(/\/brd\/?.*$/, '/');
-  }
+function initSkipLink() {
+  const skip = document.querySelector('.skip-link');
+  const main = document.getElementById('main');
+  if (!skip || !main) return;
+  skip.addEventListener('click', (e) => {
+    e.preventDefault();
+    main.setAttribute('tabindex', '-1');
+    main.focus({ preventScroll: false });
+  });
 }
 
 function init() {
+  window.PlatformNav?.init({
+    app: "brd",
+    base: "../",
+  });
+
   renderForm();
   loadDraft();
   renderStepNav();
@@ -855,7 +859,7 @@ function init() {
   goStep(currentStep);
   applyI18n();
   updateUI();
-  wireLearningLink();
+  initSkipLink();
 
   document.getElementById('langToggle').addEventListener('click', () => {
     lang = lang === 'en' ? 'vi' : 'en';

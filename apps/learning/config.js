@@ -2,20 +2,15 @@
 
 window.LEARNING_CONFIG = {
   /** Must match curriculum/requirements_manifest.py — run generate_all_learning.py after bump */
-  APP_VERSION: "2.6.3",
+  APP_VERSION: "2.6.4",
   REQUIREMENTS_VERSION: "2.0.0",
   CURRICULUM_VERSION: "1.3",
   MANIFEST_URL: "data/requirements-manifest.json",
   FILES_URL: "data/app-files-manifest.json",
   DATA_URL: "data/learning-data.json",
   STORAGE_KEY: "learning-ai-learning-progress",
-  NAV: [
-    { id: "landing", label: "Home", hash: "landing", icon: "home" },
-    { id: "explore", label: "Explore", hash: "explore", icon: "explore" },
-    { id: "library", label: "Library", hash: "library", icon: "library" },
-    { id: "account", label: "Account", hash: "auth", icon: "account" },
-  ],
-  NAV_EXTERNAL: [{ label: "BRD", href: "brd/", icon: "brd" }],
+  /** Nav lives in shared/platform-config.js (PLATFORM_CONFIG.NAV) */
+  NAV: window.PLATFORM_CONFIG?.NAV || [],
   PHASE_COLORS: {
     y1q1: "var(--clay)",
     y1q2: "var(--sky)",
@@ -159,7 +154,7 @@ window.LEARNING_CONFIG = {
     {
       id: "brd",
       type: "spotlight",
-      target: ".app-nav-external",
+      target: '[data-nav="brd"]',
       title: "BRD app — Week 1 bridge",
       body: "Week 1 connects your BA work to code: draft a BRD here, export <code>.md</code>, then run the checklist script from the Lab tab.",
     },

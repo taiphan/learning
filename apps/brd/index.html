@@ -9,62 +9,78 @@
   <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
-  <header class="topbar">
-    <div class="topbar-inner">
-      <a class="brand" href="../#landing">
-        <span class="brand-dot" aria-hidden="true"></span>
-        <div>
-          <h1>Learning BRD Intake</h1>
-          <p class="tagline" data-i18n="subtitle">Business Requirements Document — submit for BA review</p>
+<body class="has-mobile-nav">
+  <a class="skip-link" href="#main">Skip to main content</a>
+
+  <div class="app">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="../#landing">
+          <span class="brand-dot" aria-hidden="true"></span>
+          <div>
+            <h1>Learning</h1>
+            <p class="tagline" data-i18n="subtitle">Y1 → AI Engineer · BRD intake</p>
+          </div>
+        </a>
+        <nav class="app-nav" id="appNav" aria-label="Main menu"></nav>
+        <div class="topbar-actions">
+          <button type="button" id="langToggle" class="btn btn-ghost btn-sm" aria-label="Toggle language">VI / EN</button>
+          <span class="pill risk-badge" id="riskBadge" title="Auto risk level">—</span>
+          <span class="pill score-badge" id="scoreBadge" title="Quality preview">—%</span>
         </div>
-      </a>
-      <div class="topbar-actions">
-        <a class="btn btn-ghost btn-sm" href="../#landing">← Learning app</a>
-        <button type="button" id="langToggle" class="btn btn-ghost btn-sm" aria-label="Toggle language">VI / EN</button>
-        <span class="pill risk-badge" id="riskBadge" title="Auto risk level">—</span>
-        <span class="pill score-badge" id="scoreBadge" title="Quality preview">—%</span>
       </div>
+      <nav class="topbar-subnav steps" id="stepNav" aria-label="Form steps"></nav>
+    </header>
+
+    <div class="layout layout--brd">
+      <main class="main brd-main" id="main" tabindex="-1">
+        <header class="page-hero card brd-hero">
+          <p class="eyebrow">Week 1 bridge · Y1 Q1</p>
+          <h2 class="page-title">BRD intake</h2>
+          <p class="page-lead" data-i18n="subtitle">Business Requirements Document — submit for BA review before IT delivery.</p>
+        </header>
+
+        <div class="brd-grid">
+          <aside class="sidebar">
+            <section class="card pipeline-card" id="pipelineCard">
+              <h2 data-i18n="pipelineTitle">Delivery pipeline</h2>
+              <p class="muted small" data-i18n="pipelineHint">You are here: BRD gate. IT delivers via Agile/Scrum after acceptance.</p>
+              <ol class="pipeline" id="pipelineList"></ol>
+            </section>
+            <section class="card routing-card" id="routingCard">
+              <h2 data-i18n="routingTitle">Review routing</h2>
+              <p class="muted" data-i18n="routingHint">IT-Governance, IT-Security, and GRC/Legal — updates as you complete the form.</p>
+              <div id="routingGroups"></div>
+            </section>
+            <section class="card gates-card">
+              <h2 data-i18n="gatesTitle">Hard gates</h2>
+              <ul class="gates-list" id="gatesList"></ul>
+            </section>
+            <section class="card selfcheck-card">
+              <h2 data-i18n="selfCheckTitle">8-step self-check</h2>
+              <ul class="selfcheck-list" id="selfCheckList"></ul>
+            </section>
+            <section class="card tips-card">
+              <h2 data-i18n="tipsTitle">Golden rule</h2>
+              <p data-i18n="goldenRule">Write the <strong>problem and business rules</strong> — not the system design.</p>
+              <p class="muted small" data-i18n="frameworkLink">See <a href="../../docs/12-it-operations-stakeholder-framework.md">IT Ops Framework</a>, <a href="../../docs/13-service-owner-delivery-control-guide.md">SO Guide</a>, and <a href="../../exports/Learning-BRD-Business-User-Guide-Slides.pptx">BRD writing slides</a>.</p>
+            </section>
+          </aside>
+
+          <form class="form card" id="brdForm" novalidate>
+            <!-- Step panels injected by app.js -->
+          </form>
+        </div>
+      </main>
     </div>
-    <nav class="topbar-subnav steps" id="stepNav" aria-label="Form steps"></nav>
-  </header>
+  </div>
 
-  <main class="main">
-    <aside class="sidebar">
-      <section class="card pipeline-card" id="pipelineCard">
-        <h2 data-i18n="pipelineTitle">Delivery pipeline</h2>
-        <p class="muted small" data-i18n="pipelineHint">You are here: BRD gate. IT delivers via Agile/Scrum after acceptance.</p>
-        <ol class="pipeline" id="pipelineList"></ol>
-      </section>
-      <section class="card routing-card" id="routingCard">
-        <h2 data-i18n="routingTitle">Review routing</h2>
-        <p class="muted" data-i18n="routingHint">IT-Governance, IT-Security, and GRC/Legal — updates as you complete the form.</p>
-        <div id="routingGroups"></div>
-      </section>
-      <section class="card gates-card">
-        <h2 data-i18n="gatesTitle">Hard gates</h2>
-        <ul class="gates-list" id="gatesList"></ul>
-      </section>
-      <section class="card selfcheck-card">
-        <h2 data-i18n="selfCheckTitle">8-step self-check</h2>
-        <ul class="selfcheck-list" id="selfCheckList"></ul>
-      </section>
-      <section class="card tips-card">
-        <h2 data-i18n="tipsTitle">Golden rule</h2>
-        <p data-i18n="goldenRule">Write the <strong>problem and business rules</strong> — not the system design.</p>
-        <p class="muted small" data-i18n="frameworkLink">See <a href="../../docs/12-it-operations-stakeholder-framework.md">IT Ops Framework</a>, <a href="../../docs/13-service-owner-delivery-control-guide.md">SO Guide</a>, and <a href="../../exports/Learning-BRD-Business-User-Guide-Slides.pptx">BRD writing slides</a>.</p>
-      </section>
-    </aside>
+  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation"></nav>
 
-    <form class="form card" id="brdForm" novalidate>
-      <!-- Step panels injected by app.js -->
-    </form>
-  </main>
-
-  <footer class="footer">
-    <p>Learning BRD Training Package · BRD → FSD → UAT → Ship · Gate ≥ 80%
-      · <a href="../../docs/11-operations-manager-checklist.md">Ops checklist</a>
-      · <a href="../#landing" id="learningAppLink">52-week AI learning path</a></p>
+  <footer class="app-footer">
+    <span>Learning BRD · Gate ≥ 80% · BRD → FSD → UAT → Ship</span>
+    <a href="../../docs/11-operations-manager-checklist.md">Ops checklist</a>
+    <a href="../#landing">52-week path</a>
   </footer>
 
   <dialog id="warnDialog" class="dialog">
@@ -91,6 +107,9 @@
     </form>
   </dialog>
 
+  <script src="../shared/icons.js"></script>
+  <script src="../shared/platform-config.js"></script>
+  <script src="../shared/platform-nav.js"></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>

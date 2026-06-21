@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 REQUIREMENTS_VERSION = "2.0.0"
-APP_VERSION = "2.6.3"
+APP_VERSION = "2.6.4"
 CURRICULUM_VERSION = "1.3"
 
 DOCS = {
@@ -16,6 +16,18 @@ DOCS = {
 }
 
 CHANGELOG: list[dict] = [
+    {
+        "version": "2.6.4",
+        "date": "2026-06-21",
+        "requirements": "2.0.0",
+        "app": "2.6.4",
+        "curriculum": "1.3",
+        "changes": [
+            "Unified platform nav — Home, Explore, Library, BRD, Account in one topbar + mobile tabs",
+            "BRD uses same brand, fonts, page-hero, footer, and shared platform-nav.js",
+            "Navigate between Learning and BRD without leaving the platform chrome",
+        ],
+    },
     {
         "version": "2.6.3",
         "date": "2026-06-21",
